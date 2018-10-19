@@ -27,24 +27,6 @@ namespace Attendance.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
-
-            var emp = new AttendanceOracleDbContext.Employee
-            {
-                Name = "Tom",
-                HireDate = DateTime.Now
-            };
-
-            context.Employees.Add(emp);
-            context.SaveChanges();
-
-            var dept = new AttendanceOracleDbContext.Department
-            {
-                Name = "Accounting",
-                ManagerId = emp.EmployeeId
-            };
-
-            context.Departments.Add(dept);
-            context.SaveChanges();
         }
     }
 }

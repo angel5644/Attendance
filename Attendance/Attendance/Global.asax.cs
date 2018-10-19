@@ -14,11 +14,6 @@ namespace Attendance
     {
         protected void Application_Start()
         {
-            
-
-            //Console.Write("Press any key to continue... ");
-            //Console.ReadLine();
-
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
