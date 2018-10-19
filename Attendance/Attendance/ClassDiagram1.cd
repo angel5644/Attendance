@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Attendance.Models.Attendance" Collapsed="true">
+    <Position X="4.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAiAAAgQAAAAAAAAAIAAAAAAAAAAAABAAAAAAACAAA=</HashCode>
+      <FileName>Models\Attendance.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Attendance.Models.BaseEntity" Collapsed="true">
+    <Position X="12.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAAAAAAAAAAhAAAAAAAAAAEAAAAAAA=</HashCode>
+      <FileName>Models\BaseEntity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Attendance.Models.Employee" Collapsed="true">
+    <Position X="13.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEKAEAAYCAAAAAAAIMAEAAAACAAAAAAAAACAAAAAAg=</HashCode>
+      <FileName>Models\Employee.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Attendance.Models.EnglishClass" Collapsed="true">
+    <Position X="7" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEqBGCEACAAAAAAAAIACAQAAAAAACAAAAAAAIACAAA=</HashCode>
+      <FileName>Models\EnglishClass.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Attendance.Models.Enrollment" Collapsed="true">
+    <Position X="23" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAiAAAgQAAAAAAAAAIAAAAAAAAAAAACAAAAAAACAAA=</HashCode>
+      <FileName>Models\Enrollment.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Attendance.Models.Group" Collapsed="true">
+    <Position X="16" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAgAAAAAAAAAAQAAAAAAAABAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Group.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Attendance.Models.Location" Collapsed="true">
+    <Position X="20.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAEgAAAAAAAAAAQACAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Location.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Attendance.Models.ResourceManager" Collapsed="true">
+    <Position X="9.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAAAAAAAAAAAAACAAAAAAAAAAAAAACAAA=</HashCode>
+      <FileName>Models\ResourceManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Attendance.Models.Student" Collapsed="true">
+    <Position X="11.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAAAgAAAAAAAgACAAAACABAAAAAAACAAA=</HashCode>
+      <FileName>Models\Student.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Attendance.Models.Teacher" Collapsed="true">
+    <Position X="18.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAEAAAAAAAAAAAAACAAAAAAAAAAAAAACAAA=</HashCode>
+      <FileName>Models\Teacher.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="Attendance.Models.CompanyRole" Collapsed="true">
+    <Position X="23" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAIAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Employee.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -205,6 +205,8 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="DBContext\AttendanceOracleDbContext.cs" />
+    <Compile Include="Enums\EnglishLevel.cs" />
+    <Compile Include="Enums\EnrollmentStatus.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -212,9 +214,29 @@
     <Compile Include="Migrations\201810191444240_Location.Designer.cs">
       <DependentUpon>201810191444240_Location.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201810192308423_AttendanceTables.cs" />
+    <Compile Include="Migrations\201810192308423_AttendanceTables.Designer.cs">
+      <DependentUpon>201810192308423_AttendanceTables.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810192335006_AddAuditFieldsEnrollment.cs" />
+    <Compile Include="Migrations\201810192335006_AddAuditFieldsEnrollment.Designer.cs">
+      <DependentUpon>201810192335006_AddAuditFieldsEnrollment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810192337091_FixAuditFieldsEnrollment.cs" />
+    <Compile Include="Migrations\201810192337091_FixAuditFieldsEnrollment.Designer.cs">
+      <DependentUpon>201810192337091_FixAuditFieldsEnrollment.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BaseEntity.cs" />
     <Compile Include="Models\Location.cs" />
+    <Compile Include="Models\Attendance.cs" />
+    <Compile Include="Models\Group.cs" />
+    <Compile Include="Models\Enrollment.cs" />
+    <Compile Include="Models\Employee.cs" />
+    <Compile Include="Models\ResourceManager.cs" />
+    <Compile Include="Models\Teacher.cs" />
+    <Compile Include="Models\EnglishClass.cs" />
+    <Compile Include="Models\Student.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -232,6 +254,7 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="ClassDiagram1.cd" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -275,6 +298,15 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201810191444240_Location.resx">
       <DependentUpon>201810191444240_Location.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810192308423_AttendanceTables.resx">
+      <DependentUpon>201810192308423_AttendanceTables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810192335006_AddAuditFieldsEnrollment.resx">
+      <DependentUpon>201810192335006_AddAuditFieldsEnrollment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810192337091_FixAuditFieldsEnrollment.resx">
+      <DependentUpon>201810192337091_FixAuditFieldsEnrollment.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -1,14 +1,13 @@
-﻿using System;
+﻿using Attendance.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Web;
 
 namespace Attendance.Models
 {
-    [Table("Location")]
-    public class Location : BaseEntity
+    [Table("Group")]
+    public class Group : BaseEntity
     {
         [Key]
         public int Id { get; set; }
@@ -19,8 +18,10 @@ namespace Attendance.Models
 
         public string Description { get; set; }
 
-        public virtual ICollection<EnglishClass> Classes { get; set; }
+        public EnglishLevel Level { get; set; }
 
-        public virtual ICollection<Employee> Employees { get; set; }
+        //public virtual ICollection<Student> Students { get; set; }
     }
+
+    
 }
