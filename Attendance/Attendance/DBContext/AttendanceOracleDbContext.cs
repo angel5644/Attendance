@@ -96,5 +96,7 @@ namespace Attendance.DBContext
         {
             return new AttendanceOracleDbContext();
         }
+
+        public System.Data.Entity.DbSet<Attendance.Models.Group> Groups { get; set; }
     }
 }
