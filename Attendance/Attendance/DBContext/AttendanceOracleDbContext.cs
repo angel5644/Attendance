@@ -12,6 +12,7 @@ namespace Attendance.DBContext
     public class AttendanceOracleDbContext : DbContext
     {
         public DbSet<Location> Locations { get; set; }
+        public System.Data.Entity.DbSet<Attendance.Models.Group> Groups { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -97,6 +98,6 @@ namespace Attendance.DBContext
             return new AttendanceOracleDbContext();
         }
 
-        public System.Data.Entity.DbSet<Attendance.Models.Group> Groups { get; set; }
+        
     }
 }
