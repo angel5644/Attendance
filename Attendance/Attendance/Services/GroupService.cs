@@ -11,6 +11,7 @@ namespace Attendance.Services
 {
     public class GroupService : ServiceBase<Group>
     {
+        // Adding comment
         public async Task<Group> Get(int id)
         {
             return await dbset.FirstOrDefaultAsync(g => g.Id == id);
