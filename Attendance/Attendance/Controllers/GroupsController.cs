@@ -9,17 +9,26 @@ using System.Web;
 using System.Web.Mvc;
 using Attendance.DBContext;
 using Attendance.Models;
+using Attendance.Services;
 
 namespace Attendance.Controllers
 {
     public class GroupsController : Controller
     {
         private AttendanceOracleDbContext db = new AttendanceOracleDbContext();
+        private GroupService _groupService;
+
+        public GroupsController()
+        {
+            this._groupService = new GroupService();
+        }
 
         // GET: Groups
         public async Task<ActionResult> Index()
         {
-            return View(await db.Groups.ToListAsync());
+            List<Group> allGroups = (await _groupService.GetAll()).ToList();
+
+            return View(allGroups);
         }
 
         // GET: Groups/Details/5
@@ -29,11 +38,15 @@ namespace Attendance.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Group group = await db.Groups.FindAsync(id);
+
+            //Group group = await db.Groups.FindAsync(id);
+            Group group = await _groupService.Get(id.Value); 
+
             if (group == null)
             {
                 return HttpNotFound();
             }
+
             return View(group);
         }
 

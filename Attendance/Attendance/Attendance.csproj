@@ -234,7 +234,6 @@
     <Compile Include="Models\Group.cs" />
     <Compile Include="Models\Enrollment.cs" />
     <Compile Include="Models\Employee.cs" />
-    <Compile Include="Models\ResourceManager.cs" />
     <Compile Include="Models\Teacher.cs" />
     <Compile Include="Models\EnglishClass.cs" />
     <Compile Include="Models\Student.cs" />

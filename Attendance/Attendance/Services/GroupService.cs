@@ -9,7 +9,7 @@ using System.Web;
 
 namespace Attendance.Services
 {
-    public class GroupService : ServiceBase<Group>
+    public class GroupService : ServiceBase<Group>, IServiceBase<Group>
     {
         // Adding comment
         public async Task<Group> Get(int id)
