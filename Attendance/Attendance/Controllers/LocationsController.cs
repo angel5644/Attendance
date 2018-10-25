@@ -39,7 +39,9 @@ namespace Attendance.Controllers
         // GET: Locations/Create
         public ActionResult Create()
         {
-            return View();
+            Location l = new Location();
+            l.DateCreated = DateTime.Now;
+            return View(l);
         }
 
         // POST: Locations/Create
@@ -66,6 +68,8 @@ namespace Attendance.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            Location l = new Location();
+            l.DateUpdated = DateTime.Now;
             Location location = db.Locations.Find(id);
             if (location == null)
             {
