@@ -244,6 +244,7 @@
     <Compile Include="Services\IServiceBase.cs" />
     <Compile Include="Services\ServiceBase.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\CreateLocationVM.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\create_attendance_user.sql" />
