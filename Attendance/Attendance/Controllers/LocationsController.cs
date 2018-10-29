@@ -8,8 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Attendance.DBContext;
 using Attendance.Models;
-using Attendance.Services;
-using System.Threading.Tasks;
+using Attendance.ViewModels;
 
 namespace Attendance.Controllers
 {
@@ -20,7 +19,9 @@ namespace Attendance.Controllers
         // GET: Locations
         public ActionResult Index()
         {
-            return View(db.Locations.ToList());
+            List<Location> locations = db.Locations.ToList();
+
+            return View(locations);
         }
 
         // GET: Locations/Details/5
@@ -39,11 +40,13 @@ namespace Attendance.Controllers
         }
 
         // GET: Locations/Create
+        [HttpGet]
         public ActionResult Create()
         {
-            Location l = new Location();
-            l.DateCreated = DateTime.Now;
-            return View(l);
+            CreateLocationVM model = new CreateLocationVM();
+
+            //l.DateCreated = DateTime.Now;
+            return View(model);
         }
 
         // POST: Locations/Create
@@ -51,33 +54,47 @@ namespace Attendance.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Description,DateCreated,UserCreated,DateUpdated,UserUpdated")] Location location)
+        public ActionResult Create(CreateLocationVM model)
         {
             if (ModelState.IsValid)
             {
-                db.Locations.Add(location);
+                // Create new location from the view model data
+                Location newLocation = new Location()
+                {
+                    Name = model.Name,
+                    Description = model.Description,
+                    DateCreated = DateTimeOffset.Now,
+                    UserCreated = ""
+                };
+
+                // Store new location
+                db.Locations.Add(newLocation);
                 db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
 
-            return View(location);
+            return View(model);
         }
 
         // GET: Locations/Edit/5
+          [HttpGet]
         public ActionResult Edit(int? id)
         {
+            EditLocationVM model = new EditLocationVM();
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Location l = new Location();
-            l.DateUpdated = DateTime.Now;
+            Location l = new Location();    
+            l.DateUpdated = DateTimeOffset.Now;
             Location location = db.Locations.Find(id);
             if (location == null)
             {
                 return HttpNotFound();
             }
-            return View(location);
+            return View(l);
         }
 
         // POST: Locations/Edit/5
@@ -85,15 +102,23 @@ namespace Attendance.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Description,DateCreated,UserCreated,DateUpdated,UserUpdated")] Location location)
+        public ActionResult Edit(EditLocationVM model)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(location).State = EntityState.Modified;
+                Location newLocation = new Location()
+                {
+                    Name = model.Name,
+                    Description = model.Description,
+                    DateUpdated = DateTimeOffset.Now,
+                    UserUpdated = ""
+                };
+
+                db.Entry(newLocation).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(location);
+            return View(model);
         }
 
         // GET: Locations/Delete/5
