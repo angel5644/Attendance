@@ -8,6 +8,8 @@ using System.Web;
 using System.Web.Mvc;
 using Attendance.DBContext;
 using Attendance.Models;
+using Attendance.Services;
+using System.Threading.Tasks;
 
 namespace Attendance.Controllers
 {
