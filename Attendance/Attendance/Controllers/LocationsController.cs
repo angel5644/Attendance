@@ -9,6 +9,8 @@ using System.Web.Mvc;
 using Attendance.DBContext;
 using Attendance.Models;
 using Attendance.ViewModels;
+using System.Threading.Tasks;
+
 
 namespace Attendance.Controllers
 {
@@ -78,7 +80,7 @@ namespace Attendance.Controllers
         }
 
         // GET: Locations/Edit/5
-          [HttpGet]
+        [HttpGet]
         public ActionResult Edit(int? id)
         {
             EditLocationVM model = new EditLocationVM();
@@ -87,14 +89,18 @@ namespace Attendance.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Location l = new Location();    
-            l.DateUpdated = DateTimeOffset.Now;
+            
             Location location = db.Locations.Find(id);
             if (location == null)
             {
                 return HttpNotFound();
             }
-            return View(l);
+
+            model.Id = location.Id;
+            model.Description = location.Description;
+            model.Name = location.Name;
+
+            return View(model);
         }
 
         // POST: Locations/Edit/5
@@ -102,21 +108,36 @@ namespace Attendance.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(EditLocationVM model)
+        public async Task<ActionResult> Edit(EditLocationVM model)
         {
             if (ModelState.IsValid)
             {
-                Location newLocation = new Location()
-                {
-                    Name = model.Name,
-                    Description = model.Description,
-                    DateUpdated = DateTimeOffset.Now,
-                    UserUpdated = ""
-                };
+                Location existingLocation = await db.Locations.Where(location => location.Id == model.Id)
+                                                              .FirstOrDefaultAsync();
 
-                db.Entry(newLocation).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (existingLocation != null)
+                {
+                    existingLocation.Name = model.Name;
+                    existingLocation.Description = model.Description;
+                    existingLocation.DateUpdated = DateTimeOffset.Now;
+
+                    //Location l = new Location()
+                    //{
+                    //    Name = model.Name,
+                    //    Description = model.Description,
+                    //    DateUpdated = DateTimeOffset.Now,
+                    //    UserUpdated = ""
+                    //};
+
+                    db.Entry(existingLocation).State = EntityState.Modified;
+                    await db.SaveChangesAsync();
+
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return HttpNotFound();
+                }
             }
             return View(model);
         }
