@@ -6,11 +6,12 @@ using System.Web;
 
 namespace Attendance.ViewModels
 {
-    public class CreateLocationVM
+    public class EditLocationVM
     {
         [Required]
         [StringLength(500)]
         public string Name { get; set; }
         public string Description { get; set; }
+
     }
 }

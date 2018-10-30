@@ -9,6 +9,8 @@ using System.Web.Mvc;
 using Attendance.DBContext;
 using Attendance.Models;
 using Attendance.ViewModels;
+using System.Threading.Tasks;
+
 
 namespace Attendance.Controllers
 {
@@ -78,14 +80,16 @@ namespace Attendance.Controllers
         }
 
         // GET: Locations/Edit/5
+        [HttpGet]
         public ActionResult Edit(int? id)
         {
+            EditLocationVM model = new EditLocationVM();
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Location l = new Location();
-            l.DateUpdated = DateTime.Now;
+            
             Location location = db.Locations.Find(id);
             if (location == null)
             {
@@ -99,15 +103,22 @@ namespace Attendance.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Description,DateCreated,UserCreated,DateUpdated,UserUpdated")] Location location)
+        public ActionResult Edit(EditLocationVM model)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(location).State = EntityState.Modified;
+                Location l = new Location()
+                {
+                    Name = model.Name,
+                    Description = model.Description,
+                    DateUpdated = DateTimeOffset.Now,
+                    UserUpdated ="" 
+                };
+                db.Entry(l).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(location);
+            return View(model);
         }
 
         // GET: Locations/Delete/5
