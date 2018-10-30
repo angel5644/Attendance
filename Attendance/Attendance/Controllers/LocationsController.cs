@@ -95,7 +95,12 @@ namespace Attendance.Controllers
             {
                 return HttpNotFound();
             }
-            return View(location);
+
+            model.Id = location.Id;
+            model.Description = location.Description;
+            model.Name = location.Name;
+
+            return View(model);
         }
 
         // POST: Locations/Edit/5
@@ -103,20 +108,36 @@ namespace Attendance.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(EditLocationVM model)
+        public async Task<ActionResult> Edit(EditLocationVM model)
         {
             if (ModelState.IsValid)
             {
-                Location l = new Location()
+                Location existingLocation = await db.Locations.Where(location => location.Id == model.Id)
+                                                              .FirstOrDefaultAsync();
+
+                if (existingLocation != null)
                 {
-                    Name = model.Name,
-                    Description = model.Description,
-                    DateUpdated = DateTimeOffset.Now,
-                    UserUpdated ="" 
-                };
-                db.Entry(l).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                    existingLocation.Name = model.Name;
+                    existingLocation.Description = model.Description;
+                    existingLocation.DateUpdated = DateTimeOffset.Now;
+
+                    //Location l = new Location()
+                    //{
+                    //    Name = model.Name,
+                    //    Description = model.Description,
+                    //    DateUpdated = DateTimeOffset.Now,
+                    //    UserUpdated = ""
+                    //};
+
+                    db.Entry(existingLocation).State = EntityState.Modified;
+                    await db.SaveChangesAsync();
+
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return HttpNotFound();
+                }
             }
             return View(model);
         }
