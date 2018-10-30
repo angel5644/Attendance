@@ -10,6 +10,8 @@ using System.Web.Mvc;
 using Attendance.DBContext;
 using Attendance.Models;
 using Attendance.Services;
+using Attendance.ViewModels;
+
 
 namespace Attendance.Controllers
 {
@@ -51,9 +53,11 @@ namespace Attendance.Controllers
         }
 
         // GET: Groups/Create
+        [HttpGet]
         public ActionResult Create()
         {
-            return View();
+            CreateGroupVM model = new CreateGroupVM();
+            return View(model);
         }
 
         // POST: Groups/Create
@@ -61,21 +65,34 @@ namespace Attendance.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Name,Description,Level,DateCreated,UserCreated,DateUpdated,UserUpdated")] Group group)
+        public ActionResult Create (CreateGroupVM model)
         {
             if (ModelState.IsValid)
             {
-                db.Groups.Add(group);
-                await db.SaveChangesAsync();
+                Group newGroup = new Group()
+                {
+
+                    Name = model.Name,
+                    Description = model.Description,
+                    DateCreated = DateTimeOffset.Now,
+                    UserCreated = "",
+                    Level = model.Level
+
+                };
+
+                db.Groups.Add(newGroup);
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(group);
+            return View(model);
         }
 
         // GET: Groups/Edit/5
+        [HttpGet]
         public async Task<ActionResult> Edit(int? id)
         {
+            EditGroupVM model = new EditGroupVM();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -85,7 +102,12 @@ namespace Attendance.Controllers
             {
                 return HttpNotFound();
             }
-            return View(group);
+            model.Description = group.Description;
+            model.Name = group.Name;
+            model.Id = group.Id;
+            model.Level = group.Level;
+
+            return View(model);
         }
 
         // POST: Groups/Edit/5
@@ -93,15 +115,28 @@ namespace Attendance.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Name,Description,Level,DateCreated,UserCreated,DateUpdated,UserUpdated")] Group group)
+        public async Task<ActionResult> Edit(EditGroupVM model)
         {
+            
             if (ModelState.IsValid)
             {
-                db.Entry(group).State = EntityState.Modified;
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                Group existingLocation = await db.Groups.Where(group => group.Id == model.Id)
+                                                              .FirstOrDefaultAsync();
+                if (existingLocation != null)
+                {
+                    existingLocation.Name = model.Name;
+                    existingLocation.Description = model.Description;
+                    existingLocation.Level = model.Level;
+                    existingLocation.DateUpdated = DateTimeOffset.Now;
+                    db.Entry(existingLocation).State = EntityState.Modified;
+                    await db.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
+                else {
+                    return HttpNotFound();
+                }
             }
-            return View(group);
+            return View(model);
         }
 
         // GET: Groups/Delete/5
