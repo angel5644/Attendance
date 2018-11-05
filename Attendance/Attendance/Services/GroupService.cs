@@ -42,6 +42,19 @@ namespace Attendance.Services
         {
             try
             {
+               /* Group newGroup = new Group()
+                {
+
+                    Name = model.Name,
+                    Description = model.Description,
+                    DateCreated = DateTimeOffset.Now,
+                    UserCreated = "",
+                    Level = model.Level
+
+                };
+
+                db.Groups.Add(newGroup);*/
+                //db.SaveChanges();
                 dbset.Add(entity);
                 return await Save();
             }

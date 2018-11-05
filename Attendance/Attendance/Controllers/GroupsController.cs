@@ -69,7 +69,9 @@ namespace Attendance.Controllers
         {
             if (ModelState.IsValid)
             {
-                Group newGroup = new Group()
+                //GroupService crea = new GroupService();
+                //crea.Create(model);
+               Group newGroup = new Group()
                 {
 
                     Name = model.Name,
@@ -82,6 +84,7 @@ namespace Attendance.Controllers
 
                 db.Groups.Add(newGroup);
                 db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
 
@@ -159,9 +162,8 @@ namespace Attendance.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Group group = await db.Groups.FindAsync(id);
-            db.Groups.Remove(group);
-            await db.SaveChangesAsync();
+            this._groupService= new GroupService();
+            await _groupService.Delete(id);
             return RedirectToAction("Index");
         }
 
