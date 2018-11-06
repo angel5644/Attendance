@@ -6,10 +6,11 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using Attendance.ViewModels;
 
 namespace Attendance.Services
 {
-    public class GroupService : ServiceBase<Group>, IServiceBase<Group>
+    public class GroupService : ServiceBase<Group>// IServiceBase<Group>
     {
         // Adding comment
         public async Task<Group> Get(int id)
@@ -38,24 +39,21 @@ namespace Attendance.Services
             }
         }
 
-        public async Task<int> Create(Group entity)
+        public async Task<int> Create(CreateGroupVM entity)
         {
             try
             {
-               /* Group newGroup = new Group()
+                Group newGroup = new Group()
                 {
 
-                    Name = model.Name,
-                    Description = model.Description,
+                    Name = entity.Name,
+                    Description = entity.Description,
                     DateCreated = DateTimeOffset.Now,
                     UserCreated = "",
-                    Level = model.Level
+                    Level = entity.Level
 
                 };
-
-                db.Groups.Add(newGroup);*/
-                //db.SaveChanges();
-                dbset.Add(entity);
+                dbset.Add(newGroup);
                 return await Save();
             }
             catch

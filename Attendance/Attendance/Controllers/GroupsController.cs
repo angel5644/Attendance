@@ -65,26 +65,12 @@ namespace Attendance.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create (CreateGroupVM model)
+        public async Task<ActionResult> Create (CreateGroupVM model)
         {
             if (ModelState.IsValid)
             {
-                //GroupService crea = new GroupService();
-                //crea.Create(model);
-               Group newGroup = new Group()
-                {
-
-                    Name = model.Name,
-                    Description = model.Description,
-                    DateCreated = DateTimeOffset.Now,
-                    UserCreated = "",
-                    Level = model.Level
-
-                };
-
-                db.Groups.Add(newGroup);
-                db.SaveChanges();
-
+                this._groupService = new GroupService();
+                await _groupService.Create(model);
                 return RedirectToAction("Index");
             }
 
