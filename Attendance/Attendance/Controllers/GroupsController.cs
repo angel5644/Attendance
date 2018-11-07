@@ -17,7 +17,7 @@ namespace Attendance.Controllers
 {
     public class GroupsController : Controller
     {
-        private AttendanceOracleDbContext db = new AttendanceOracleDbContext();
+        //private AttendanceOracleDbContext db = new AttendanceOracleDbContext();
         private GroupService _groupService;
 
         public GroupsController()
@@ -69,8 +69,17 @@ namespace Attendance.Controllers
         {
             if (ModelState.IsValid)
             {
-                //this._groupService = new GroupService();
-                await _groupService.Create(model);
+                Group newGroup = new Group()
+                {
+
+                    Name = model.Name,
+                    Description = model.Description,
+                    DateCreated = DateTimeOffset.Now,
+                    UserCreated = "",
+                    Level = model.Level
+
+                };
+                await _groupService.Create(newGroup);
                 return RedirectToAction("Index");
             }
 
@@ -86,7 +95,7 @@ namespace Attendance.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Group group = await db.Groups.FindAsync(id);
+            Group group = await _groupService.Get(id.Value);
             if (group == null)
             {
                 return HttpNotFound();
@@ -104,12 +113,25 @@ namespace Attendance.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(EditGroupVM model)
+        public async Task<ActionResult> Edit(EditGroupVM model, int? id)
         {
             
             if (ModelState.IsValid)
             {
-                await _groupService.Edit(model);
+                Group existingGroup = await _groupService.Get(id.Value);
+                if (existingGroup != null)
+                {
+                    existingGroup.Name = model.Name;
+                    existingGroup.Description = model.Description;
+                    existingGroup.Level = model.Level;
+                    existingGroup.DateUpdated = DateTimeOffset.Now;
+                    await _groupService.Update(existingGroup);
+                }
+                else
+                {
+                    return HttpNotFound();
+                }
+                await _groupService.Update(existingGroup);
                 return RedirectToAction("Index");
             }
             return View(model);
@@ -122,7 +144,7 @@ namespace Attendance.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Group group = await db.Groups.FindAsync(id);
+            Group group = await _groupService.Get(id.Value);
             if (group == null)
             {
                 return HttpNotFound();
@@ -135,7 +157,6 @@ namespace Attendance.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            //this._groupService= new GroupService();
             await _groupService.Delete(id);
             return RedirectToAction("Index");
         }
@@ -144,7 +165,7 @@ namespace Attendance.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _groupService.Dispose();
             }
             base.Dispose(disposing);
         }
