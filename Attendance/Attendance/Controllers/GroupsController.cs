@@ -69,7 +69,7 @@ namespace Attendance.Controllers
         {
             if (ModelState.IsValid)
             {
-                this._groupService = new GroupService();
+                //this._groupService = new GroupService();
                 await _groupService.Create(model);
                 return RedirectToAction("Index");
             }
@@ -109,12 +109,8 @@ namespace Attendance.Controllers
             
             if (ModelState.IsValid)
             {
-                this._groupService = new GroupService();
                 await _groupService.Edit(model);
                 return RedirectToAction("Index");
-
-                 
-                
             }
             return View(model);
         }
@@ -139,7 +135,7 @@ namespace Attendance.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            this._groupService= new GroupService();
+            //this._groupService= new GroupService();
             await _groupService.Delete(id);
             return RedirectToAction("Index");
         }

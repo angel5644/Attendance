@@ -66,7 +66,7 @@ namespace Attendance.Controllers
         {
             if (ModelState.IsValid)
             {
-                this._locationService = new LocationService();
+                //this._locationService = new LocationService();
                 await _locationService.Create(model);
                 return RedirectToAction("Index");
             }
@@ -107,7 +107,7 @@ namespace Attendance.Controllers
         {
             if (ModelState.IsValid)
             {
-                this._locationService = new LocationService();
+                //this._locationService = new LocationService();
                 await _locationService.Edit(model);
                 return RedirectToAction("Index");
             }
@@ -134,7 +134,7 @@ namespace Attendance.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            this._locationService = new LocationService();
+            //this._locationService = new LocationService();
             await _locationService.Delete(id);
             return RedirectToAction("Index");
         }
