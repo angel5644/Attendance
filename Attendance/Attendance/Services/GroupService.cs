@@ -7,7 +7,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using Attendance.ViewModels;
-using System.Net;
 
 namespace Attendance.Services
 {
@@ -75,11 +74,9 @@ namespace Attendance.Services
         {
             return await DBContext.SaveChangesAsync();
         }
-       
-        
-        // -----EDITANDO-------//
 
-        public async  Task<int> Edit(EditGroupVM entity)
+     
+        public async Task<int> Edit(EditGroupVM entity)
         {
             try
             {
@@ -88,23 +85,22 @@ namespace Attendance.Services
                 Group existingLocation = await DBContext.Groups.Where(group => group.Id == entity.Id)
                                                               .FirstOrDefaultAsync();
 
-                
-                    if (existingLocation != null)
 
-                    {
+                if (existingLocation != null)
+
+                {
 
 
-                        existingLocation.Name = entity.Name;
-                        existingLocation.Description = entity.Description;
-                        existingLocation.Level = entity.Level;
-                        existingLocation.DateUpdated = DateTimeOffset.Now;
-                        DBContext.Entry(existingLocation).State = EntityState.Modified;
-                        await DBContext.SaveChangesAsync();
-
+                    existingLocation.Name = entity.Name;
+                    existingLocation.Description = entity.Description;
+                    existingLocation.Level = entity.Level;
+                    existingLocation.DateUpdated = DateTimeOffset.Now;
+                    DBContext.Entry(existingLocation).State = EntityState.Modified;
+                    await DBContext.SaveChangesAsync();
 
                     return await Update(existingLocation);
                 }
-                    else
+                else
                 {
                     return HttpNotFound();
                 }
@@ -119,10 +115,10 @@ namespace Attendance.Services
 
             }
         }
-
         private int HttpNotFound()
         {
             throw new NotImplementedException();
         }
     }
 }
+

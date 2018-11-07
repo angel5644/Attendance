@@ -10,6 +10,7 @@ using Attendance.DBContext;
 using Attendance.Models;
 using Attendance.ViewModels;
 using System.Threading.Tasks;
+using Attendance.Services;
 
 
 namespace Attendance.Controllers
@@ -17,13 +18,18 @@ namespace Attendance.Controllers
     public class LocationsController : Controller
     {
         private AttendanceOracleDbContext db = new AttendanceOracleDbContext();
+        private LocationService _locationService;
+
+        public LocationsController()
+        {
+            this._locationService = new LocationService();
+        }
 
         // GET: Locations
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            List<Location> locations = db.Locations.ToList();
-
-            return View(locations);
+            List<Location> allLocations = (await _locationService.GetAll()).ToList();
+            return View(allLocations);
         }
 
         // GET: Locations/Details/5
@@ -56,23 +62,12 @@ namespace Attendance.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(CreateLocationVM model)
+        public async Task<ActionResult> Create(CreateLocationVM model)
         {
             if (ModelState.IsValid)
             {
-                // Create new location from the view model data
-                Location newLocation = new Location()
-                {
-                    Name = model.Name,
-                    Description = model.Description,
-                    DateCreated = DateTimeOffset.Now,
-                    UserCreated = ""
-                };
-
-                // Store new location
-                db.Locations.Add(newLocation);
-                db.SaveChanges();
-
+                this._locationService = new LocationService();
+                await _locationService.Create(model);
                 return RedirectToAction("Index");
             }
 
@@ -106,38 +101,15 @@ namespace Attendance.Controllers
         // POST: Locations/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost, ActionName ("Edit")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(EditLocationVM model)
+        public async Task<ActionResult> Edit (EditLocationVM model)
         {
             if (ModelState.IsValid)
             {
-                Location existingLocation = await db.Locations.Where(location => location.Id == model.Id)
-                                                              .FirstOrDefaultAsync();
-
-                if (existingLocation != null)
-                {
-                    existingLocation.Name = model.Name;
-                    existingLocation.Description = model.Description;
-                    existingLocation.DateUpdated = DateTimeOffset.Now;
-
-                    //Location l = new Location()
-                    //{
-                    //    Name = model.Name,
-                    //    Description = model.Description,
-                    //    DateUpdated = DateTimeOffset.Now,
-                    //    UserUpdated = ""
-                    //};
-
-                    db.Entry(existingLocation).State = EntityState.Modified;
-                    await db.SaveChangesAsync();
-
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    return HttpNotFound();
-                }
+                this._locationService = new LocationService();
+                await _locationService.Edit(model);
+                return RedirectToAction("Index");
             }
             return View(model);
         }
@@ -160,11 +132,10 @@ namespace Attendance.Controllers
         // POST: Locations/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Location location = db.Locations.Find(id);
-            db.Locations.Remove(location);
-            db.SaveChanges();
+            this._locationService = new LocationService();
+            await _locationService.Delete(id);
             return RedirectToAction("Index");
         }
 
