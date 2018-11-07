@@ -94,6 +94,7 @@ namespace Attendance.Controllers
             model.Description = group.Description;
             model.Name = group.Name;
             model.Id = group.Id;
+
             model.Level = group.Level;
 
             return View(model);
@@ -109,21 +110,25 @@ namespace Attendance.Controllers
             
             if (ModelState.IsValid)
             {
-                Group existingLocation = await db.Groups.Where(group => group.Id == model.Id)
-                                                              .FirstOrDefaultAsync();
-                if (existingLocation != null)
-                {
-                    existingLocation.Name = model.Name;
-                    existingLocation.Description = model.Description;
-                    existingLocation.Level = model.Level;
-                    existingLocation.DateUpdated = DateTimeOffset.Now;
-                    db.Entry(existingLocation).State = EntityState.Modified;
-                    await db.SaveChangesAsync();
-                    return RedirectToAction("Index");
-                }
-                else {
-                    return HttpNotFound();
-                }
+                /* Group existingLocation = await db.Groups.Where(group => group.Id == model.Id)
+                                                               .FirstOrDefaultAsync();
+                 if (existingLocation != null)
+                 {
+                     existingLocation.Name = model.Name;
+                     existingLocation.Description = model.Description;
+                     existingLocation.Level = model.Level;
+                     existingLocation.DateUpdated = DateTimeOffset.Now;
+                     db.Entry(existingLocation).State = EntityState.Modified;
+                     await db.SaveChangesAsync(); 
+                     return RedirectToAction("Index");
+                 }
+                 else {
+                     return HttpNotFound();
+                 }*/
+                this._groupService = new GroupService();
+               await _groupService.Edit(model);
+                return RedirectToAction("Index");
+
             }
             return View(model);
         }
