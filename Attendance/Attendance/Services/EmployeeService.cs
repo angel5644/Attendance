@@ -10,20 +10,19 @@ using Attendance.ViewModels;
 
 namespace Attendance.Services
 {
-    public class GroupService : ServiceBase<Group>// IServiceBase<Group>
+    public class EmployeeService  : ServiceBase <Employee> // IServiceBase<Employee>
     {
-        // Adding comment
-        public async Task<Group> Get(int id)
+        public async Task<Employee> Get(int id)
         {
             return await dbset.FirstOrDefaultAsync(g => g.Id == id);
         }
 
-        public async Task<IEnumerable<Group>> GetAll()
+        public async Task<IEnumerable<Employee>> GetAll()
         {
             return await dbset.ToListAsync();
         }
 
-        public async Task<int> Update(Group entity)
+        public async Task<int> Update(Employee entity)
         {
             try
             {
@@ -39,7 +38,7 @@ namespace Attendance.Services
             }
         }
 
-        public async Task<int> Create(Group entity)
+        public async Task<int> Create(Employee entity)
         {
             try
             {
@@ -52,7 +51,7 @@ namespace Attendance.Services
                 throw;
             }
         }
-        
+
         public async Task<int> Delete(int id)
         {
             var entity = await Get(id);
@@ -64,6 +63,7 @@ namespace Attendance.Services
         {
             return await DBContext.SaveChangesAsync();
         }
+
+
     }
 }
-
