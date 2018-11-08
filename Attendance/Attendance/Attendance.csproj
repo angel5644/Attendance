@@ -246,7 +246,9 @@
     <Compile Include="Services\IServiceBase.cs" />
     <Compile Include="Services\ServiceBase.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\CreateEmployeeVM.cs" />
     <Compile Include="ViewModels\CreateGroupVM.cs" />
+    <Compile Include="ViewModels\EditEmployeeVM.cs" />
     <Compile Include="ViewModels\EditGroupVM.cs" />
     <Compile Include="ViewModels\EditLocationVM.cs" />
     <Compile Include="ViewModels\CreateLocationVM.cs" />
