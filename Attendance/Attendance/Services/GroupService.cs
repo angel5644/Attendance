@@ -80,17 +80,12 @@ namespace Attendance.Services
         {
             try
             {
-
-
                 Group existingLocation = await DBContext.Groups.Where(group => group.Id == entity.Id)
                                                               .FirstOrDefaultAsync();
-
 
                 if (existingLocation != null)
 
                 {
-
-
                     existingLocation.Name = entity.Name;
                     existingLocation.Description = entity.Description;
                     existingLocation.Level = entity.Level;

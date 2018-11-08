@@ -17,7 +17,7 @@ namespace Attendance.Controllers
 {
     public class GroupsController : Controller
     {
-        private AttendanceOracleDbContext db = new AttendanceOracleDbContext();
+        //private AttendanceOracleDbContext db = new AttendanceOracleDbContext();
         private GroupService _groupService;
 
         public GroupsController()
@@ -87,6 +87,7 @@ namespace Attendance.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Group group = await db.Groups.FindAsync(id);
+
             if (group == null)
             {
                 return HttpNotFound();
