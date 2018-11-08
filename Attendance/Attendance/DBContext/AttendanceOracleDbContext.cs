@@ -98,6 +98,10 @@ namespace Attendance.DBContext
             return new AttendanceOracleDbContext();
         }
 
-        
+        public System.Data.Entity.DbSet<Attendance.Models.Employee> Employees { get; set; }
+
+        public System.Data.Entity.DbSet<Attendance.Models.Student> Students { get; set; }
+
+        public System.Data.Entity.DbSet<Attendance.Models.Teacher> Teachers { get; set; }
     }
 }
