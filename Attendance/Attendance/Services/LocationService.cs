@@ -40,20 +40,11 @@ namespace Attendance.Services
             }
         }
 
-        public async Task<int> Create(CreateLocationVM entity)
+        public async Task<int> Create(Location entity)
         {
             try
             {
-                Location newLocation = new Location()
-                {
-
-                    Name = entity.Name,
-                    Description = entity.Description,
-                    DateCreated = DateTimeOffset.Now,
-                    UserCreated = "",
-
-                };
-                dbset.Add(newLocation);
+                dbset.Add(entity);
                 return await Save();
             }
             catch
@@ -61,32 +52,6 @@ namespace Attendance.Services
                 DBContext.Entry(entity).State = EntityState.Detached;
                 throw;
             }
-        }
-
-        public async Task<int> Edit (EditLocationVM model)
-        {
-            Location existingLocation = await DBContext.Locations.Where(location => location.Id == model.Id)
-                                                              .FirstOrDefaultAsync();
-
-            if (existingLocation != null)
-            {
-                existingLocation.Name = model.Name;
-                existingLocation.Description = model.Description;
-                existingLocation.DateUpdated = DateTimeOffset.Now;
-                DBContext.Entry(existingLocation).State = EntityState.Modified;
-                await DBContext.SaveChangesAsync();
-
-                return await Update(existingLocation);
-            }
-            else
-            {
-                return await HttpNotFound();
-            }
-        }
-
-        private Task<int> HttpNotFound()
-        {
-            throw new NotImplementedException();
         }
 
         public async Task<int> Delete(int id)

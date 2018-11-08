@@ -39,21 +39,11 @@ namespace Attendance.Services
             }
         }
 
-        public async Task<int> Create(CreateGroupVM entity)
+        public async Task<int> Create(Group entity)
         {
             try
             {
-                Group newGroup = new Group()
-                {
-
-                    Name = entity.Name,
-                    Description = entity.Description,
-                    DateCreated = DateTimeOffset.Now,
-                    UserCreated = "",
-                    Level = entity.Level
-
-                };
-                dbset.Add(newGroup);
+                dbset.Add(entity);
                 return await Save();
             }
             catch
@@ -73,46 +63,6 @@ namespace Attendance.Services
         public async Task<int> Save()
         {
             return await DBContext.SaveChangesAsync();
-        }
-
-     
-        public async Task<int> Edit(EditGroupVM entity)
-        {
-            try
-            {
-                Group existingLocation = await DBContext.Groups.Where(group => group.Id == entity.Id)
-                                                              .FirstOrDefaultAsync();
-
-                if (existingLocation != null)
-
-                {
-                    existingLocation.Name = entity.Name;
-                    existingLocation.Description = entity.Description;
-                    existingLocation.Level = entity.Level;
-                    existingLocation.DateUpdated = DateTimeOffset.Now;
-                    DBContext.Entry(existingLocation).State = EntityState.Modified;
-                    await DBContext.SaveChangesAsync();
-
-                    return await Update(existingLocation);
-                }
-                else
-                {
-                    return HttpNotFound();
-                }
-            }
-            catch
-            {
-
-
-                DBContext.Entry(entity).State = EntityState.Detached;
-                throw;
-
-
-            }
-        }
-        private int HttpNotFound()
-        {
-            throw new NotImplementedException();
         }
     }
 }
