@@ -16,20 +16,33 @@ namespace Attendance.Controllers
 {
     public class EmployeesController : Controller
     {
-            //private AttendanceOracleDbContext db = new AttendanceOracleDbContext();
-            private EmployeeService _employeeService;
+        //private AttendanceOracleDbContext db = new AttendanceOracleDbContext();
+        private EmployeeService _employeeService;
 
-            public EmployeesController()
+        public EmployeesController()
+        {
+            this._employeeService = new EmployeeService();
+        }
+
+        // GET: Employees
+        public async Task<ActionResult> Index()
+        {
+            IEnumerable<Employee> employees = await _employeeService.GetAll();
+
+            List<EmployeeListVM> employeeVMList = new List<EmployeeListVM>();
+            foreach (var employee in employees)
             {
-                this._employeeService = new EmployeeService();
+                EmployeeListVM employeeVM = new EmployeeListVM()
+                {
+                    Id = employee.Id,
+                    FirstName = employee.FirstName,
+                    // ....
+                };
+
+                employeeVMList.Add(employeeVM);
             }
 
-            // GET: Employees
-            public async Task<ActionResult> Index()
-        {
-            //var employees = db.Employees.Include(e => e.Location).Include(e => e.ResourceManager).Include(e => e.Student).Include(e => e.Teacher);
-            List<Employee> allEmployees = (await _employeeService.GetAll()).ToList();
-            return View(allEmployees);
+            return View(employeeVMList);
         }
 
         // GET: Employees/Details/5
@@ -39,7 +52,7 @@ namespace Attendance.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Employee employee = await _employeeService.Get(id.Value);
+            Employee employee = await db.Employees.FindAsync(id);
             if (employee == null)
             {
                 return HttpNotFound();
@@ -48,15 +61,12 @@ namespace Attendance.Controllers
         }
 
         // GET: Employees/Create
-        [HttpGet]
         public ActionResult Create()
         {
-           ViewBag.LocationId = new SelectList(db.Location, "Id", "Name");
+            ViewBag.LocationId = new SelectList(db.Locations, "Id", "Name");
             ViewBag.ResourceManagerId = new SelectList(db.Employees, "Id", "FirstName");
             ViewBag.Id = new SelectList(db.Students, "EmployeeId", "UserCreated");
             ViewBag.Id = new SelectList(db.Teachers, "EmployeeId", "UserCreated");
-
-            
             return View();
         }
 
@@ -65,9 +75,7 @@ namespace Attendance.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-
-        //public async Task<ActionResult> Create([Bind(Include = "Id,FirstName,LastName,Email,CompanyRole,IsEnabled,HireDate,LocationId,ResourceManagerId,DateCreated,UserCreated,DateUpdated,UserUpdated")] Employee employee)
-        public async Task<ActionResult> Create (CreateEmployeeVM model)
+        public async Task<ActionResult> Create([Bind(Include = "Id,FirstName,LastName,Email,CompanyRole,IsEnabled,HireDate,LocationId,ResourceManagerId,DateCreated,UserCreated,DateUpdated,UserUpdated")] Employee employee)
         {
             if (ModelState.IsValid)
             {
@@ -75,7 +83,7 @@ namespace Attendance.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            
+
             ViewBag.LocationId = new SelectList(db.Locations, "Id", "Name", employee.LocationId);
             ViewBag.ResourceManagerId = new SelectList(db.Employees, "Id", "FirstName", employee.ResourceManagerId);
             ViewBag.Id = new SelectList(db.Students, "EmployeeId", "UserCreated", employee.Id);

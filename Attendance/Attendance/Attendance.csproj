@@ -253,6 +253,7 @@
     <Compile Include="ViewModels\EditGroupVM.cs" />
     <Compile Include="ViewModels\EditLocationVM.cs" />
     <Compile Include="ViewModels\CreateLocationVM.cs" />
+    <Compile Include="ViewModels\EmployeeListVM.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\create_attendance_user.sql" />
