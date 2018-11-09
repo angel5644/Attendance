@@ -9,6 +9,8 @@ using System.Web;
 using System.Web.Mvc;
 using Attendance.DBContext;
 using Attendance.Models;
+using Attendance.Services;
+using Attendance.ViewModels;
 
 namespace Attendance.Controllers
 {
@@ -17,7 +19,7 @@ namespace Attendance.Controllers
             //private AttendanceOracleDbContext db = new AttendanceOracleDbContext();
             private EmployeeService _employeeService;
 
-            public EmployeeController()
+            public EmployeesController()
             {
                 this._employeeService = new EmployeeService();
             }
@@ -25,8 +27,9 @@ namespace Attendance.Controllers
             // GET: Employees
             public async Task<ActionResult> Index()
         {
-            var employees = db.Employees.Include(e => e.Location).Include(e => e.ResourceManager).Include(e => e.Student).Include(e => e.Teacher);
-            return View(await employees.ToListAsync());
+            //var employees = db.Employees.Include(e => e.Location).Include(e => e.ResourceManager).Include(e => e.Student).Include(e => e.Teacher);
+            List<Employee> allEmployees = (await _employeeService.GetAll()).ToList();
+            return View(allEmployees);
         }
 
         // GET: Employees/Details/5
@@ -36,7 +39,7 @@ namespace Attendance.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Employee employee = await db.Employees.FindAsync(id);
+            Employee employee = await _employeeService.Get(id.Value);
             if (employee == null)
             {
                 return HttpNotFound();
@@ -45,12 +48,15 @@ namespace Attendance.Controllers
         }
 
         // GET: Employees/Create
+        [HttpGet]
         public ActionResult Create()
         {
-            ViewBag.LocationId = new SelectList(db.Locations, "Id", "Name");
+           ViewBag.LocationId = new SelectList(db.Location, "Id", "Name");
             ViewBag.ResourceManagerId = new SelectList(db.Employees, "Id", "FirstName");
             ViewBag.Id = new SelectList(db.Students, "EmployeeId", "UserCreated");
             ViewBag.Id = new SelectList(db.Teachers, "EmployeeId", "UserCreated");
+
+            
             return View();
         }
 
@@ -59,7 +65,9 @@ namespace Attendance.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,FirstName,LastName,Email,CompanyRole,IsEnabled,HireDate,LocationId,ResourceManagerId,DateCreated,UserCreated,DateUpdated,UserUpdated")] Employee employee)
+
+        //public async Task<ActionResult> Create([Bind(Include = "Id,FirstName,LastName,Email,CompanyRole,IsEnabled,HireDate,LocationId,ResourceManagerId,DateCreated,UserCreated,DateUpdated,UserUpdated")] Employee employee)
+        public async Task<ActionResult> Create (CreateEmployeeVM model)
         {
             if (ModelState.IsValid)
             {
@@ -67,7 +75,7 @@ namespace Attendance.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-
+            
             ViewBag.LocationId = new SelectList(db.Locations, "Id", "Name", employee.LocationId);
             ViewBag.ResourceManagerId = new SelectList(db.Employees, "Id", "FirstName", employee.ResourceManagerId);
             ViewBag.Id = new SelectList(db.Students, "EmployeeId", "UserCreated", employee.Id);
