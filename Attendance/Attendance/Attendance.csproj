@@ -205,6 +205,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\EmployeesController.cs" />
+    <Compile Include="Controllers\Groups1Controller.cs" />
     <Compile Include="Controllers\GroupsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LocationsController.cs" />
@@ -315,6 +316,11 @@
     <Content Include="Views\Employees\Details.cshtml" />
     <Content Include="Views\Employees\Edit.cshtml" />
     <Content Include="Views\Employees\Index.cshtml" />
+    <Content Include="Views\Groups1\Create.cshtml" />
+    <Content Include="Views\Groups1\Delete.cshtml" />
+    <Content Include="Views\Groups1\Details.cshtml" />
+    <Content Include="Views\Groups1\Edit.cshtml" />
+    <Content Include="Views\Groups1\Index.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
