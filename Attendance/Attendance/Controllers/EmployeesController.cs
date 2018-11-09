@@ -9,24 +9,40 @@ using System.Web;
 using System.Web.Mvc;
 using Attendance.DBContext;
 using Attendance.Models;
+using Attendance.Services;
+using Attendance.ViewModels;
 
 namespace Attendance.Controllers
 {
     public class EmployeesController : Controller
     {
-            //private AttendanceOracleDbContext db = new AttendanceOracleDbContext();
-            private EmployeeService _employeeService;
+        //private AttendanceOracleDbContext db = new AttendanceOracleDbContext();
+        private EmployeeService _employeeService;
 
-            public EmployeeController()
+        public EmployeesController()
+        {
+            this._employeeService = new EmployeeService();
+        }
+
+        // GET: Employees
+        public async Task<ActionResult> Index()
+        {
+            IEnumerable<Employee> employees = await _employeeService.GetAll();
+
+            List<EmployeeListVM> employeeVMList = new List<EmployeeListVM>();
+            foreach (var employee in employees)
             {
-                this._employeeService = new EmployeeService();
+                EmployeeListVM employeeVM = new EmployeeListVM()
+                {
+                    Id = employee.Id,
+                    FirstName = employee.FirstName,
+                    // ....
+                };
+
+                employeeVMList.Add(employeeVM);
             }
 
-            // GET: Employees
-            public async Task<ActionResult> Index()
-        {
-            var employees = db.Employees.Include(e => e.Location).Include(e => e.ResourceManager).Include(e => e.Student).Include(e => e.Teacher);
-            return View(await employees.ToListAsync());
+            return View(employeeVMList);
         }
 
         // GET: Employees/Details/5

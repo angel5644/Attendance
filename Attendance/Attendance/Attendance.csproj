@@ -205,7 +205,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\EmployeesController.cs" />
-    <Compile Include="Controllers\Groups1Controller.cs" />
     <Compile Include="Controllers\GroupsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LocationsController.cs" />
@@ -254,6 +253,7 @@
     <Compile Include="ViewModels\EditGroupVM.cs" />
     <Compile Include="ViewModels\EditLocationVM.cs" />
     <Compile Include="ViewModels\CreateLocationVM.cs" />
+    <Compile Include="ViewModels\EmployeeListVM.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\create_attendance_user.sql" />
@@ -316,13 +316,20 @@
     <Content Include="Views\Employees\Details.cshtml" />
     <Content Include="Views\Employees\Edit.cshtml" />
     <Content Include="Views\Employees\Index.cshtml" />
-    <Content Include="Views\Groups1\Create.cshtml" />
-    <Content Include="Views\Groups1\Delete.cshtml" />
-    <Content Include="Views\Groups1\Details.cshtml" />
-    <Content Include="Views\Groups1\Edit.cshtml" />
-    <Content Include="Views\Groups1\Index.cshtml" />
+    <Content Include="Views\Employees1\Create.cshtml" />
+    <Content Include="Views\Employees1\Delete.cshtml" />
+    <Content Include="Views\Employees1\Details.cshtml" />
+    <Content Include="Views\Employees1\Edit.cshtml" />
+    <Content Include="Views\Employees1\Index.cshtml" />
+    <Content Include="Views\Locations1\Create.cshtml" />
+    <Content Include="Views\Locations1\Delete.cshtml" />
+    <Content Include="Views\Locations1\Details.cshtml" />
+    <Content Include="Views\Locations1\Edit.cshtml" />
+    <Content Include="Views\Locations1\Index.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Views\Locations2\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
