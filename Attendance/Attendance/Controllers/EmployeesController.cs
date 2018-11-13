@@ -23,6 +23,7 @@ namespace Attendance.Controllers
         public EmployeesController()
         {
             this._employeeService = new EmployeeService();
+            this._locationService = new LocationService();
         }
 
         // GET: Employees
@@ -68,14 +69,14 @@ namespace Attendance.Controllers
 
             var locations = await _locationService.GetAll();
 
-            model.Locations = locations.Select(l => new SelectListItem()
+            model.LocationId = locations.Select(l => new SelectListItem()
             {
                 Text = l.Name,
                 Value = l.Id.ToString()
             });
 
             var resourceManagers = (await _employeeService.GetAll()).Where(e => e.CompanyRole == CompanyRole.ResourceManager);
-            model.ResourceManagers = resourceManagers.Select(rm => new SelectListItem()
+            model.ResourceManagerId = resourceManagers.Select(rm => new SelectListItem()
             {
                 Text = rm.FirstName +  " " + rm.LastName,
                 Value = rm.Id.ToString()
@@ -93,20 +94,29 @@ namespace Attendance.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,FirstName,LastName,Email,CompanyRole,IsEnabled,HireDate,LocationId,ResourceManagerId,DateCreated,UserCreated,DateUpdated,UserUpdated")] Employee employee)
+        public async Task<ActionResult> Create(CreateEmployeeVM model)
         {
             if (ModelState.IsValid)
             {
-                db.Employees.Add(employee);
-                await db.SaveChangesAsync();
+                Employee newemployee = new Employee() {
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    Email = model.Email,
+                    CompanyRole = model.CompanyRole,
+                    IsEnabled = model.IsEnabled,
+                    HireDate = model.HireDate,
+                    ResourceManagerId = Convert.ToInt32(model.ResourceManagerId),
+                    LocationId = Convert.ToInt32(model.LocationId)
+                };
+                await _employeeService.Create(newemployee);
                 return RedirectToAction("Index");
             }
 
-            ViewBag.LocationId = new SelectList(db.Locations, "Id", "Name", employee.LocationId);
+           /* ViewBag.LocationId = new SelectList(db.Locations, "Id", "Name", employee.LocationId);
             ViewBag.ResourceManagerId = new SelectList(db.Employees, "Id", "FirstName", employee.ResourceManagerId);
             ViewBag.Id = new SelectList(db.Students, "EmployeeId", "UserCreated", employee.Id);
-            ViewBag.Id = new SelectList(db.Teachers, "EmployeeId", "UserCreated", employee.Id);
-            return View(employee);
+            ViewBag.Id = new SelectList(db.Teachers, "EmployeeId", "UserCreated", employee.Id);*/
+            return View(model);
         }
 
         // GET: Employees/Edit/5

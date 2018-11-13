@@ -11,14 +11,14 @@ namespace Attendance.ViewModels
 {
     public class CreateEmployeeVM
     {
-        
+        public IEnumerable<SelectListItem> ResourceManagerId { get; set; }
+
         [Required]
         [StringLength (500)]
         public string FirstName { get; set; }
 
         [Required]
         public string LastName { get; set; }
-        public string Description { get; set; }
         public string Email { get; set; }
 
         public CompanyRole CompanyRole { get; set; }
@@ -27,8 +27,8 @@ namespace Attendance.ViewModels
 
         public DateTimeOffset HireDate { get; set; }
 
-        public IEnumerable<SelectListItem> Locations { get; set; }
+        public IEnumerable<SelectListItem> LocationId { get; set; }
 
-        public IEnumerable<SelectListItem> ResourceManagers { get; set; }
+        
     }
 }
