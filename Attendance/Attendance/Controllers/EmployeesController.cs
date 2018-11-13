@@ -68,15 +68,16 @@ namespace Attendance.Controllers
             CreateEmployeeVM model = new CreateEmployeeVM();
 
             var locations = await _locationService.GetAll();
-
-            model.LocationId = locations.Select(l => new SelectListItem()
+            
+            model.Locations = locations.Select(l => new SelectListItem()
             {
                 Text = l.Name,
                 Value = l.Id.ToString()
             });
+            model.LocationId = locations != null && locations.Any() ? locations.First().Id : 0;
 
             var resourceManagers = (await _employeeService.GetAll()).Where(e => e.CompanyRole == CompanyRole.ResourceManager);
-            model.ResourceManagerId = resourceManagers.Select(rm => new SelectListItem()
+            model.ResourceManagers = resourceManagers.Select(rm => new SelectListItem()
             {
                 Text = rm.FirstName +  " " + rm.LastName,
                 Value = rm.Id.ToString()
@@ -105,10 +106,21 @@ namespace Attendance.Controllers
                     CompanyRole = model.CompanyRole,
                     IsEnabled = model.IsEnabled,
                     HireDate = model.HireDate,
-                    ResourceManagerId = Convert.ToInt32(model.ResourceManagerId),
-                    LocationId = Convert.ToInt32(model.LocationId)
+                    ResourceManagerId = model.ResourceManagerId,
+                    LocationId = model.LocationId
                 };
-                await _employeeService.Create(newemployee);
+
+                try
+                {
+                    await _employeeService.Create(newemployee);
+                }
+                catch (Exception ex)
+                {
+                    // Add message to the user
+                    Console.WriteLine("An error has occurred. Message: " + ex.ToString());
+                    throw;
+                }
+
                 return RedirectToAction("Index");
             }
 
