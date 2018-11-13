@@ -18,6 +18,7 @@ namespace Attendance.Controllers
     {
         private AttendanceOracleDbContext db = new AttendanceOracleDbContext();
         private EmployeeService _employeeService;
+        private LocationService _locationService;
 
         public EmployeesController()
         {
@@ -61,13 +62,30 @@ namespace Attendance.Controllers
         }
 
         // GET: Employees/Create
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
-            ViewBag.LocationId = new SelectList(db.Locations, "Id", "Name");
-            ViewBag.ResourceManagerId = new SelectList(db.Employees, "Id", "FirstName");
-            ViewBag.Id = new SelectList(db.Students, "EmployeeId", "UserCreated");
-            ViewBag.Id = new SelectList(db.Teachers, "EmployeeId", "UserCreated");
-            return View();
+            CreateEmployeeVM model = new CreateEmployeeVM();
+
+            var locations = await _locationService.GetAll();
+
+            model.Locations = locations.Select(l => new SelectListItem()
+            {
+                Text = l.Name,
+                Value = l.Id.ToString()
+            });
+
+            var resourceManagers = (await _employeeService.GetAll()).Where(e => e.CompanyRole == CompanyRole.ResourceManager);
+            model.ResourceManagers = resourceManagers.Select(rm => new SelectListItem()
+            {
+                Text = rm.FirstName +  " " + rm.LastName,
+                Value = rm.Id.ToString()
+            });
+
+            //ViewBag.ResourceManagerId = new SelectList(db.Employees, "Id", "FirstName");
+            //ViewBag.Id = new SelectList(db.Students, "EmployeeId", "UserCreated");
+            //ViewBag.Id = new SelectList(db.Teachers, "EmployeeId", "UserCreated");
+
+            return View(model);
         }
 
         // POST: Employees/Create
