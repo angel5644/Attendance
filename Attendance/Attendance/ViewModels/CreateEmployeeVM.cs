@@ -10,12 +10,12 @@ namespace Attendance.ViewModels
 {
     public class CreateEmployeeVM
     {
-        public CompanyRole companypRole { get; set; }
+        public CompanyRole companyRole { get; set; }
+        public bool IsEnabled { get; set; }
         [Required]
         [StringLength (500)]
         public string Name { get; set; }
         public string LastName { get; set; }
-        public string Description { get; set; }
         public string EMail { get; set; }
                      
     }
