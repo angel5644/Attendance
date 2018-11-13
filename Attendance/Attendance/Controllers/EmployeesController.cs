@@ -18,6 +18,7 @@ namespace Attendance.Controllers
     {
         private AttendanceOracleDbContext db = new AttendanceOracleDbContext();
         private EmployeeService _employeeService;
+        private LocationService _locationService;
 
         public EmployeesController()
         {
@@ -36,11 +37,7 @@ namespace Attendance.Controllers
                 {
                     Id = employee.Id,
                     FirstName = employee.FirstName,
-                    LastName = employee.LastName,
-                    Email = employee.Email,
-                    CompanyRole = employee.CompanyRole,
-                    IsEnabled = employee.IsEnabled,
-                    HireDate = employee.HireDate
+                    // ....
                 };
 
                 employeeVMList.Add(employeeVM);
@@ -56,7 +53,7 @@ namespace Attendance.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Employee employee = await _employeeService.Get(id.Value);
+            Employee employee = await db.Employees.FindAsync(id);
             if (employee == null)
             {
                 return HttpNotFound();
@@ -65,15 +62,30 @@ namespace Attendance.Controllers
         }
 
         // GET: Employees/Create
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
-            /*ViewBag.LocationId = new SelectList(db.Locations, "Id", "Name");
-            ViewBag.ResourceManagerId = new SelectList(db.Employees, "Id", "FirstName");
-            ViewBag.Id = new SelectList(db.Students, "EmployeeId", "UserCreated");
-            ViewBag.Id = new SelectList(db.Teachers, "EmployeeId", "UserCreated");
-            return View();*/
             CreateEmployeeVM model = new CreateEmployeeVM();
-            return View (model);
+
+            var locations = await _locationService.GetAll();
+
+            model.Locations = locations.Select(l => new SelectListItem()
+            {
+                Text = l.Name,
+                Value = l.Id.ToString()
+            });
+
+            var resourceManagers = (await _employeeService.GetAll()).Where(e => e.CompanyRole == CompanyRole.ResourceManager);
+            model.ResourceManagers = resourceManagers.Select(rm => new SelectListItem()
+            {
+                Text = rm.FirstName +  " " + rm.LastName,
+                Value = rm.Id.ToString()
+            });
+
+            //ViewBag.ResourceManagerId = new SelectList(db.Employees, "Id", "FirstName");
+            //ViewBag.Id = new SelectList(db.Students, "EmployeeId", "UserCreated");
+            //ViewBag.Id = new SelectList(db.Teachers, "EmployeeId", "UserCreated");
+
+            return View(model);
         }
 
         // POST: Employees/Create
@@ -81,29 +93,19 @@ namespace Attendance.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(CreateEmployeeVM employee)
+        public async Task<ActionResult> Create([Bind(Include = "Id,FirstName,LastName,Email,CompanyRole,IsEnabled,HireDate,LocationId,ResourceManagerId,DateCreated,UserCreated,DateUpdated,UserUpdated")] Employee employee)
         {
             if (ModelState.IsValid)
             {
-                Employee newemployee = new Employee()
-                {
-                    FirstName = employee.Name,
-                    LastName = employee.LastName,
-                    DateCreated = DateTimeOffset.Now, 
-                   Email = employee.EMail, 
-                   CompanyRole = employee.companyRole, 
-                   IsEnabled = employee.IsEnabled,
-                   UserCreated ="",
-                   HireDate = DateTimeOffset.Now,
-                };
-                await _employeeService.Create(newemployee);
+                db.Employees.Add(employee);
+                await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
-           // ViewBag.LocationId = new SelectList(db.Locations, "Id", "Name", employee.LocationId);
-           // ViewBag.ResourceManagerId = new SelectList(db.Employees, "Id", "FirstName", employee.ResourceManagerId);
-           // ViewBag.Id = new SelectList(db.Students, "EmployeeId", "UserCreated", employee.Id);
-           // ViewBag.Id = new SelectList(db.Teachers, "EmployeeId", "UserCreated", employee.Id);
+            ViewBag.LocationId = new SelectList(db.Locations, "Id", "Name", employee.LocationId);
+            ViewBag.ResourceManagerId = new SelectList(db.Employees, "Id", "FirstName", employee.ResourceManagerId);
+            ViewBag.Id = new SelectList(db.Students, "EmployeeId", "UserCreated", employee.Id);
+            ViewBag.Id = new SelectList(db.Teachers, "EmployeeId", "UserCreated", employee.Id);
             return View(employee);
         }
 
