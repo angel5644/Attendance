@@ -16,7 +16,7 @@ namespace Attendance.Controllers
 {
     public class EmployeesController : Controller
     {
-        //private AttendanceOracleDbContext db = new AttendanceOracleDbContext();
+        private AttendanceOracleDbContext db = new AttendanceOracleDbContext();
         private EmployeeService _employeeService;
 
         public EmployeesController()

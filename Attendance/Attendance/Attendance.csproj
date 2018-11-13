@@ -316,20 +316,8 @@
     <Content Include="Views\Employees\Details.cshtml" />
     <Content Include="Views\Employees\Edit.cshtml" />
     <Content Include="Views\Employees\Index.cshtml" />
-    <Content Include="Views\Employees1\Create.cshtml" />
-    <Content Include="Views\Employees1\Delete.cshtml" />
-    <Content Include="Views\Employees1\Details.cshtml" />
-    <Content Include="Views\Employees1\Edit.cshtml" />
-    <Content Include="Views\Employees1\Index.cshtml" />
-    <Content Include="Views\Locations1\Create.cshtml" />
-    <Content Include="Views\Locations1\Delete.cshtml" />
-    <Content Include="Views\Locations1\Details.cshtml" />
-    <Content Include="Views\Locations1\Edit.cshtml" />
-    <Content Include="Views\Locations1\Index.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Locations2\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
