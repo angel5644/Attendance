@@ -38,8 +38,11 @@ namespace Attendance.Controllers
                 {
                     Id = employee.Id,
                     FirstName = employee.FirstName,
-                    // ....
-                };
+                    LastName = employee.LastName,
+                    Email = employee.Email,
+                    HireDate = employee.HireDate,
+                    IsEnabled = employee.IsEnabled,
+                 };
 
                 employeeVMList.Add(employeeVM);
             }
@@ -107,7 +110,9 @@ namespace Attendance.Controllers
                     IsEnabled = model.IsEnabled,
                     HireDate = model.HireDate,
                     ResourceManagerId = model.ResourceManagerId,
-                    LocationId = model.LocationId
+                    LocationId = model.LocationId,
+                    DateCreated = DateTimeOffset.Now,
+                    UserCreated = ""
                 };
 
                 try
