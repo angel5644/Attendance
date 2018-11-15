@@ -42,9 +42,11 @@ namespace Attendance.Controllers
                     Email = employee.Email,
                     HireDate = employee.HireDate,
                     IsEnabled = employee.IsEnabled,
-                    LocationName = employee.Location.Name,
-                    ResourceManagerName = employee.ResourceManagerName
-                };
+                    LocationName = employee.LocationName,
+                    ResourceManagerName = employee.ResourceManagerName,
+                    CompanyRole = employee.CompanyRole,
+                
+            };
 
                 employeeVMList.Add(employeeVM);
             }
