@@ -10,7 +10,8 @@ namespace Attendance.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
+            AutomaticMigrationDataLossAllowed = true;
         }
 
         protected override void Seed(Attendance.DBContext.AttendanceOracleDbContext context)

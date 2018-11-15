@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace Attendance.ViewModels
 {
@@ -20,11 +21,17 @@ namespace Attendance.ViewModels
 
         public bool IsEnabled { get; set; }
 
-        public DateTimeOffset HireDate { get; set; }
+        public DateTimeOffset? HireDate { get; set; }
+         
+        public string LocationName { get; set; }
+
+        public string ResourceManagerName { get; set; }
+
 
         /// <summary>
         /// The date when the entity was created
         /// </summary>
+        /// 
         public DateTimeOffset? DateCreated { get; set; }
     }
 }

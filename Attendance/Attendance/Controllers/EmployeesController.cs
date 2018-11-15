@@ -23,22 +23,30 @@ namespace Attendance.Controllers
         public EmployeesController()
         {
             this._employeeService = new EmployeeService();
+            this._locationService = new LocationService();
         }
 
         // GET: Employees
         public async Task<ActionResult> Index()
         {
             IEnumerable<Employee> employees = await _employeeService.GetAll();
-
             List<EmployeeListVM> employeeVMList = new List<EmployeeListVM>();
+
             foreach (var employee in employees)
             {
                 EmployeeListVM employeeVM = new EmployeeListVM()
                 {
                     Id = employee.Id,
                     FirstName = employee.FirstName,
-                    // ....
-                };
+                    LastName = employee.LastName,
+                    Email = employee.Email,
+                    HireDate = employee.HireDate,
+                    IsEnabled = employee.IsEnabled,
+                    LocationName = employee.LocationName,
+                    ResourceManagerName = employee.ResourceManagerName,
+                    CompanyRole = employee.CompanyRole,
+                
+            };
 
                 employeeVMList.Add(employeeVM);
             }
@@ -67,12 +75,13 @@ namespace Attendance.Controllers
             CreateEmployeeVM model = new CreateEmployeeVM();
 
             var locations = await _locationService.GetAll();
-
+            
             model.Locations = locations.Select(l => new SelectListItem()
             {
                 Text = l.Name,
                 Value = l.Id.ToString()
             });
+            model.LocationId = locations != null && locations.Any() ? locations.First().Id : 0;
 
             var resourceManagers = (await _employeeService.GetAll()).Where(e => e.CompanyRole == CompanyRole.ResourceManager);
             model.ResourceManagers = resourceManagers.Select(rm => new SelectListItem()
@@ -93,39 +102,90 @@ namespace Attendance.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,FirstName,LastName,Email,CompanyRole,IsEnabled,HireDate,LocationId,ResourceManagerId,DateCreated,UserCreated,DateUpdated,UserUpdated")] Employee employee)
+        public async Task<ActionResult> Create(CreateEmployeeVM model)
         {
             if (ModelState.IsValid)
             {
-                db.Employees.Add(employee);
-                await db.SaveChangesAsync();
+                Employee newemployee = new Employee() {
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    Email = model.Email,
+                    CompanyRole = model.CompanyRole,
+                    IsEnabled = model.IsEnabled,
+                    HireDate = model.HireDate,
+                    ResourceManagerId = model.ResourceManagerId,
+                    LocationId = model.LocationId,
+                    DateCreated = DateTimeOffset.Now,
+                    UserCreated = ""
+                };
+
+                try
+                {
+                    await _employeeService.Create(newemployee);
+                }
+                catch (Exception ex)
+                {
+                    // Add message to the user
+                    Console.WriteLine("An error has occurred. Message: " + ex.ToString());
+                    throw;
+                }
+
                 return RedirectToAction("Index");
             }
 
-            ViewBag.LocationId = new SelectList(db.Locations, "Id", "Name", employee.LocationId);
+           /* ViewBag.LocationId = new SelectList(db.Locations, "Id", "Name", employee.LocationId);
             ViewBag.ResourceManagerId = new SelectList(db.Employees, "Id", "FirstName", employee.ResourceManagerId);
             ViewBag.Id = new SelectList(db.Students, "EmployeeId", "UserCreated", employee.Id);
-            ViewBag.Id = new SelectList(db.Teachers, "EmployeeId", "UserCreated", employee.Id);
-            return View(employee);
+            ViewBag.Id = new SelectList(db.Teachers, "EmployeeId", "UserCreated", employee.Id);*/
+            return View(model);
         }
 
         // GET: Employees/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
+            EditEmployeeVM model = new EditEmployeeVM();
+            var locations = await _locationService.GetAll();
+
+           
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Employee employee = await db.Employees.FindAsync(id);
+            Employee employee = await _employeeService.Get(id.Value);
             if (employee == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.LocationId = new SelectList(db.Locations, "Id", "Name", employee.LocationId);
-            ViewBag.ResourceManagerId = new SelectList(db.Employees, "Id", "FirstName", employee.ResourceManagerId);
-            ViewBag.Id = new SelectList(db.Students, "EmployeeId", "UserCreated", employee.Id);
-            ViewBag.Id = new SelectList(db.Teachers, "EmployeeId", "UserCreated", employee.Id);
+
+            model.FirstName = employee.FirstName;
+            model.LastName = employee.LastName;
+            model.Email = employee.Email;
+            model.HireDate = employee.HireDate;
+            model.CompanyRole = employee.CompanyRole;
+            model.IsEnabled = employee.IsEnabled;
+            model.Id = employee.Id;
+            model.Locations = locations.Select(l => new SelectListItem()
+            {
+                Text = l.Name,
+                Value = l.Id.ToString()
+            });
+            model.LocationId = locations != null && locations.Any() ? locations.First().Id : employee.LocationId;
+
+            var resourceManagers = (await _employeeService.GetAll()).Where(e => e.CompanyRole == CompanyRole.ResourceManager);
+            model.ResourceManagers = resourceManagers.Select(rm => new SelectListItem()
+            {
+                Text = rm.FirstName + " " + rm.LastName,
+                Value = rm.Id.ToString()
+            });
+
             return View(employee);
+
+            //ViewBag.LocationId = new SelectList(db.Locations, "Id", "Name", employee.LocationId);
+            //ViewBag.ResourceManagerId = new SelectList(db.Employees, "Id", "FirstName", employee.ResourceManagerId);
+            //ViewBag.Id = new SelectList(db.Students, "EmployeeId", "UserCreated", employee.Id);
+            //ViewBag.Id = new SelectList(db.Teachers, "EmployeeId", "UserCreated", employee.Id);
+
         }
 
         // POST: Employees/Edit/5
@@ -133,19 +193,36 @@ namespace Attendance.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,FirstName,LastName,Email,CompanyRole,IsEnabled,HireDate,LocationId,ResourceManagerId,DateCreated,UserCreated,DateUpdated,UserUpdated")] Employee employee)
+        public async Task<ActionResult> Edit(EditEmployeeVM model, int? id)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(employee).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                Employee existingEmployee = await _employeeService.Get(id.Value);
+                if (existingEmployee != null)
+                {
+                    existingEmployee.FirstName = model.FirstName;
+                    existingEmployee.LastName = model.LastName;
+                    existingEmployee.Email = model.Email;
+                    existingEmployee.HireDate = model.HireDate;
+                    existingEmployee.CompanyRole = model.CompanyRole;
+                    existingEmployee.IsEnabled = model.IsEnabled;
+                    existingEmployee.DateUpdated = DateTimeOffset.Now;
+
+                    // We only need to store the reference
+                    existingEmployee.LocationId = model.LocationId;
+                    existingEmployee.ResourceManagerId = model.ResourceManagerId;
+
+                    await _employeeService.Update(existingEmployee);
+                }
+                else
+                {
+                    return HttpNotFound();
+                }
+                
                 return RedirectToAction("Index");
             }
-            ViewBag.LocationId = new SelectList(db.Locations, "Id", "Name", employee.LocationId);
-            ViewBag.ResourceManagerId = new SelectList(db.Employees, "Id", "FirstName", employee.ResourceManagerId);
-            ViewBag.Id = new SelectList(db.Students, "EmployeeId", "UserCreated", employee.Id);
-            ViewBag.Id = new SelectList(db.Teachers, "EmployeeId", "UserCreated", employee.Id);
-            return View(employee);
+
+            return View(model);
         }
 
         // GET: Employees/Delete/5
