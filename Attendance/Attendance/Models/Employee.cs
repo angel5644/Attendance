@@ -28,7 +28,7 @@ namespace Attendance.Models
         public int LocationId { get; set; }
 
         [ForeignKey("LocationId")]
-        public Location Location { get; set; }
+        public  virtual Location Location { get; set; }
 
         public virtual Student Student { get; set; }
         

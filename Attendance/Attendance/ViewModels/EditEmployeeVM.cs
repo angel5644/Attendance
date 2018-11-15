@@ -36,7 +36,7 @@ namespace Attendance.ViewModels
         public bool IsEnabled { get; set; }
 
         [Display(Name = "Hire Date")]
-        public DateTimeOffset HireDate { get; set; }
+        public DateTimeOffset? HireDate { get; set; }
 
         [Display(Name = "Location")]
         public int LocationId { get; set; }

@@ -206,8 +206,8 @@ namespace Attendance.Controllers
                     existingEmployee.CompanyRole = model.CompanyRole;
                     existingEmployee.IsEnabled = model.IsEnabled;
                     existingEmployee.DateUpdated = DateTimeOffset.Now;
-                    existingEmployee.Location = model.Location;
-                    existingEmployee.ResourceManager = model.ResourceManagers;
+                    //existingEmployee.Location = model.Location;
+                    //existingEmployee.ResourceManager = model.ResourceManagers;
                 }
                 else
                 {
