@@ -18,7 +18,6 @@ namespace Attendance.ViewModels
 
         [Required]
         public string LastName { get; set; }
-        public string Description { get; set; }
         public string Email { get; set; }
 
         public CompanyRole CompanyRole { get; set; }
