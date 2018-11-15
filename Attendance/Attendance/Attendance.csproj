@@ -230,10 +230,6 @@
     <Compile Include="Migrations\201810192337091_FixAuditFieldsEnrollment.Designer.cs">
       <DependentUpon>201810192337091_FixAuditFieldsEnrollment.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201811151642387_updateemployee.cs" />
-    <Compile Include="Migrations\201811151642387_updateemployee.Designer.cs">
-      <DependentUpon>201811151642387_updateemployee.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BaseEntity.cs" />
     <Compile Include="Models\Location.cs" />
@@ -342,9 +338,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201810192337091_FixAuditFieldsEnrollment.resx">
       <DependentUpon>201810192337091_FixAuditFieldsEnrollment.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201811151642387_updateemployee.resx">
-      <DependentUpon>201811151642387_updateemployee.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

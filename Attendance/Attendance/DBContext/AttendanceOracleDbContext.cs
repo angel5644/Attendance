@@ -27,7 +27,14 @@ namespace Attendance.DBContext
 
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
 
-            #region relationships 
+            #region relationships
+            // Employee 1:0..N Location
+            modelBuilder.Entity<Location>()
+                .HasMany(l => l.Employees)
+                .WithRequired(e => e.Location)
+                .HasForeignKey(e => e.LocationId)
+                ;
+
             // Student 0..1:1 Employee
             modelBuilder.Entity<Employee>()
                 .HasOptional(e => e.Student)
