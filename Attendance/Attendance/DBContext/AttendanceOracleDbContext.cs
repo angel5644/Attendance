@@ -103,5 +103,6 @@ namespace Attendance.DBContext
         public System.Data.Entity.DbSet<Attendance.Models.Student> Students { get; set; }
 
         public System.Data.Entity.DbSet<Attendance.Models.Teacher> Teachers { get; set; }
+
     }
 }

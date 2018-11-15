@@ -24,14 +24,15 @@
             @Html.DisplayNameFor(model => model.CompanyRole)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.IsEnabled)
+            @Html.DisplayNameFor(model => model.LocationName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.HireDate)
+            @Html.DisplayNameFor(model => model.ResourceManagerName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.DateCreated)
         </th>
+
         <th></th>
     </tr>
 
@@ -49,19 +50,19 @@
         <td>
             @Html.DisplayFor(modelItem => item.CompanyRole)
         </td>
+        <th>
+            @Html.DisplayFor(modelItem => item.LocationName)
+        </th>
         <td>
-            @Html.DisplayFor(modelItem => item.IsEnabled)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.HireDate)
+            @Html.DisplayFor(model => item.ResourceManagerName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.DateCreated)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
         </td>
     </tr>
 }
