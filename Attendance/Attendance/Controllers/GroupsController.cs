@@ -89,6 +89,7 @@ namespace Attendance.Controllers
         // GET: Groups/Edit/5
         [HttpGet]
         public async Task<ActionResult> Edit(int? id)
+
         {
             EditGroupVM model = new EditGroupVM();
             if (id == null)
@@ -125,7 +126,7 @@ namespace Attendance.Controllers
                     existingGroup.Description = model.Description;
                     existingGroup.Level = model.Level;
                     existingGroup.DateUpdated = DateTimeOffset.Now;
-                    await _groupService.Update(existingGroup);
+                   // await _groupService.Update(existingGroup);
                 }
                 else
                 {

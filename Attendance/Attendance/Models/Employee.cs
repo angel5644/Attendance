@@ -10,9 +10,6 @@ namespace Attendance.Models
     [Table("Emplyee")]
     public class Employee : BaseEntity
     {
-        [Key]
-        public int Id { get; set; }
-
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
@@ -40,6 +37,9 @@ namespace Attendance.Models
         public virtual Employee ResourceManager { get; set; }
 
         public virtual ICollection<Employee> Resources { get; set; }
+
+        [Key]
+        public int Id { get; set; }
     }
 
     public enum CompanyRole
