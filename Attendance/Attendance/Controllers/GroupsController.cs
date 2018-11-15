@@ -41,7 +41,6 @@ namespace Attendance.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            //Group group = await db.Groups.FindAsync(id);
             Group group = await _groupService.Get(id.Value); 
 
             if (group == null)
