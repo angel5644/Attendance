@@ -24,6 +24,7 @@ namespace Attendance.Models
         public bool IsEnabled { get; set; }
 
         public DateTimeOffset? HireDate { get; set; }
+
         [Required]
         public int LocationId { get; set; }
 
@@ -31,7 +32,7 @@ namespace Attendance.Models
         public virtual Location Location { get; set; }
 
         public virtual Student Student { get; set; }
-        
+
         public virtual Teacher Teacher { get; set; }
 
         public int? ResourceManagerId { get; set; }
@@ -41,7 +42,10 @@ namespace Attendance.Models
 
         public virtual ICollection<Employee> Resources { get; set; }
 
-        public string ResourceManagerName { get
+        [NotMapped]
+        public string ResourceManagerName
+        {
+            get
             {
                 return ResourceManager != null ? ResourceManager.FirstName + " " + ResourceManager.LastName : string.Empty;
             }
@@ -50,7 +54,7 @@ namespace Attendance.Models
 
     public enum CompanyRole
     {
-        Resource, 
+        Resource,
         ResourceManager,
         Director
     }

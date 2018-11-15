@@ -43,9 +43,8 @@ namespace Attendance.Controllers
                     HireDate = employee.HireDate,
                     IsEnabled = employee.IsEnabled,
                     LocationName = employee.Location.Name,
-                    ResourceManagerName = employee.ResourceManagerName,
-                
-            };
+                    ResourceManagerName = employee.ResourceManagerName
+                };
 
                 employeeVMList.Add(employeeVM);
             }
@@ -206,24 +205,22 @@ namespace Attendance.Controllers
                     existingEmployee.CompanyRole = model.CompanyRole;
                     existingEmployee.IsEnabled = model.IsEnabled;
                     existingEmployee.DateUpdated = DateTimeOffset.Now;
-                    existingEmployee.Location = model.Location;
-                    existingEmployee.ResourceManager = model.ResourceManagers;
+
+                    // We only need to store the reference
+                    existingEmployee.LocationId = model.LocationId;
+                    existingEmployee.ResourceManagerId = model.ResourceManagerId;
+
+                    await _employeeService.Update(existingEmployee);
                 }
                 else
                 {
                     return HttpNotFound();
                 }
-                await _employeeService.Update(existingEmployee);
+                
                 return RedirectToAction("Index");
             }
 
             return View(model);
-           
-            //ViewBag.LocationId = new SelectList(db.Locations, "Id", "Name", employee.LocationId);
-            //ViewBag.ResourceManagerId = new SelectList(db.Employees, "Id", "FirstName", employee.ResourceManagerId);
-            //ViewBag.Id = new SelectList(db.Students, "EmployeeId", "UserCreated", employee.Id);
-            //ViewBag.Id = new SelectList(db.Teachers, "EmployeeId", "UserCreated", employee.Id);
-
         }
 
         // GET: Employees/Delete/5
