@@ -60,7 +60,7 @@ namespace Attendance.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Employee employee = await db.Employees.FindAsync(id);
+            Employee employee = await _employeeService.Get(id.Value);
             if (employee == null)
             {
                 return HttpNotFound();
@@ -143,10 +143,8 @@ namespace Attendance.Controllers
         public async Task<ActionResult> Edit(int? id)
         {
             EditEmployeeVM model = new EditEmployeeVM();
-            var locations = await _locationService.GetAll();
-
-           
-
+            //var locations = await _locationService.GetAll();
+          
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -157,34 +155,33 @@ namespace Attendance.Controllers
                 return HttpNotFound();
             }
 
-            model.FirstName = employee.FirstName;
-            model.LastName = employee.LastName;
-            model.Email = employee.Email;
-            model.HireDate = employee.HireDate;
-            model.CompanyRole = employee.CompanyRole;
-            model.IsEnabled = employee.IsEnabled;
-            model.Id = employee.Id;
-            model.Locations = locations.Select(l => new SelectListItem()
-            {
-                Text = l.Name,
-                Value = l.Id.ToString()
-            });
-            model.LocationId = locations != null && locations.Any() ? locations.First().Id : employee.LocationId;
+            //model.FirstName = employee.FirstName;
+            //model.LastName = employee.LastName;
+            //model.Email = employee.Email;
+            //model.HireDate = employee.HireDate;
+            //model.CompanyRole = employee.CompanyRole;
+            //model.IsEnabled = employee.IsEnabled;
+            //model.Id = employee.Id;
+            //model.Locations = locations.Select(l => new SelectListItem()
+            //{
+            //    Text = l.Name,
+            //    Value = l.Id.ToString()
+            //});
+            //model.LocationId = locations != null && locations.Any() ? locations.First().Id : employee.LocationId;
 
-            var resourceManagers = (await _employeeService.GetAll()).Where(e => e.CompanyRole == CompanyRole.ResourceManager);
-            model.ResourceManagers = resourceManagers.Select(rm => new SelectListItem()
-            {
-                Text = rm.FirstName + " " + rm.LastName,
-                Value = rm.Id.ToString()
-            });
+            //var resourceManagers = (await _employeeService.GetAll()).Where(e => e.CompanyRole == CompanyRole.ResourceManager);
+            //model.ResourceManagers = resourceManagers.Select(rm => new SelectListItem()
+            //{
+            //    Text = rm.FirstName + " " + rm.LastName,
+            //    Value = rm.Id.ToString()
+            //});
+                       
 
+            ViewBag.LocationId = new SelectList(db.Locations, "Id", "Name", employee.LocationId);
+            ViewBag.ResourceManagerId = new SelectList(db.Employees, "Id", "FirstName", employee.ResourceManagerId);
+            ViewBag.Id = new SelectList(db.Students, "EmployeeId", "UserCreated", employee.Id);
+            ViewBag.Id = new SelectList(db.Teachers, "EmployeeId", "UserCreated", employee.Id);
             return View(employee);
-
-            //ViewBag.LocationId = new SelectList(db.Locations, "Id", "Name", employee.LocationId);
-            //ViewBag.ResourceManagerId = new SelectList(db.Employees, "Id", "FirstName", employee.ResourceManagerId);
-            //ViewBag.Id = new SelectList(db.Students, "EmployeeId", "UserCreated", employee.Id);
-            //ViewBag.Id = new SelectList(db.Teachers, "EmployeeId", "UserCreated", employee.Id);
-
         }
 
         // POST: Employees/Edit/5
@@ -192,20 +189,20 @@ namespace Attendance.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(EditEmployeeVM model, int? id)
+        public async Task<ActionResult> Edit(EditEmployeeVM employee, int? id)
         {
             if (ModelState.IsValid)
             {
                 Employee existingEmployee = await _employeeService.Get(id.Value);
                 if (existingEmployee != null)
                 {
-                    existingEmployee.FirstName = model.FirstName;
-                    existingEmployee.LastName = model.LastName;
-                    existingEmployee.Email = model.Email;
-                    existingEmployee.HireDate = model.HireDate;
-                    existingEmployee.CompanyRole = model.CompanyRole;
-                    existingEmployee.IsEnabled = model.IsEnabled;
-                    existingEmployee.DateUpdated = DateTimeOffset.Now;
+                    //existingEmployee.FirstName = model.FirstName;
+                    //existingEmployee.LastName = model.LastName;
+                    //existingEmployee.Email = model.Email;
+                    //existingEmployee.HireDate = model.HireDate;
+                    //existingEmployee.CompanyRole = model.CompanyRole;
+                    //existingEmployee.IsEnabled = model.IsEnabled;
+                    //existingEmployee.DateUpdated = DateTimeOffset.Now;
                     //existingEmployee.Location = model.Location;
                     //existingEmployee.ResourceManager = model.ResourceManagers;
                 }
@@ -217,13 +214,13 @@ namespace Attendance.Controllers
                 return RedirectToAction("Index");
             }
 
-            return View(model);
-           
             //ViewBag.LocationId = new SelectList(db.Locations, "Id", "Name", employee.LocationId);
             //ViewBag.ResourceManagerId = new SelectList(db.Employees, "Id", "FirstName", employee.ResourceManagerId);
             //ViewBag.Id = new SelectList(db.Students, "EmployeeId", "UserCreated", employee.Id);
             //ViewBag.Id = new SelectList(db.Teachers, "EmployeeId", "UserCreated", employee.Id);
 
+
+            return View(employee);
         }
 
         // GET: Employees/Delete/5
