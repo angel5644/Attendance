@@ -30,8 +30,8 @@ namespace Attendance.Controllers
         public async Task<ActionResult> Index()
         {
             IEnumerable<Employee> employees = await _employeeService.GetAll();
-
             List<EmployeeListVM> employeeVMList = new List<EmployeeListVM>();
+
             foreach (var employee in employees)
             {
                 EmployeeListVM employeeVM = new EmployeeListVM()
@@ -42,7 +42,10 @@ namespace Attendance.Controllers
                     Email = employee.Email,
                     HireDate = employee.HireDate,
                     IsEnabled = employee.IsEnabled,
-                 };
+                    LocationName = employee.Location.Name,
+                    ResourceManagerName = employee.ResourceManagerName,
+                
+            };
 
                 employeeVMList.Add(employeeVM);
             }
