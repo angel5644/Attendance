@@ -28,14 +28,30 @@ namespace Attendance.Controllers
         // GET: Location
         public async Task<ActionResult> Index()
         {
-            List<Location> allLocations = (await _locationService.GetAll()).ToList();
+            IEnumerable<Location> allLocations = await _locationService.GetAll();
+            List<LocationListVM> allLocationslist = new List<LocationListVM>();
 
-            return View(allLocations);
+            foreach (var loc in allLocations)
+            {
+                LocationListVM locationVM = new LocationListVM()
+                {
+                Name = loc.Name,
+                Description = loc.Description,
+                DateCreated = loc.DateCreated,
+                UserCreated = loc.UserCreated,
+                DateUpdated = loc.DateUpdated,
+                UserUpdated = loc.UserUpdated
+                };
+                allLocationslist.Add(locationVM);
+            }
+
+            return View(allLocationslist);
         }
 
         // GET: Location/Details/5
         public async Task<ActionResult> Details(int? id)
         {
+            DetailsLocationVM details = new DetailsLocationVM();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -48,8 +64,13 @@ namespace Attendance.Controllers
             {
                 return HttpNotFound();
             }
-
-            return View(location);
+            details.Name = location.Name;
+            details.Description = location.Description;
+            details.DateCreated = location.DateCreated;
+            details.UserCreated = location.UserCreated;
+            details.DateUpdated = location.DateUpdated;
+            details.UserUpdated = location.UserUpdated;
+            return View(details);
         }
 
         // GET: Location/Create
@@ -136,6 +157,7 @@ namespace Attendance.Controllers
         // GET: Location/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
+            DeleteLocationVM delete = new DeleteLocationVM();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -145,7 +167,13 @@ namespace Attendance.Controllers
             {
                 return HttpNotFound();
             }
-            return View(location);
+            delete.Name = location.Name;
+            delete.Description = location.Description;
+            delete.DateCreated = location.DateCreated;
+            delete.UserCreated = location.UserCreated;
+            delete.DateUpdated = location.DateUpdated;
+            delete.UserUpdated = location.UserUpdated;
+            return View(delete);
         }
 
         // POST: Location/Delete/5
