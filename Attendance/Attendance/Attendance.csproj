@@ -249,6 +249,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\CreateEmployeeVM.cs" />
     <Compile Include="ViewModels\CreateGroupVM.cs" />
+    <Compile Include="ViewModels\DetailsEmployeeVM.cs" />
     <Compile Include="ViewModels\EditEmployeeVM.cs" />
     <Compile Include="ViewModels\EditGroupVM.cs" />
     <Compile Include="ViewModels\EditLocationVM.cs" />

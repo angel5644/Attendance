@@ -40,7 +40,7 @@ namespace Attendance.Controllers
                     FirstName = employee.FirstName,
                     LastName = employee.LastName,
                     Email = employee.Email,
-                    HireDate = employee.HireDate,
+                    HireDate = DateTimeOffset.Now,
                     IsEnabled = employee.IsEnabled,
                     LocationName = employee.LocationName,
                     ResourceManagerName = employee.ResourceManagerName,
@@ -57,6 +57,7 @@ namespace Attendance.Controllers
         // GET: Employees/Details/5
         public async Task<ActionResult> Details(int? id)
         {
+            DetailsEmployeeVM detail = new DetailsEmployeeVM();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -66,7 +67,16 @@ namespace Attendance.Controllers
             {
                 return HttpNotFound();
             }
-            return View(employee);
+            detail.Id = employee.Id;
+            detail.FirstName = employee.FirstName;
+            detail.LastName = employee.LastName;
+            detail.Email = employee.Email;
+            detail.HireDate = DateTimeOffset.Now;
+            detail.IsEnabled = employee.IsEnabled;
+            detail.LocationName = employee.LocationName;
+            detail.ResourceManagerName = employee.ResourceManagerName;
+            detail.CompanyRole = employee.CompanyRole;
+            return View(detail);
         }
 
         // GET: Employees/Create
@@ -112,7 +122,7 @@ namespace Attendance.Controllers
                     Email = model.Email,
                     CompanyRole = model.CompanyRole,
                     IsEnabled = model.IsEnabled,
-                    HireDate = model.HireDate,
+                    HireDate = DateTimeOffset.Now,
                     ResourceManagerId = model.ResourceManagerId,
                     LocationId = model.LocationId,
                     DateCreated = DateTimeOffset.Now,
