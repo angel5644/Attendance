@@ -28,9 +28,29 @@ namespace Attendance.Controllers
         // GET: Groups
         public async Task<ActionResult> Index()
         {
-            List<Group> allGroups = (await _groupService.GetAll()).ToList();
+            IEnumerable<Group> groups = await _groupService.GetAll();
+            List<GroupListVM> GroupVMList = new List<GroupListVM>();
 
-            return View(allGroups);
+            foreach (var group in groups)
+            {
+                GroupListVM allGroups = new GroupListVM()
+                {
+                    Id = group.Id,
+                    Name = group.Name,
+                    Description = group.Description,
+                    Level = group.Level,
+                    DateCreated = group.DateCreated,
+                    DateUpdated = group.DateUpdated,
+                    UserCreated = group.UserCreated,
+                    UserUpdated = group.UserUpdated,
+
+                };
+
+                GroupVMList.Add(allGroups);
+
+            }
+
+            return View(GroupVMList);
         }
 
         // GET: Groups/Details/5
@@ -41,14 +61,25 @@ namespace Attendance.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Group group = await _groupService.Get(id.Value); 
+            DetailsGroupVM model = new DetailsGroupVM();
+
+            Group group = await _groupService.Get(id.Value);
 
             if (group == null)
             {
                 return HttpNotFound();
             }
 
-            return View(group);
+            model.Description = group.Description;
+            model.Name = group.Name;
+            model.Id = group.Id;
+            model.DateCreated = group.DateCreated;
+            model.DateUpdated = group.DateUpdated;
+            model.UserCreated = group.UserCreated;
+            model.UserUpdated = group.UserUpdated;
+            model.Level = group.Level;
+        
+        return View(model);
         }
 
         // GET: Groups/Create
@@ -144,12 +175,23 @@ namespace Attendance.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
+            DeleteGroupVM model = new DeleteGroupVM();
             Group group = await _groupService.Get(id.Value);
             if (group == null)
             {
                 return HttpNotFound();
             }
-            return View(group);
+
+            model.Description = group.Description;
+            model.Name = group.Name;
+            model.Id = group.Id;
+            model.DateCreated = group.DateCreated;
+            model.DateUpdated = group.DateUpdated;
+            model.UserCreated = group.UserCreated;
+            model.UserUpdated = group.UserUpdated;
+            model.Level = group.Level;
+            return View(model);
         }
 
         // POST: Groups/Delete/5

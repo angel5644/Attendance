@@ -230,6 +230,10 @@
     <Compile Include="Migrations\201810192337091_FixAuditFieldsEnrollment.Designer.cs">
       <DependentUpon>201810192337091_FixAuditFieldsEnrollment.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201811151937120_updateemployee.cs" />
+    <Compile Include="Migrations\201811151937120_updateemployee.Designer.cs">
+      <DependentUpon>201811151937120_updateemployee.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BaseEntity.cs" />
     <Compile Include="Models\Location.cs" />
@@ -247,6 +251,8 @@
     <Compile Include="Services\IServiceBase.cs" />
     <Compile Include="Services\ServiceBase.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\DeleteGroupVM.cs" />
+    <Compile Include="ViewModels\DetailsGroupVM.cs" />
     <Compile Include="ViewModels\CreateEmployeeVM.cs" />
     <Compile Include="ViewModels\CreateGroupVM.cs" />
     <Compile Include="ViewModels\EditEmployeeVM.cs" />
@@ -254,6 +260,7 @@
     <Compile Include="ViewModels\EditLocationVM.cs" />
     <Compile Include="ViewModels\CreateLocationVM.cs" />
     <Compile Include="ViewModels\EmployeeListVM.cs" />
+    <Compile Include="ViewModels\GroupListVM.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\create_attendance_user.sql" />
@@ -338,6 +345,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201810192337091_FixAuditFieldsEnrollment.resx">
       <DependentUpon>201810192337091_FixAuditFieldsEnrollment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811151937120_updateemployee.resx">
+      <DependentUpon>201811151937120_updateemployee.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
