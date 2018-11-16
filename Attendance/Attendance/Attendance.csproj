@@ -252,15 +252,18 @@
     <Compile Include="Services\ServiceBase.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\DeleteGroupVM.cs" />
+    <Compile Include="ViewModels\DeleteLocationsVM.cs" />
     <Compile Include="ViewModels\DetailsGroupVM.cs" />
     <Compile Include="ViewModels\CreateEmployeeVM.cs" />
     <Compile Include="ViewModels\CreateGroupVM.cs" />
+    <Compile Include="ViewModels\DetailsLocationVM.cs" />
     <Compile Include="ViewModels\EditEmployeeVM.cs" />
     <Compile Include="ViewModels\EditGroupVM.cs" />
     <Compile Include="ViewModels\EditLocationVM.cs" />
     <Compile Include="ViewModels\CreateLocationVM.cs" />
     <Compile Include="ViewModels\EmployeeListVM.cs" />
     <Compile Include="ViewModels\GroupListVM.cs" />
+    <Compile Include="ViewModels\LocationListVM.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\create_attendance_user.sql" />
