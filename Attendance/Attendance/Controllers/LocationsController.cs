@@ -35,6 +35,7 @@ namespace Attendance.Controllers
             {
                 LocationListVM locationVM = new LocationListVM()
                 {
+                Id = loc.Id,
                 Name = loc.Name,
                 Description = loc.Description,
                 DateCreated = loc.DateCreated,
@@ -97,8 +98,7 @@ namespace Attendance.Controllers
                     Description = model.Description,
                     DateCreated = DateTimeOffset.Now,
                     UserCreated = ""
-
-                };
+                                    };
                 await _locationService.Create(newLocation);
                 return RedirectToAction("Index");
             }

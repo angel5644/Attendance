@@ -251,11 +251,13 @@
     <Compile Include="Services\IServiceBase.cs" />
     <Compile Include="Services\ServiceBase.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\DeleteEmployeeVM.cs" />
     <Compile Include="ViewModels\DeleteGroupVM.cs" />
     <Compile Include="ViewModels\DeleteLocationsVM.cs" />
     <Compile Include="ViewModels\DetailsGroupVM.cs" />
     <Compile Include="ViewModels\CreateEmployeeVM.cs" />
     <Compile Include="ViewModels\CreateGroupVM.cs" />
+    <Compile Include="ViewModels\DetailsEmployeeVM.cs" />
     <Compile Include="ViewModels\DetailsLocationVM.cs" />
     <Compile Include="ViewModels\EditEmployeeVM.cs" />
     <Compile Include="ViewModels\EditGroupVM.cs" />

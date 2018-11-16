@@ -1,4 +1,4 @@
-﻿@model Attendance.Models.Employee
+﻿@model  Attendance.ViewModels.DetailsEmployeeVM
 
 @{
     ViewBag.Title = "Details";
@@ -10,98 +10,98 @@
     <h4>Employee</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.LocationName)
-        </dt>
+       
+            <dt>
+                @Html.DisplayNameFor(model => model.LocationName)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Location.Name)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.LocationName)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ResourceManager.FirstName)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.ResourceManager.FirstName)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.FirstName)
+            </dd>
 
-      
-      
+            <dt>
+                @Html.DisplayNameFor(model => model.LastName)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.LastName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.LastName)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.LastName)
+            </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
+                @Html.DisplayNameFor(model => model.ResourceManagerName)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Email)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.ResourceManagerName)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.CompanyRole)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.CompanyRole)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.CompanyRole)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.CompanyRole)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.IsEnabled)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.IsEnabled)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.IsEnabled)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.IsEnabled)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.HireDate)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.HireDate)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.HireDate)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.HireDate)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.DateCreated)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.DateCreated)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.DateCreated)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.DateCreated)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.UserCreated)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.UserCreated)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.UserCreated)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.UserCreated)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.DateUpdated)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.DateUpdated)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.DateUpdated)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.DateUpdated)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.UserUpdated)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.UserUpdated)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.UserUpdated)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.UserUpdated)
+            </dd>
 
+        
     </dl>
+
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
