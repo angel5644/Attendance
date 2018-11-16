@@ -45,6 +45,7 @@ namespace Attendance.Controllers
                     LocationName = employee.LocationName,
                     ResourceManagerName = employee.ResourceManagerName,
                     CompanyRole = employee.CompanyRole,
+                    DateCreated = DateTimeOffset.Now,
                 
                 };
 
@@ -238,6 +239,7 @@ namespace Attendance.Controllers
         // GET: Employees/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
+            DeleteEmployeeVM deleteVM = new DeleteEmployeeVM();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -247,7 +249,19 @@ namespace Attendance.Controllers
             {
                 return HttpNotFound();
             }
-            return View(employee);
+            deleteVM.Id = employee.Id;
+            deleteVM.FirstName = employee.FirstName;
+            deleteVM.LastName = employee.LastName;
+            deleteVM.Email = employee.Email;
+            deleteVM.HireDate = DateTimeOffset.Now;
+            deleteVM.IsEnabled = employee.IsEnabled;
+            deleteVM.LocationName = employee.LocationName;
+            deleteVM.ResourceManagerName = employee.ResourceManagerName;
+            deleteVM.CompanyRole = employee.CompanyRole;
+          
+                
+            return View(deleteVM);
+            
         }
 
         // POST: Employees/Delete/5

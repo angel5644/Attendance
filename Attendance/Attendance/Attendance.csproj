@@ -251,6 +251,7 @@
     <Compile Include="Services\IServiceBase.cs" />
     <Compile Include="Services\ServiceBase.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\DeleteEmployeeVM.cs" />
     <Compile Include="ViewModels\DeleteGroupVM.cs" />
     <Compile Include="ViewModels\DeleteLocationsVM.cs" />
     <Compile Include="ViewModels\DetailsGroupVM.cs" />
