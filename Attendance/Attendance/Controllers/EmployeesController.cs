@@ -46,7 +46,7 @@ namespace Attendance.Controllers
                     ResourceManagerName = employee.ResourceManagerName,
                     CompanyRole = employee.CompanyRole,
                 
-            };
+                };
 
                 employeeVMList.Add(employeeVM);
             }

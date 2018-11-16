@@ -40,5 +40,7 @@ namespace Attendance.ViewModels
         [Display(Name = "Location")]
         public int LocationId { get; set; }
         public IEnumerable<SelectListItem> Locations { get; set; }
+
+        public int Id { get; set; }
     }
 }
