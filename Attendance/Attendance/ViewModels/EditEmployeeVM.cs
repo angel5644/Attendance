@@ -12,6 +12,7 @@ namespace Attendance.ViewModels
     public class EditEmployeeVM
     {
         public int Id { get; set; }
+        
         [Display(Name = "Resource Manager")]
         public int? ResourceManagerId { get; set; }
         public IEnumerable<SelectListItem> ResourceManagers { get; set; }
@@ -41,6 +42,6 @@ namespace Attendance.ViewModels
         public int LocationId { get; set; }
         public IEnumerable<SelectListItem> Locations { get; set; }
 
-        public int Id { get; set; }
+       
     }
 }
