@@ -181,7 +181,8 @@ namespace Attendance.Controllers
                 Text = l.Name,
                 Value = l.Id.ToString()
             });
-            model.LocationId = locations != null && locations.Any() ? locations.First().Id : employee.LocationId;
+
+            //model.LocationId = locations != null && locations.Any() ? locations.First().Id : 0;
 
             var resourceManagers = (await _employeeService.GetAll()).Where(e => e.CompanyRole == CompanyRole.ResourceManager);
             model.ResourceManagers = resourceManagers.Select(rm => new SelectListItem()
@@ -190,7 +191,7 @@ namespace Attendance.Controllers
                 Value = rm.Id.ToString()
             });
 
-            return View(employee);
+            return View(model);
 
             //ViewBag.LocationId = new SelectList(db.Locations, "Id", "Name", employee.LocationId);
             //ViewBag.ResourceManagerId = new SelectList(db.Employees, "Id", "FirstName", employee.ResourceManagerId);
@@ -223,13 +224,12 @@ namespace Attendance.Controllers
                     existingEmployee.LocationId = model.LocationId;
                     existingEmployee.ResourceManagerId = model.ResourceManagerId;
 
-                    await _employeeService.Update(existingEmployee);
-                }
+                 }
                 else
                 {
                     return HttpNotFound();
                 }
-                
+                await _employeeService.Update(existingEmployee);
                 return RedirectToAction("Index");
             }
 
