@@ -78,7 +78,9 @@
             @Html.LabelFor(model => model.ResourceManagerId, "ResourceManagerId", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownListFor(model => model.ResourceManagerId, Model.ResourceManagers, htmlAttributes: new { @class = "form-control" })
+                <asp:ListItem Value="0"></asp:ListItem>
                 @Html.ValidationMessageFor(model => model.ResourceManagerId, "", new { @class = "text-danger" })
+
             </div>
         </div>
 
