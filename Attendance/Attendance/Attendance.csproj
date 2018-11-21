@@ -204,6 +204,7 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\GroupsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LocationsController.cs" />
@@ -250,10 +251,12 @@
     <Compile Include="Services\GroupService.cs" />
     <Compile Include="Services\IServiceBase.cs" />
     <Compile Include="Services\ServiceBase.cs" />
+    <Compile Include="Services\StudentService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\DeleteEmployeeVM.cs" />
     <Compile Include="ViewModels\DeleteGroupVM.cs" />
     <Compile Include="ViewModels\DeleteLocationsVM.cs" />
+    <Compile Include="ViewModels\DeleteStudentsVM.cs" />
     <Compile Include="ViewModels\DetailsGroupVM.cs" />
     <Compile Include="ViewModels\CreateEmployeeVM.cs" />
     <Compile Include="ViewModels\CreateGroupVM.cs" />
@@ -266,6 +269,7 @@
     <Compile Include="ViewModels\EmployeeListVM.cs" />
     <Compile Include="ViewModels\GroupListVM.cs" />
     <Compile Include="ViewModels\LocationListVM.cs" />
+    <Compile Include="ViewModels\StudentsListVM.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\create_attendance_user.sql" />

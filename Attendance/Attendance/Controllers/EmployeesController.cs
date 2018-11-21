@@ -16,7 +16,7 @@ namespace Attendance.Controllers
 {
     public class EmployeesController : Controller
     {
-        private AttendanceOracleDbContext db = new AttendanceOracleDbContext();
+        //private AttendanceOracleDbContext db = new AttendanceOracleDbContext();
         private EmployeeService _employeeService;
         private LocationService _locationService;
 
@@ -63,7 +63,7 @@ namespace Attendance.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Employee employee = await db.Employees.FindAsync(id);
+            Employee employee = await _employeeService.Get(id.Value);
             if (employee == null)
             {
                 return HttpNotFound();
@@ -244,7 +244,7 @@ namespace Attendance.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Employee employee = await db.Employees.FindAsync(id);
+            Employee employee = await _employeeService.Get(id.Value);
             if (employee == null)
             {
                 return HttpNotFound();
@@ -269,9 +269,7 @@ namespace Attendance.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Employee employee = await db.Employees.FindAsync(id);
-            db.Employees.Remove(employee);
-            await db.SaveChangesAsync();
+            await _employeeService.Delete(id);
             return RedirectToAction("Index");
         }
 
@@ -279,7 +277,7 @@ namespace Attendance.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _employeeService.Dispose();
             }
             base.Dispose(disposing);
         }
