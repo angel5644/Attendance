@@ -11,6 +11,7 @@ using Attendance.DBContext;
 using Attendance.Models;
 using Attendance.Services;
 using Attendance.ViewModels;
+using System.Collections;
 
 namespace Attendance.Controllers
 {
@@ -97,10 +98,9 @@ namespace Attendance.Controllers
             var resourceManagers = (await _employeeService.GetAll()).Where(e => e.CompanyRole == CompanyRole.ResourceManager);
             model.ResourceManagers = resourceManagers.Select(rm => new SelectListItem()
             {
-                Text = rm.FirstName +  " " + rm.LastName,
+                Text = rm.FirstName + " " + rm.LastName,
                 Value = rm.Id.ToString()
             });
-
             //ViewBag.ResourceManagerId = new SelectList(db.Employees, "Id", "FirstName");
             //ViewBag.Id = new SelectList(db.Students, "EmployeeId", "UserCreated");
             //ViewBag.Id = new SelectList(db.Teachers, "EmployeeId", "UserCreated");
@@ -181,16 +181,14 @@ namespace Attendance.Controllers
                 Text = l.Name,
                 Value = l.Id.ToString()
             });
-
-            //model.LocationId = locations != null && locations.Any() ? locations.First().Id : 0;
-
+            model.LocationId = employee.LocationId;
             var resourceManagers = (await _employeeService.GetAll()).Where(e => e.CompanyRole == CompanyRole.ResourceManager);
             model.ResourceManagers = resourceManagers.Select(rm => new SelectListItem()
             {
                 Text = rm.FirstName + " " + rm.LastName,
                 Value = rm.Id.ToString()
             });
-
+            model.ResourceManagerId = employee.ResourceManagerId;
             return View(model);
 
             //ViewBag.LocationId = new SelectList(db.Locations, "Id", "Name", employee.LocationId);
