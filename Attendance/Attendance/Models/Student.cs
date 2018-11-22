@@ -11,10 +11,10 @@ namespace Attendance.Models
     {
         [Key]
 
-        public String Name { get; set; }
+        public string Name { get; set; }
 
 
-        public String LastName { get; set; }
+        public string LastName { get; set; }
 
         public int EmployeeId { get; set; }
 

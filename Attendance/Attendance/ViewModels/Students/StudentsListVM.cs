@@ -26,7 +26,7 @@ namespace Attendance.ViewModels
         public EnglishLevel Level { get; set; }
 
         [Display(Name = "Enrollment Status")]
-        public int EnrollmentStatus { get; set; }
+        public EnrollmentStatus EnrollmentStatus { get; set; }
 
     }
 }

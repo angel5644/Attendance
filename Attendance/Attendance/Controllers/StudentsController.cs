@@ -30,10 +30,29 @@ namespace Attendance.Controllers
         // GET: Students
         public async Task<ActionResult> Index()
         {
+            IEnumerable<Student> students = await _studentService.GetAll();
+            List<StudentsListVM> studentVMList = new List<StudentsListVM>();
 
-            var students = db.Students.Include(s => s.Employee);
-            return View(await students.ToListAsync());
+            foreach (var student in students)
+            {
+                StudentsListVM studentVM = new StudentsListVM()
+                {
+                    Id = student.EmployeeId,
+                    EName = student.EmployeeName,
+                    ELastName = student.LastName,
+                    Score = student.Score,
+                    EnrollmentStatus = student.EnrollmentStatus,
+                    Level = student.Level,
+                };
+
+                studentVMList.Add(studentVM);
+            }
+
+            return View(studentVMList);
         }
+        //var students = db.Students.Include(s => s.Employee);
+        //return View(await students.ToListAsync());
+    
 
         // GET: Students/Details/5
         public async Task<ActionResult> Details(int? id)
