@@ -15,9 +15,10 @@ namespace Attendance.ViewModels
         public int? ResourceManagerId { get; set; }
         public IEnumerable<SelectListItem> ResourceManagers { get; set; }
 
+
         [Display(Name = "First Name")]
         [Required]
-        [StringLength (500)]
+        [StringLength(500)]
         public string FirstName { get; set; }
 
         [Display(Name = "Last Name")]

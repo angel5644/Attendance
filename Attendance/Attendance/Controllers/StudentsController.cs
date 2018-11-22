@@ -9,12 +9,14 @@ using System.Web;
 using System.Web.Mvc;
 using Attendance.DBContext;
 using Attendance.Models;
+using Attendance.ViewModels;
 
 namespace Attendance.Controllers
 {
     public class StudentsController : Controller
     {
         private AttendanceOracleDbContext db = new AttendanceOracleDbContext();
+        
 
         // GET: Students
         public async Task<ActionResult> Index()
@@ -43,6 +45,8 @@ namespace Attendance.Controllers
         {
             ViewBag.EmployeeId = new SelectList(db.Employees, "Id", "FirstName");
             return View();
+
+
         }
 
         // POST: Students/Create
@@ -50,17 +54,31 @@ namespace Attendance.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "EmployeeId,Score,EnrollmentStatus,Level,DateCreated,UserCreated,DateUpdated,UserUpdated")] Student student)
+        public async Task<ActionResult> Create(CreateStudentVM model)
         {
             if (ModelState.IsValid)
             {
-                db.Students.Add(student);
+                Student newstudent = new Student() {
+                
+                EmployeeId = model.EmployeeId,
+                Score = model.Score,
+                EnrollmentStatus = model.EnrollmentStatus,
+                Level = model.Level,
+                DateCreated = DateTimeOffset.Now,
+                UserCreated = "",
+                DateUpdated = DateTimeOffset.Now,
+                UserUpdated = "",
+
+                
+                };
+
+                db.Students.Add(newstudent );
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.EmployeeId = new SelectList(db.Employees, "Id", "FirstName", student.EmployeeId);
-            return View(student);
+            ViewBag.EmployeeId = new SelectList(db.Employees, "Id", "FirstName", model.EmployeeId);
+            return View(model);
         }
 
         // GET: Students/Edit/5

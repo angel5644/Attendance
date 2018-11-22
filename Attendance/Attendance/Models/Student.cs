@@ -10,6 +10,12 @@ namespace Attendance.Models
     public class Student : BaseEntity
     {
         [Key]
+
+        public String Name { get; set; }
+
+
+        public String LastName { get; set; }
+
         public int EmployeeId { get; set; }
 
         public virtual Employee Employee { get; set; }
@@ -23,6 +29,8 @@ namespace Attendance.Models
         public virtual ICollection<Attendance> Attendances { get; set; }
 
         public virtual ICollection<Enrollment> Enrollments { get; set; }
+        
+    
 
         //// to be defined
         //public int? GroupId { get; set; }
