@@ -9,9 +9,8 @@ using System.Web;
 using System.Web.Mvc;
 using Attendance.DBContext;
 using Attendance.Models;
-using Attendance.Services;
 using Attendance.ViewModels;
-using System.Collections;
+using Attendance.Services;
 
 namespace Attendance.Controllers
 {
@@ -31,32 +30,29 @@ namespace Attendance.Controllers
         // GET: Students
         public async Task<ActionResult> Index()
         {
-            
-            //IEnumerable<Student> students = await _studentService.GetAll();
-            //List<StudentsListVM> studentVMList = new List<StudentsListVM>();
+            IEnumerable<Student> students = await _studentService.GetAll();
+            List<StudentsListVM> studentVMList = new List<StudentsListVM>();
 
-            //foreach (var student in students)
-            //{
-            //    StudentsListVM studentsVM = new StudentsListVM()
-            //    {
-            //        Id = student.EmployeeId,
-            //        EName = student.EmployeeName,
-            //        Score = student.Score,
-            //        Level = student.Level,
-            //        //DateCreated = DateTimeOffset.Now,
-            //        EnrollmentStatus = student.EnrollmentStatus
+            foreach (var student in students)
+            {
+                StudentsListVM studentVM = new StudentsListVM()
+                {
+                    Id = student.EmployeeId,
+                    EName = student.EmployeeName,
+                    ELastName = student.LastName,
+                    Score = student.Score,
+                    EnrollmentStatus = student.EnrollmentStatus,
+                    Level = student.Level,
+                };
 
-            //    };
+                studentVMList.Add(studentVM);
+            }
 
-            //    studentVMList.Add(studentsVM);
-            //}
-
-            //return View(studentVMList);
-
-
-            var students = db.Students.Include(s => s.Employee);
-            return View(await students.ToListAsync());
+            return View(studentVMList);
         }
+        //var students = db.Students.Include(s => s.Employee);
+        //return View(await students.ToListAsync());
+    
 
         // GET: Students/Details/5
         public async Task<ActionResult> Details(int? id)
@@ -78,7 +74,7 @@ namespace Attendance.Controllers
         {
             ViewBag.EmployeeId = new SelectList(db.Employees, "Id", "FirstName");
             return View();
-         }
+        }
 
         // POST: Students/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
