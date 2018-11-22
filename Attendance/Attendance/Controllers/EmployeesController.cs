@@ -11,12 +11,13 @@ using Attendance.DBContext;
 using Attendance.Models;
 using Attendance.Services;
 using Attendance.ViewModels;
+using System.Collections;
 
 namespace Attendance.Controllers
 {
     public class EmployeesController : Controller
     {
-        private AttendanceOracleDbContext db = new AttendanceOracleDbContext();
+        //private AttendanceOracleDbContext db = new AttendanceOracleDbContext();
         private EmployeeService _employeeService;
         private LocationService _locationService;
 
@@ -63,7 +64,7 @@ namespace Attendance.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Employee employee = await db.Employees.FindAsync(id);
+            Employee employee = await _employeeService.Get(id.Value);
             if (employee == null)
             {
                 return HttpNotFound();
@@ -97,10 +98,9 @@ namespace Attendance.Controllers
             var resourceManagers = (await _employeeService.GetAll()).Where(e => e.CompanyRole == CompanyRole.ResourceManager);
             model.ResourceManagers = resourceManagers.Select(rm => new SelectListItem()
             {
-                Text = rm.FirstName +  " " + rm.LastName,
+                Text = rm.FirstName + " " + rm.LastName,
                 Value = rm.Id.ToString()
             });
-
             //ViewBag.ResourceManagerId = new SelectList(db.Employees, "Id", "FirstName");
             //ViewBag.Id = new SelectList(db.Students, "EmployeeId", "UserCreated");
             //ViewBag.Id = new SelectList(db.Teachers, "EmployeeId", "UserCreated");
@@ -181,16 +181,14 @@ namespace Attendance.Controllers
                 Text = l.Name,
                 Value = l.Id.ToString()
             });
-
-            //model.LocationId = locations != null && locations.Any() ? locations.First().Id : 0;
-
+            model.LocationId = employee.LocationId;
             var resourceManagers = (await _employeeService.GetAll()).Where(e => e.CompanyRole == CompanyRole.ResourceManager);
             model.ResourceManagers = resourceManagers.Select(rm => new SelectListItem()
             {
                 Text = rm.FirstName + " " + rm.LastName,
                 Value = rm.Id.ToString()
             });
-
+            model.ResourceManagerId = employee.ResourceManagerId;
             return View(model);
 
             //ViewBag.LocationId = new SelectList(db.Locations, "Id", "Name", employee.LocationId);
@@ -244,7 +242,7 @@ namespace Attendance.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Employee employee = await db.Employees.FindAsync(id);
+            Employee employee = await _employeeService.Get(id.Value);
             if (employee == null)
             {
                 return HttpNotFound();
@@ -269,9 +267,7 @@ namespace Attendance.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Employee employee = await db.Employees.FindAsync(id);
-            db.Employees.Remove(employee);
-            await db.SaveChangesAsync();
+            await _employeeService.Delete(id);
             return RedirectToAction("Index");
         }
 
@@ -279,7 +275,7 @@ namespace Attendance.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _employeeService.Dispose();
             }
             base.Dispose(disposing);
         }

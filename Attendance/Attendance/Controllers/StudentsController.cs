@@ -10,17 +10,27 @@ using System.Web.Mvc;
 using Attendance.DBContext;
 using Attendance.Models;
 using Attendance.ViewModels;
+using Attendance.Services;
 
 namespace Attendance.Controllers
 {
     public class StudentsController : Controller
     {
         private AttendanceOracleDbContext db = new AttendanceOracleDbContext();
-        
+        private StudentService _studentService;
+        private EmployeeService _employeeService;
+
+        public StudentsController()
+        {
+            this._employeeService = new EmployeeService();
+            this._studentService = new StudentService();
+        }
+
 
         // GET: Students
         public async Task<ActionResult> Index()
         {
+
             var students = db.Students.Include(s => s.Employee);
             return View(await students.ToListAsync());
         }
@@ -45,8 +55,6 @@ namespace Attendance.Controllers
         {
             ViewBag.EmployeeId = new SelectList(db.Employees, "Id", "FirstName");
             return View();
-
-
         }
 
         // POST: Students/Create
@@ -54,27 +62,29 @@ namespace Attendance.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(CreateStudentVM model)
+       public async Task <ActionResult> Create(CreateStudentVM model)
         {
             if (ModelState.IsValid)
             {
-                Student newstudent = new Student() {
-                
-                EmployeeId = model.EmployeeId,
-                Score = model.Score,
-                EnrollmentStatus = model.EnrollmentStatus,
-                Level = model.Level,
-                DateCreated = DateTimeOffset.Now,
-                UserCreated = "",
-                DateUpdated = DateTimeOffset.Now,
-                UserUpdated = "",
+                Student newstudent = new Student()
+                {
+                    EmployeeId = model.EmployeeId,
+                    Score = model.Score,
+                    EnrollmentStatus = model.EnrollmentStatus,
+                    Level = model.Level,
+                    DateCreated = DateTimeOffset.Now,
+                    UserCreated = "",
+                    DateUpdated = DateTimeOffset.Now,
+                    UserUpdated = "",
 
-                
+
+
                 };
 
-                db.Students.Add(newstudent );
+                db.Students.Add(newstudent);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
+            
             }
 
             ViewBag.EmployeeId = new SelectList(db.Employees, "Id", "FirstName", model.EmployeeId);
@@ -116,16 +126,29 @@ namespace Attendance.Controllers
 
         // GET: Students/Delete/5
         public async Task<ActionResult> Delete(int? id)
+
         {
+            DeleteStudentsVM deleteVM = new DeleteStudentsVM();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Student student = await db.Students.FindAsync(id);
+            Student student = await _studentService.Get(id.Value);
             if (student == null)
             {
                 return HttpNotFound();
             }
+
+            deleteVM.Name = student.EmployeeName;
+            deleteVM.Id = student.EmployeeId;
+            deleteVM.Score = student.Score;
+            deleteVM.Level = student.Level;
+            deleteVM.EnrollmentStatus = student.EnrollmentStatus;
+            deleteVM.DateCreated = student.DateCreated;
+            deleteVM.UserCreated = student.UserCreated;
+            deleteVM.DateUpdated = student.DateUpdated;
+            deleteVM.UserUpdated = student.UserUpdated;
+            
             return View(student);
         }
 
@@ -134,9 +157,7 @@ namespace Attendance.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Student student = await db.Students.FindAsync(id);
-            db.Students.Remove(student);
-            await db.SaveChangesAsync();
+            await _studentService.Delete(id);
             return RedirectToAction("Index");
         }
 
@@ -144,7 +165,7 @@ namespace Attendance.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _studentService.Dispose();
             }
             base.Dispose(disposing);
         }

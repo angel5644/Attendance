@@ -32,14 +32,22 @@ namespace Attendance.Models
         
     
 
-        //// to be defined
-        //public int? GroupId { get; set; }
 
-        //[ForeignKey("GroupId")]
-        //public virtual Group Group { get; set; }
-
-
+        [NotMapped]
+        public string EmployeeName
+        {
+            get
+            {
+                return Employee != null ? Employee.FirstName + " " + Employee.LastName : string.Empty;
+            }
+        }
+ 
     }
+    //// to be defined
+    //public int? GroupId { get; set; }
 
-   
+    //[ForeignKey("GroupId")]
+    //public virtual Group Group { get; set; }
+
+
 }

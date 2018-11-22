@@ -7,15 +7,13 @@ using Attendance.Enums;
 using Attendance.Models;
 using System.Web.Mvc;
 
+
 namespace Attendance.ViewModels
 {
     public class CreateStudentVM
     {
-      
-
-        [Display(Name = "Employee  Id")]
-        [Required]
-        [StringLength(500)]
+        [Display(Name = "Employee Id")]
+        [Required] 
         public int EmployeeId { get; set; }
 
         [Display(Name = "Score")]
@@ -32,26 +30,19 @@ namespace Attendance.ViewModels
 
         [Display(Name = "Date Created")]
         [Required]
-        public DateTimeOffset DateCreated { get; set; }
+        public DateTimeOffset?  DateCreated  { get; set; }
 
         [Display(Name = "User Created")]
         [Required]
-        public int UserCreated { get; set; }
+        public string UserCreated { get; set; }
 
         [Display(Name = "Date Updated")]
         [Required]
-        public DateTimeOffset DateUpdated { get; set; }
+        public DateTimeOffset? DateUpdated { get; set; }
 
-        [Display(Name = "Date Created")]
+        [Display(Name = "User Upddated")]
         [Required]
-        public int UserUpdated { get; set; }
-
-
-
-
-
-
-
+        public String UserUpdated { get; set; }
 
     }
 }
