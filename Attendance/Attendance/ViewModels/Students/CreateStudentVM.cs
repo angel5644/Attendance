@@ -42,7 +42,7 @@ namespace Attendance.ViewModels
 
         [Display(Name = "User Upddated")]
         [Required]
-        public String UserUpdated { get; set; }
+        public string UserUpdated { get; set; }
 
     }
 }
