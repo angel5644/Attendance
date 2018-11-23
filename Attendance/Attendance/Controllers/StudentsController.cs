@@ -68,12 +68,23 @@ namespace Attendance.Controllers
         }
 
         // GET: Students/Create
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
-            ViewBag.EmployeeId = new SelectList(db.Employees, "Id", "FirstName");
-            return View();
-            
-            // Trying to learn how to fix sync problems.
+            //ViewBag.EmployeeId = new SelectList(db.Employees, "Id", "FirstName");
+            //return View();
+
+            CreateStudentVM model = new CreateStudentVM();
+
+            var employees = await _employeeService.GetAll();
+
+            model.Name = employees.Select(l => new SelectListItem()
+            {
+                Text = l.FirstName,
+                Value = l.Id.ToString()
+            });
+
+            return View(model);
+
         }
 
         // POST: Students/Create
@@ -81,7 +92,7 @@ namespace Attendance.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-       public async Task <ActionResult> Create(CreateStudentVM model)
+        public async Task<ActionResult> Create(CreateStudentVM model)
         {
             if (ModelState.IsValid)
             {
@@ -94,14 +105,21 @@ namespace Attendance.Controllers
                     DateCreated = DateTimeOffset.Now,
                     UserCreated = "",
                 };
-
-                db.Students.Add(newstudent);
-                await db.SaveChangesAsync();
+                try
+                {
+                    await _studentService.Create(newstudent);
+                }
+                catch (Exception ex)
+                {
+                    // Add message to the user
+                    Console.WriteLine("An error has occurred. Message: " + ex.ToString());
+                    throw;
+                }
                 return RedirectToAction("Index");
-            
+
             }
 
-            ViewBag.EmployeeId = new SelectList(db.Employees, "Id", "FirstName", model.EmployeeId);
+            //ViewBag.EmployeeId = new SelectList(db.Employees, "Id", "FirstName", model.EmployeeId);
             return View(model);
         }
 
@@ -163,7 +181,7 @@ namespace Attendance.Controllers
             deleteVM.DateUpdated = student.DateUpdated;
             deleteVM.UserUpdated = student.UserUpdated;
             
-            return View(student);
+            return View(deleteVM);
         }
 
         // POST: Students/Delete/5
