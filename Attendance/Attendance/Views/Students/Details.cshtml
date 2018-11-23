@@ -1,4 +1,4 @@
-﻿@model Attendance.Models.Student
+﻿@model Attendance.ViewModels.DetailsStudentsVM
 
 @{
     ViewBag.Title = "Details";
@@ -11,11 +11,11 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Employee.FirstName)
+            @Html.DisplayNameFor(model => model.EmployeeId)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Employee.FirstName)
+            @Html.DisplayFor(model => model.EmployeeId)
         </dd>
 
         <dt>

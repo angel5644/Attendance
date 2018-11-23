@@ -12,6 +12,7 @@ using Attendance.Models;
 using Attendance.ViewModels;
 using Attendance.Services;
 
+
 namespace Attendance.Controllers
 {
     public class StudentsController : Controller
@@ -42,19 +43,28 @@ namespace Attendance.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Student student = await db.Students.FindAsync(id);
+            Student student = await _studentService.Get(id.Value);
             if (student == null)
             {
                 return HttpNotFound();
             }
+            student.EmployeeId = student.EmployeeId;
+            student.Score = student.Score;
+            student.EnrollmentStatus = student.EnrollmentStatus;
+            student.Level = student.Level;
+            student.DateCreated = student.DateCreated;
+            student.UserCreated = student.UserCreated;
+            student.DateUpdated = student.DateUpdated;
+            student.UserCreated = student.UserUpdated;
+
             return View(student);
         }
 
         // GET: Students/Create
         public ActionResult Create()
         {
-            ViewBag.EmployeeId = new SelectList(db.Employees, "Id", "FirstName");
-            return View();
+            CreateStudentVM model = new CreateStudentVM();
+            return View(model);
         }
 
         // POST: Students/Create
@@ -66,6 +76,7 @@ namespace Attendance.Controllers
         {
             if (ModelState.IsValid)
             {
+
                 Student newstudent = new Student()
                 {
                     EmployeeId = model.EmployeeId,
