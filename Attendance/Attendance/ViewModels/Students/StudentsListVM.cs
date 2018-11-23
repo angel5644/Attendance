@@ -16,9 +16,6 @@ namespace Attendance.ViewModels
         [Display(Name = "Employee Name")]
         public string EName { get; set; }
 
-        [Display(Name = "Employee Last Name")]
-        public string ELastName { get; set; }
-
         [Display(Name = "Score")]
         public int Score { get; set; }
 
