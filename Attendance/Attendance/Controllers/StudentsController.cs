@@ -30,28 +30,29 @@ namespace Attendance.Controllers
         // GET: Students
         public async Task<ActionResult> Index()
         {
-            IEnumerable<Student> students = await _studentService.GetAll();
-            List<StudentsListVM> studentVMList = new List<StudentsListVM>();
+            //IEnumerable<Student> students = await _studentService.GetAll();
+            //List<StudentsListVM> studentVMList = new List<StudentsListVM>();
 
-            foreach (var student in students)
-            {
-                StudentsListVM studentVM = new StudentsListVM()
-                {
-                    Id = student.EmployeeId,
-                    EName = student.EmployeeName,
-                    ELastName = student.LastName,
-                    Score = student.Score,
-                    EnrollmentStatus = student.EnrollmentStatus,
-                    Level = student.Level,
-                };
+            //foreach (var student in students)
+            //{
+            //    StudentsListVM studentVM = new StudentsListVM()
+            //    {
+            //        Id = student.EmployeeId,
+            //        EName = student.EmployeeName,
+            //        ELastName = student.ELastName,
+            //        Score = student.Score,
+            //        EnrollmentStatus = student.EnrollmentStatus,
+            //        Level = student.Level,
+            //    };
 
-                studentVMList.Add(studentVM);
-            }
+            //    studentVMList.Add(studentVM);
+            //}
 
-            return View(studentVMList);
+            //return View(studentVMList);
+            var students = db.Students.Include(s => s.Employee);
+            return View(await students.ToListAsync());
         }
-        //var students = db.Students.Include(s => s.Employee);
-        //return View(await students.ToListAsync());
+       
     
 
         // GET: Students/Details/5
@@ -70,10 +71,23 @@ namespace Attendance.Controllers
         }
 
         // GET: Students/Create
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
-            ViewBag.EmployeeId = new SelectList(db.Employees, "Id", "FirstName");
-            return View();
+            //ViewBag.EmployeeId = new SelectList(db.Employees, "Id", "FirstName");
+            //return View();
+
+            CreateStudentVM model = new CreateStudentVM();
+
+            var employees = await _employeeService.GetAll();
+
+            model.Name = employees.Select(l => new SelectListItem()
+            {
+                Text = l.FirstName,
+                Value = l.Id.ToString()
+            });
+
+            return View(model);
+
         }
 
         // POST: Students/Create
@@ -93,20 +107,22 @@ namespace Attendance.Controllers
                     Level = model.Level,
                     DateCreated = DateTimeOffset.Now,
                     UserCreated = "",
-                    DateUpdated = DateTimeOffset.Now,
-                    UserUpdated = "",
-
-
-
                 };
-
-                db.Students.Add(newstudent);
-                await db.SaveChangesAsync();
+                try
+                {
+                    await _studentService.Create(newstudent);
+                }
+                catch (Exception ex)
+                {
+                    // Add message to the user
+                    Console.WriteLine("An error has occurred. Message: " + ex.ToString());
+                    throw;
+                }
                 return RedirectToAction("Index");
             
             }
 
-            ViewBag.EmployeeId = new SelectList(db.Employees, "Id", "FirstName", model.EmployeeId);
+            //ViewBag.EmployeeId = new SelectList(db.Employees, "Id", "FirstName", model.EmployeeId);
             return View(model);
         }
 
@@ -168,7 +184,7 @@ namespace Attendance.Controllers
             deleteVM.DateUpdated = student.DateUpdated;
             deleteVM.UserUpdated = student.UserUpdated;
             
-            return View(student);
+            return View(deleteVM);
         }
 
         // POST: Students/Delete/5
