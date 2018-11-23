@@ -11,7 +11,6 @@ namespace Attendance.Models
     {
         [Key]
 
-  
         public int EmployeeId { get; set; }
 
         public virtual Employee Employee { get; set; }
@@ -25,10 +24,7 @@ namespace Attendance.Models
         public virtual ICollection<Attendance> Attendances { get; set; }
 
         public virtual ICollection<Enrollment> Enrollments { get; set; }
-        
-    
-
-
+       
         [NotMapped]
         public string EmployeeName
         {

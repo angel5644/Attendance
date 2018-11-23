@@ -11,13 +11,10 @@ namespace Attendance.ViewModels
     public class StudentsListVM
     {
 
-        public int Id { get; set; }
+        public int EmployeeId { get; set; }
 
         [Display(Name = "Employee Name")]
         public string EName { get; set; }
-
-        [Display(Name = "Employee Last Name")]
-        public string ELastName { get; set; }
 
         [Display(Name = "Score")]
         public int Score { get; set; }
@@ -26,7 +23,7 @@ namespace Attendance.ViewModels
         public EnglishLevel Level { get; set; }
 
         [Display(Name = "Enrollment Status")]
-        public int EnrollmentStatus { get; set; }
+        public EnrollmentStatus EnrollmentStatus { get; set; }
 
     }
 }
