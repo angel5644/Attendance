@@ -13,6 +13,8 @@ using Attendance.ViewModels;
 using Attendance.Services;
 using Attendance.ViewModels.Students;
 
+
+
 namespace Attendance.Controllers
 {
     public class StudentsController : Controller
@@ -52,11 +54,12 @@ namespace Attendance.Controllers
         }
         //var students = db.Students.Include(s => s.Employee);
         //return View(await students.ToListAsync());
-    
+
 
         // GET: Students/Details/5
         public async Task<ActionResult> Details(int? id)
         {
+            DetailsStudentsVM SDetailsVM = new DetailsStudentsVM();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -66,7 +69,17 @@ namespace Attendance.Controllers
             {
                 return HttpNotFound();
             }
-            return View(student);
+            SDetailsVM.Id = student.EmployeeId;
+            SDetailsVM.Name = student.EmployeeName;
+            SDetailsVM.Score = student.Score;
+            SDetailsVM.EnrollmentStatus = student.EnrollmentStatus;
+            SDetailsVM.Level = student.Level;
+            SDetailsVM.DateCreated = student.DateCreated;
+            SDetailsVM.UserCreated = student.UserCreated;
+            SDetailsVM.DateUpdated = student.DateUpdated;
+            SDetailsVM.UserCreated = student.UserUpdated;
+
+            return View(SDetailsVM);
         }
 
         // GET: Students/Create
