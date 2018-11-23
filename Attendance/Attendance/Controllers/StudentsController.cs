@@ -72,6 +72,7 @@ namespace Attendance.Controllers
         {
             ViewBag.EmployeeId = new SelectList(db.Employees, "Id", "FirstName");
             return View();
+            // Adding more comments so we can see how a merge works
         }
 
         // POST: Students/Create
