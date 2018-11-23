@@ -72,6 +72,8 @@ namespace Attendance.Controllers
         {
             ViewBag.EmployeeId = new SelectList(db.Employees, "Id", "FirstName");
             return View();
+            
+            // Trying to learn how to fix sync problems.
         }
 
         // POST: Students/Create
@@ -91,11 +93,6 @@ namespace Attendance.Controllers
                     Level = model.Level,
                     DateCreated = DateTimeOffset.Now,
                     UserCreated = "",
-                    DateUpdated = DateTimeOffset.Now,
-                    UserUpdated = "",
-
-
-
                 };
 
                 db.Students.Add(newstudent);
