@@ -11,6 +11,7 @@ using Attendance.DBContext;
 using Attendance.Models;
 using Attendance.ViewModels;
 using Attendance.Services;
+using Attendance.ViewModels.Students;
 
 namespace Attendance.Controllers
 {
@@ -59,7 +60,7 @@ namespace Attendance.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Student student = await db.Students.FindAsync(id);
+            Student student = await _studentService.Get(id.Value);
             if (student == null)
             {
                 return HttpNotFound();
@@ -126,17 +127,27 @@ namespace Attendance.Controllers
         // GET: Students/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
+            EditStudentVM model = new EditStudentVM();
+            var employees = await _employeeService.GetAll();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Student student = await db.Students.FindAsync(id);
+            Student student = await _studentService.Get(id.Value);
             if (student == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.EmployeeId = new SelectList(db.Employees, "Id", "FirstName", student.EmployeeId);
-            return View(student);
+            model.Name = employees.Select(l => new SelectListItem()
+            {
+                Text = l.FirstName,
+                Value = l.Id.ToString()
+            });
+            model.Score = student.Score;
+            model.Level = student.Level;
+            model.EnrollmentStatus = student.EnrollmentStatus;
+            model.EmployeeId = student.EmployeeId;
+            return View(model);
         }
 
         // POST: Students/Edit/5
@@ -144,16 +155,28 @@ namespace Attendance.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "EmployeeId,Score,EnrollmentStatus,Level,DateCreated,UserCreated,DateUpdated,UserUpdated")] Student student)
+        public async Task<ActionResult> Edit(EditStudentVM model, int? id)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(student).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                Student existingstudent = await _studentService.Get(id.Value);
+                if (existingstudent != null)
+                {
+                    existingstudent.Score = model.Score;
+                    existingstudent.Level = model.Level;
+                    existingstudent.EnrollmentStatus = model.EnrollmentStatus;
+                    existingstudent.UserUpdated = model.UserUpdated;
+                    existingstudent.DateUpdated = DateTimeOffset.Now;
+                    existingstudent.EmployeeId = model.EmployeeId;
+                }
+                else
+                {
+                    return HttpNotFound();
+                }
+                await _studentService.Update(existingstudent);
                 return RedirectToAction("Index");
             }
-            ViewBag.EmployeeId = new SelectList(db.Employees, "Id", "FirstName", student.EmployeeId);
-            return View(student);
+            return View(model);
         }
 
         // GET: Students/Delete/5

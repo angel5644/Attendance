@@ -30,20 +30,20 @@ namespace Attendance.ViewModels
         public EnglishLevel Level { get; set; }
 
         //[Display(Name = "Date Created")]
-        ////[Required]
-        //public DateTimeOffset?  DateCreated  { get; set; }
+
+        public DateTimeOffset?  DateCreated  { get; set; }
 
         //[Display(Name = "User Created")]
         ////[Required]
-        //public string UserCreated { get; set; }
+        public string UserCreated { get; set; }
 
         //[Display(Name = "Date Updated")]
         //[Required]
-        //public DateTimeOffset? DateUpdated { get; set; }
+        public DateTimeOffset? DateUpdated { get; set; }
 
         //[Display(Name = "User Upddated")]
         //[Required]
-        //public string UserUpdated { get; set; }
+        public string UserUpdated { get; set; }
 
     }
 }

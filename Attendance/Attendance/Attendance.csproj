@@ -270,6 +270,7 @@
     <Compile Include="ViewModels\Employee\EmployeeListVM.cs" />
     <Compile Include="ViewModels\Groups\GroupListVM.cs" />
     <Compile Include="ViewModels\Locations\LocationListVM.cs" />
+    <Compile Include="ViewModels\Students\EditStudentVM.cs" />
     <Compile Include="ViewModels\Students\StudentsListVM.cs" />
   </ItemGroup>
   <ItemGroup>

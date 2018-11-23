@@ -11,7 +11,7 @@ namespace Attendance.ViewModels
     public class StudentsListVM
     {
 
-        public int Id { get; set; }
+        public int EmployeeId { get; set; }
 
         [Display(Name = "Employee Name")]
         public string EName { get; set; }
