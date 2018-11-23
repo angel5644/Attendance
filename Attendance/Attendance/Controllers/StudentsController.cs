@@ -38,6 +38,7 @@ namespace Attendance.Controllers
             {
                 StudentsListVM studentVM = new StudentsListVM()
                 {
+                    EmployeeId = student.EmployeeId,
                     EName = student.EmployeeName,
                     Score = student.Score,
                     EnrollmentStatus = student.EnrollmentStatus,
