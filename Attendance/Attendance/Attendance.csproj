@@ -253,7 +253,6 @@
     <Compile Include="Services\ServiceBase.cs" />
     <Compile Include="Services\StudentService.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="ViewModels\Students\DetailsStudentsVM.cs" />
     <Compile Include="ViewModels\Students\CreateStudentVM.cs" />
     <Compile Include="ViewModels\Employee\DeleteEmployeeVM.cs" />
     <Compile Include="ViewModels\Groups\DeleteGroupVM.cs" />
@@ -271,7 +270,7 @@
     <Compile Include="ViewModels\Employee\EmployeeListVM.cs" />
     <Compile Include="ViewModels\Groups\GroupListVM.cs" />
     <Compile Include="ViewModels\Locations\LocationListVM.cs" />
-    <Compile Include="ViewModels\Students\DetailsStudentsVM.cs" />
+    <Compile Include="ViewModels\Students\DetailsStudentVM.cs" />
     <Compile Include="ViewModels\Students\EditStudentVM.cs" />
     <Compile Include="ViewModels\Students\StudentsListVM.cs" />
   </ItemGroup>
