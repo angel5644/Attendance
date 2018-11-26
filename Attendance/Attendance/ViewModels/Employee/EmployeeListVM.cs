@@ -16,7 +16,7 @@ namespace Attendance.ViewModels
         public string FirstName { get; set; }
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
-        [Display(Name = "Email")]
+        [Display(Name = "E-Mail")]
         public string Email { get; set; }
         [Display(Name = "Company Role")]
         public CompanyRole CompanyRole { get; set; }
