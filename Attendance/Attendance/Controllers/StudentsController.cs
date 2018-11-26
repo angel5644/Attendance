@@ -111,6 +111,7 @@ namespace Attendance.Controllers
         {
             if (ModelState.IsValid)
             {
+
                 Student newstudent = new Student()
                 {
                     EmployeeId = model.EmployeeId,
