@@ -19,7 +19,7 @@ namespace Attendance.Controllers
 {
     public class StudentsController : Controller
     {
-        private AttendanceOracleDbContext db = new AttendanceOracleDbContext();
+        //private AttendanceOracleDbContext db = new AttendanceOracleDbContext();
         private StudentService _studentService;
         private EmployeeService _employeeService;
 
