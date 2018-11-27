@@ -236,10 +236,6 @@
     <Compile Include="Migrations\201811151937120_updateemployee.Designer.cs">
       <DependentUpon>201811151937120_updateemployee.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201811271553594_RemoveTeacherTable.cs" />
-    <Compile Include="Migrations\201811271553594_RemoveTeacherTable.Designer.cs">
-      <DependentUpon>201811271553594_RemoveTeacherTable.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BaseEntity.cs" />
     <Compile Include="Models\Location.cs" />
@@ -377,9 +373,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201811151937120_updateemployee.resx">
       <DependentUpon>201811151937120_updateemployee.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201811271553594_RemoveTeacherTable.resx">
-      <DependentUpon>201811271553594_RemoveTeacherTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
