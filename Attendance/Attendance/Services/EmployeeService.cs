@@ -10,7 +10,7 @@ using Attendance.ViewModels;
 
 namespace Attendance.Services
 {
-    public class EmployeeService  : ServiceBase <Employee> // IServiceBase<Employee>
+    public class EmployeeService : ServiceBase<Employee> // IServiceBase<Employee>
     {
         public async Task<Employee> Get(int id)
         {
@@ -64,6 +64,10 @@ namespace Attendance.Services
             return await DBContext.SaveChangesAsync();
         }
 
-
+        public async Task<IEnumerable<Employee>> Teachers()
+            {
+            var teacherList = (await GetAll()).Where(t => t.CompanyRole == CompanyRole.Teacher);
+            return (teacherList);
+            }
     }
 }

@@ -17,7 +17,6 @@ namespace Attendance.Controllers
 {
     public class EmployeesController : Controller
     {
-        //private AttendanceOracleDbContext db = new AttendanceOracleDbContext();
         private EmployeeService _employeeService;
         private LocationService _locationService;
 
@@ -101,9 +100,6 @@ namespace Attendance.Controllers
                 Text = rm.FirstName + " " + rm.LastName,
                 Value = rm.Id.ToString()
             });
-            //ViewBag.ResourceManagerId = new SelectList(db.Employees, "Id", "FirstName");
-            //ViewBag.Id = new SelectList(db.Students, "EmployeeId", "UserCreated");
-            //ViewBag.Id = new SelectList(db.Teachers, "EmployeeId", "UserCreated");
 
             return View(model);
         }
@@ -143,12 +139,7 @@ namespace Attendance.Controllers
 
                 return RedirectToAction("Index");
             }
-
-           /* ViewBag.LocationId = new SelectList(db.Locations, "Id", "Name", employee.LocationId);
-            ViewBag.ResourceManagerId = new SelectList(db.Employees, "Id", "FirstName", employee.ResourceManagerId);
-            ViewBag.Id = new SelectList(db.Students, "EmployeeId", "UserCreated", employee.Id);
-            ViewBag.Id = new SelectList(db.Teachers, "EmployeeId", "UserCreated", employee.Id);*/
-            return View(model);
+          return View(model);
         }
 
         // GET: Employees/Edit/5
@@ -190,11 +181,6 @@ namespace Attendance.Controllers
             });
             model.ResourceManagerId = employee.ResourceManagerId;
             return View(model);
-
-            //ViewBag.LocationId = new SelectList(db.Locations, "Id", "Name", employee.LocationId);
-            //ViewBag.ResourceManagerId = new SelectList(db.Employees, "Id", "FirstName", employee.ResourceManagerId);
-            //ViewBag.Id = new SelectList(db.Students, "EmployeeId", "UserCreated", employee.Id);
-            //ViewBag.Id = new SelectList(db.Teachers, "EmployeeId", "UserCreated", employee.Id);
 
         }
 
