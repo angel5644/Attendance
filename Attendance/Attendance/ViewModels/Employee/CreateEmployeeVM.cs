@@ -23,9 +23,11 @@ namespace Attendance.ViewModels
 
         [Display(Name = "Last Name")]
         [Required]
+        [StringLength(500)]
         public string LastName { get; set; }
 
         [Display(Name = "E-mail")]
+        [StringLength(500)]
         public string Email { get; set; }
 
         [Display(Name = "Company Role")]
@@ -35,9 +37,11 @@ namespace Attendance.ViewModels
         public bool IsEnabled { get; set; }
 
         [Display(Name = "Hire Date")]
+        [Required]
         public DateTimeOffset HireDate { get; set; }
 
         [Display(Name = "Location")]
+        [Required]
         public int LocationId { get; set; }
         public IEnumerable<SelectListItem> Locations { get; set; }
 

@@ -24,6 +24,7 @@ namespace Attendance.ViewModels
 
         [Display(Name = "Last Name")]
         [Required]
+        [StringLength(500)]
         public string LastName { get; set; }
 
         [Display(Name = "E-mail")]
