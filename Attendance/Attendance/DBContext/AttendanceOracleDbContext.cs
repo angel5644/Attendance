@@ -48,10 +48,10 @@ namespace Attendance.DBContext
                 .HasForeignKey(e => e.ResourceManagerId);
 
             //// Teacher 0..1:1 Employee
-            //modelBuilder.Entity<Employee>()
-            //    .HasOptional(e => e.Teacher)
-            //    .WithRequired(t => t.Employee)
-            //    .WillCascadeOnDelete();
+            modelBuilder.Entity<Employee>()
+                .HasOptional(e => e.Teacher)
+                .WithRequired(t => t.Employee)
+                .WillCascadeOnDelete();
 
             // Student 1:0..N Attendance
             modelBuilder.Entity<Student>()
@@ -109,7 +109,7 @@ namespace Attendance.DBContext
 
         public System.Data.Entity.DbSet<Attendance.Models.Student> Students { get; set; }
 
-        //public System.Data.Entity.DbSet<Attendance.Models.Teacher> Teachers { get; set; }
+        public System.Data.Entity.DbSet<Attendance.Models.Teacher> Teachers { get; set; }
 
         public System.Data.Entity.DbSet<Attendance.Models.Attendance> Attendances { get; set; }
 
