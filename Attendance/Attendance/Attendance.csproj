@@ -350,7 +350,9 @@
     <Content Include="Views\EnglishClasses\Edit.cshtml" />
     <Content Include="Views\EnglishClasses\Index.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="ViewModels\EnglisClass\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
