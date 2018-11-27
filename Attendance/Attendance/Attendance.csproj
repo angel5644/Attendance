@@ -251,12 +251,14 @@
     <Compile Include="Models\Student.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\EmployeeService.cs" />
+    <Compile Include="Services\EnglisClassService.cs" />
     <Compile Include="Services\LocationService.cs" />
     <Compile Include="Services\GroupService.cs" />
     <Compile Include="Services\IServiceBase.cs" />
     <Compile Include="Services\ServiceBase.cs" />
     <Compile Include="Services\StudentService.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\EnglisClass\DeleteEnglishVM.cs" />
     <Compile Include="ViewModels\Students\CreateStudentVM.cs" />
     <Compile Include="ViewModels\Employee\DeleteEmployeeVM.cs" />
     <Compile Include="ViewModels\Groups\DeleteGroupVM.cs" />
@@ -350,9 +352,7 @@
     <Content Include="Views\EnglishClasses\Edit.cshtml" />
     <Content Include="Views\EnglishClasses\Index.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ViewModels\EnglisClass\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
