@@ -33,7 +33,7 @@ namespace Attendance.Models
 
         public virtual Student Student { get; set; }
 
-        //public virtual Teacher Teacher { get; set; }
+        public virtual Teacher Teacher { get; set; }
 
         public int? ResourceManagerId { get; set; }
 
