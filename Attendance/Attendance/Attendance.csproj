@@ -236,6 +236,18 @@
     <Compile Include="Migrations\201811151937120_updateemployee.Designer.cs">
       <DependentUpon>201811151937120_updateemployee.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201811291602149_RemoveTeacherRelationships.cs" />
+    <Compile Include="Migrations\201811291602149_RemoveTeacherRelationships.Designer.cs">
+      <DependentUpon>201811291602149_RemoveTeacherRelationships.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811291606190_RemoveTeacherTable.cs" />
+    <Compile Include="Migrations\201811291606190_RemoveTeacherTable.Designer.cs">
+      <DependentUpon>201811291606190_RemoveTeacherTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811291611444_AddNewEnglishClassRelationship.cs" />
+    <Compile Include="Migrations\201811291611444_AddNewEnglishClassRelationship.Designer.cs">
+      <DependentUpon>201811291611444_AddNewEnglishClassRelationship.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BaseEntity.cs" />
     <Compile Include="Models\Location.cs" />
@@ -374,6 +386,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201811151937120_updateemployee.resx">
       <DependentUpon>201811151937120_updateemployee.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811291602149_RemoveTeacherRelationships.resx">
+      <DependentUpon>201811291602149_RemoveTeacherRelationships.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811291606190_RemoveTeacherTable.resx">
+      <DependentUpon>201811291606190_RemoveTeacherTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811291611444_AddNewEnglishClassRelationship.resx">
+      <DependentUpon>201811291611444_AddNewEnglishClassRelationship.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

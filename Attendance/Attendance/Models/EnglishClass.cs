@@ -17,10 +17,14 @@ namespace Attendance.Models
         [StringLength(500)]
         public string Name { get; set; }
 
-        public int TeacherId { get; set; }
+        //public int TeacherId { get; set; }
 
+        //[ForeignKey("TeacherId")]
+        //public Teacher Teacher { get; set; }
+
+        public int TeacherId { get; set; }
         [ForeignKey("TeacherId")]
-        public Teacher Teacher { get; set; }
+        public Employee Teacher { get; set; }
 
         public int LocationId { get; set; }
 
