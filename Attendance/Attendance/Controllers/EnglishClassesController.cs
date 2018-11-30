@@ -9,13 +9,22 @@ using System.Web;
 using System.Web.Mvc;
 using Attendance.DBContext;
 using Attendance.Models;
+using Attendance.Services;
+using Attendance.ViewModels;
+using System.Collections;
+using Attendance.ViewModels.EnglisClass;
 
 namespace Attendance.Controllers
 {
     public class EnglishClassesController : Controller
     {
         private AttendanceOracleDbContext db = new AttendanceOracleDbContext();
+        private EnglisClassService _englishclassService;
 
+        public EnglishClassesController()
+        {
+            this._englishclassService = new EnglisClassService();
+        }
         // GET: EnglishClasses
         public async Task<ActionResult> Index()
         {
@@ -39,11 +48,12 @@ namespace Attendance.Controllers
         }
 
         // GET: EnglishClasses/Create
+        [HttpGet]
         public ActionResult Create()
         {
-            ViewBag.GroupId = new SelectList(db.Groups, "Id", "Name");
-            ViewBag.LocationId = new SelectList(db.Locations, "Id", "Name");
-            return View();
+            CreateEnglishVM model = new CreateEnglishVM();
+                 return View(model);
+
         }
 
         // POST: EnglishClasses/Create
@@ -51,19 +61,34 @@ namespace Attendance.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Name,LocationId,GroupId,IsMonday,IsTuesday,IsWednesday,IsThursday,IsFriday,HourStart,HourEnd,DateCreated,UserCreated,DateUpdated,UserUpdated")] EnglishClass englishClass)
+        public async Task<ActionResult> Create(CreateEnglishVM model)
         {
             if (ModelState.IsValid)
             {
-                db.EnglishClasses.Add(englishClass);
-                await db.SaveChangesAsync();
+                EnglishClass newEnglishClass = new EnglishClass()
+                {
+
+                    Name = model.Name,
+                    Id = model.Id,
+                    LocationId = model.LocationId,
+                    GroupId = model.GroupId,
+                    IsMonday = model.IsMonday,
+                    IsTuesday = model.IsTuesday,
+                    IsWednesday = model.IsWednesday,
+                    IsThursday = model.IsThursday,
+                    IsFriday = model.IsFriday,
+                    HourStart = model.HourStart,
+                    HourEnd = model.HourEnd,
+    
+                };
+                await _englishclassService.Create(newEnglishClass);
                 return RedirectToAction("Index");
             }
 
-            ViewBag.GroupId = new SelectList(db.Groups, "Id", "Name", englishClass.GroupId);
-            ViewBag.LocationId = new SelectList(db.Locations, "Id", "Name", englishClass.LocationId);
-            return View(englishClass);
+            return View(model);
         }
+
+
 
         // GET: EnglishClasses/Edit/5
         public async Task<ActionResult> Edit(int? id)
