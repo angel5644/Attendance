@@ -9,6 +9,10 @@ using System.Web;
 using System.Web.Mvc;
 using Attendance.DBContext;
 using Attendance.Models;
+using Attendance.Services;
+using Attendance.ViewModels;
+using Attendance.ViewModels.EnglisClass;
+using System.Collections;
 
 namespace Attendance.Controllers
 {
@@ -16,11 +20,49 @@ namespace Attendance.Controllers
     {
         private AttendanceOracleDbContext db = new AttendanceOracleDbContext();
 
+        private EmployeeService _employeeService;
+        private EnglisClassService _englisClassService;
+
+        public EnglishClassesController()
+        {
+            this._employeeService = new EmployeeService();
+            this._englisClassService = new EnglisClassService();
+        }
+
         // GET: EnglishClasses
         public async Task<ActionResult> Index()
         {
-            var englishClasses = db.EnglishClasses.Include(e => e.Group).Include(e => e.Location);
-            return View(await englishClasses.ToListAsync());
+            //var englishClasses = db.EnglishClasses.Include(e => e.Group).Include(e => e.Location);
+            //return View(await englishClasses.ToListAsync());
+
+            IEnumerable<EnglishClass> english = await _englisClassService.GetAll();
+            List<EnglishListVM> EngVMList = new List<EnglishListVM>();
+
+            foreach (var eng in english)
+            {
+                EnglishListVM EngVM = new EnglishListVM()
+                {
+
+                    Id = eng.Id,
+                    GroupName = eng.GroupName,
+                    LocationName = eng.LocationName,
+                    TeacherName = eng.TeacherName,
+                    IsMonday = eng.IsMonday,
+                    IsTuesday = eng.IsTuesday,
+                    IsWednesday = eng.IsWednesday,
+                    IsThursday = eng.IsThursday,
+                    IsFriday = eng.IsFriday,
+                    HourStart = eng.HourStart,
+                    HourEnd = eng.HourEnd
+
+
+                };
+
+                EngVMList.Add(EngVM);
+            }
+
+            return View(EngVMList);
+
         }
 
         // GET: EnglishClasses/Details/5
