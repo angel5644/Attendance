@@ -19,7 +19,6 @@ namespace Attendance.ViewModels
 
         [Display(Name = "Score")]
         [Required]
-        [StringLength (100)]
         public int Score { get; set; }
 
         [Display(Name = "Enrollment Status")]
