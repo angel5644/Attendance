@@ -10,24 +10,64 @@ using System.Web.Mvc;
 using Attendance.DBContext;
 using Attendance.Models;
 using Attendance.Services;
+using Attendance.ViewModels;
 using Attendance.ViewModels.EnglisClass;
+using System.Collections;
+using Attendance.Enums;
 
 namespace Attendance.Controllers
 {
     public class EnglishClassesController : Controller
     {
         private AttendanceOracleDbContext db = new AttendanceOracleDbContext();
-        private EnglisClassService _englishClassService;
+        private EnglisClassService _englisClassService;
+
+        private EmployeeService _employeeService;
+        private LocationService _locationService;
+        private GroupService _groupService;
 
         public EnglishClassesController()
         {
-            this._englishClassService = new EnglisClassService();
+            this._employeeService = new EmployeeService();
+            this._englisClassService = new EnglisClassService();
+            this._locationService = new LocationService();
+            this._groupService = new GroupService();
         }
+
         // GET: EnglishClasses
         public async Task<ActionResult> Index()
         {
-            var englishClasses = db.EnglishClasses.Include(e => e.Group).Include(e => e.Location);
-            return View(await englishClasses.ToListAsync());
+            //var englishClasses = db.EnglishClasses.Include(e => e.Group).Include(e => e.Location);
+            //return View(await englishClasses.ToListAsync());
+
+            IEnumerable<EnglishClass> english = await _englisClassService.GetAll();
+            List<EnglishListVM> EngVMList = new List<EnglishListVM>();
+
+            foreach (var eng in english)
+            {
+                EnglishListVM EngVM = new EnglishListVM()
+                {
+
+                    Id = eng.Id,
+                    GroupName = eng.GroupName,
+                    LocationName = eng.LocationName,
+                    TeacherName = eng.TeacherName,
+                    IsMonday = eng.IsMonday,
+                    IsTuesday = eng.IsTuesday,
+                    IsWednesday = eng.IsWednesday,
+                    IsThursday = eng.IsThursday,
+                    IsFriday = eng.IsFriday,
+                    HourStart = eng.HourStart,
+                    HourEnd = eng.HourEnd
+
+
+                };
+
+                EngVMList.Add(EngVM);
+            }
+
+            return View(EngVMList);
+
         }
 
         // GET: EnglishClasses/Details/5
@@ -46,11 +86,40 @@ namespace Attendance.Controllers
         }
 
         // GET: EnglishClasses/Create
-        public ActionResult Create()
+        [HttpGet]
+        public async Task<ActionResult> Create()
         {
-            ViewBag.GroupId = new SelectList(db.Groups, "Id", "Name");
-            ViewBag.LocationId = new SelectList(db.Locations, "Id", "Name");
-            return View();
+            CreateEnglishVM model = new CreateEnglishVM();
+
+            EmployeeService employee = new EmployeeService();
+            
+            var location = await _locationService.GetAll();
+            var groups = await _groupService.GetAll();
+
+            var teacherList = (await _employeeService.GetAll()).Where(t => t.CompanyRole == CompanyRole.Teacher);
+            model.TName = teacherList.Select(rm => new SelectListItem()
+
+            {
+                Text = rm.FirstName + " " + rm.LastName,
+                Value = rm.Id.ToString()
+            });
+            model.LName = location.Select(l => new SelectListItem()
+            {
+                Text = l.Name,
+                Value = l.Id.ToString()
+
+            });
+
+            model.GName = groups.Select(l => new SelectListItem()
+            {
+                Text = l.Name,
+                Value = l.Id.ToString()
+
+            });
+
+
+            return View(model);
+
         }
 
         // POST: EnglishClasses/Create
@@ -58,19 +127,47 @@ namespace Attendance.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Name,LocationId,GroupId,IsMonday,IsTuesday,IsWednesday,IsThursday,IsFriday,HourStart,HourEnd,DateCreated,UserCreated,DateUpdated,UserUpdated")] EnglishClass englishClass)
+        public async Task<ActionResult> Create(CreateEnglishVM model)
         {
             if (ModelState.IsValid)
             {
-                db.EnglishClasses.Add(englishClass);
-                await db.SaveChangesAsync();
+                EnglishClass newEnglishClass = new EnglishClass()
+                {
+
+                    Name = model.Name,
+                    Id = model.Id,
+                    TeacherId = model.EmployeeId,
+                    LocationId = model.LocationId,
+                    GroupId = model.GroupId,
+                    IsMonday = model.IsMonday,
+                    IsTuesday = model.IsTuesday,
+                    IsWednesday = model.IsWednesday,
+                    IsThursday = model.IsThursday,
+                    IsFriday = model.IsFriday,
+                    HourStart = model.HourStart,
+                    HourEnd = model.HourEnd,
+    
+                };
+               
+                try
+                {
+                    await _englisClassService.Create(newEnglishClass);
+                }
+                catch (Exception ex)
+                {
+                    // Add message to the user
+                    Console.WriteLine("An error has occurred. Message: " + ex.ToString());
+                    throw;
+                }
+
+
                 return RedirectToAction("Index");
             }
 
-            ViewBag.GroupId = new SelectList(db.Groups, "Id", "Name", englishClass.GroupId);
-            ViewBag.LocationId = new SelectList(db.Locations, "Id", "Name", englishClass.LocationId);
-            return View(englishClass);
+            return View(model);
         }
+
+
 
         // GET: EnglishClasses/Edit/5
         public async Task<ActionResult> Edit(int? id)

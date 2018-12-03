@@ -6,7 +6,6 @@ using System.ComponentModel.DataAnnotations;
 using Attendance.Enums;
 using Attendance.Models;
 using System.Web.Mvc;
-
 namespace Attendance.ViewModels.EnglisClass
 {
     public class CreateEnglishVM
@@ -21,7 +20,6 @@ namespace Attendance.ViewModels.EnglisClass
         [Display(Name = "Teacher's Name")]
         [Required]
         public int EmployeeId { get; set; }
-        [StringLength (500)]
         public IEnumerable<SelectListItem> TName { get; set; }
 
         [Display(Name = "Location's Name")]
@@ -58,5 +56,22 @@ namespace Attendance.ViewModels.EnglisClass
         [Required]
         [Range(0, 23)]
         public int HourEnd { get; set; }
+
+        //[Display(Name = "Date Created")]
+
+        public DateTimeOffset? DateCreated { get; set; }
+
+        //[Display(Name = "User Created")]
+        ////[Required]
+        public string UserCreated { get; set; }
+
+        //[Display(Name = "Date Updated")]
+        //[Required]
+        public DateTimeOffset? DateUpdated { get; set; }
+
+        //[Display(Name = "User Upddated")]
+        //
+
+        public string UserUpdated { get; set; }
     }
 }

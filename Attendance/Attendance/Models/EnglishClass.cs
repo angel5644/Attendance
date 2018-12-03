@@ -24,17 +24,17 @@ namespace Attendance.Models
 
         public int TeacherId { get; set; }
         [ForeignKey("TeacherId")]
-        public Employee Teacher { get; set; }
+        public virtual Employee Teacher { get; set; }
 
         public int LocationId { get; set; }
 
         [ForeignKey("LocationId")]
-        public Location Location { get; set; }
+        public virtual Location Location { get; set; }
 
         public int GroupId { get; set; }
 
         [ForeignKey("GroupId")]
-        public Group Group { get; set; }
+        public virtual Group Group { get; set; }
 
         //public DateTimeOffset Date { get; set; }
 
@@ -58,28 +58,26 @@ namespace Attendance.Models
         public virtual ICollection<Attendance> Attendances { get; set; }
 
         [NotMapped]
-        public string GroupName
-        {
-            get
-            {
-                return Group != null ? Group.Name  : string.Empty;
-            }
-        }
-
-        [NotMapped]
-        public string LocationName
-        {
-            get
-            {
-                return Location != null ? Location.Name : string.Empty;
-            }
-        }
-
         public string TeacherName
         {
             get
             {
                 return Teacher != null ? Teacher.FirstName + " " + Teacher.LastName : string.Empty;
+            }
+        }
+        public string GroupName
+        {
+            get
+            {
+                return Group != null ? Group.Name : string.Empty;
+            }
+        }
+        public string LocationName
+        {
+            get
+            {
+                //return Location.Name;
+                return Location != null ? Location.Name : string.Empty;
             }
         }
     }
