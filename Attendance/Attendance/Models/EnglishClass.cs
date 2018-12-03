@@ -56,5 +56,31 @@ namespace Attendance.Models
         public virtual ICollection<Enrollment> Enrollments { get; set; }
 
         public virtual ICollection<Attendance> Attendances { get; set; }
+
+        [NotMapped]
+        public string GroupName
+        {
+            get
+            {
+                return Group != null ? Group.Name  : string.Empty;
+            }
+        }
+
+        [NotMapped]
+        public string LocationName
+        {
+            get
+            {
+                return Location != null ? Location.Name : string.Empty;
+            }
+        }
+
+        public string TeacherName
+        {
+            get
+            {
+                return Teacher != null ? Teacher.FirstName + " " + Teacher.LastName : string.Empty;
+            }
+        }
     }
 }

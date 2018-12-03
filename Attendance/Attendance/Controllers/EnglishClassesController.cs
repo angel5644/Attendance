@@ -9,13 +9,20 @@ using System.Web;
 using System.Web.Mvc;
 using Attendance.DBContext;
 using Attendance.Models;
+using Attendance.Services;
+using Attendance.ViewModels.EnglisClass;
 
 namespace Attendance.Controllers
 {
     public class EnglishClassesController : Controller
     {
         private AttendanceOracleDbContext db = new AttendanceOracleDbContext();
+        private EnglisClassService _englishClassService;
 
+        public EnglishClassesController()
+        {
+            this._englishClassService = new EnglisClassService();
+        }
         // GET: EnglishClasses
         public async Task<ActionResult> Index()
         {
@@ -103,16 +110,33 @@ namespace Attendance.Controllers
         // GET: EnglishClasses/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
+            DeleteEnglishVM deleteVM = new DeleteEnglishVM();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            EnglishClass englishClass = await db.EnglishClasses.FindAsync(id);
+            EnglishClass englishClass = await _englishClassService.Get(id.Value);
             if (englishClass == null)
             {
                 return HttpNotFound();
             }
-            return View(englishClass);
+            deleteVM.Id = englishClass.Id;
+            deleteVM.Group = englishClass.GroupName;
+            deleteVM.Location = englishClass.LocationName;
+            deleteVM.Teacher = englishClass.TeacherName;
+            deleteVM.IsMonday = englishClass.IsMonday;
+            deleteVM.IsTuesday = englishClass.IsTuesday;
+            deleteVM.IsWednesday = englishClass.IsWednesday;
+            deleteVM.IsThursday = englishClass.IsThursday;
+            deleteVM.IsFriday = englishClass.IsFriday;
+            deleteVM.HourStart = englishClass.HourStart;
+            deleteVM.HourEnd = englishClass.HourEnd;
+            deleteVM.DateCreated = englishClass.DateCreated;
+            deleteVM.DateUpdated = englishClass.DateUpdated;
+            deleteVM.UserCreated = englishClass.UserCreated;
+            deleteVM.UserUpdated = englishClass.UserUpdated;
+
+            return View(deleteVM);
         }
 
         // POST: EnglishClasses/Delete/5
@@ -120,9 +144,7 @@ namespace Attendance.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            EnglishClass englishClass = await db.EnglishClasses.FindAsync(id);
-            db.EnglishClasses.Remove(englishClass);
-            await db.SaveChangesAsync();
+            await _englishClassService.Delete(id);
             return RedirectToAction("Index");
         }
 
@@ -130,7 +152,7 @@ namespace Attendance.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _englishClassService.Dispose();
             }
             base.Dispose(disposing);
         }
