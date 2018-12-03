@@ -20,7 +20,6 @@ namespace Attendance.ViewModels.EnglisClass
         [Display(Name = "Teacher's Name")]
         [Required]
         public int EmployeeId { get; set; }
-        [StringLength (500)]
         public IEnumerable<SelectListItem> TName { get; set; }
 
         [Display(Name = "Location's Name")]
@@ -72,7 +71,7 @@ namespace Attendance.ViewModels.EnglisClass
 
         //[Display(Name = "User Upddated")]
         //
-[Required]
+
         public string UserUpdated { get; set; }
     }
 }

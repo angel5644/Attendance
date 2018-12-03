@@ -76,7 +76,8 @@ namespace Attendance.Models
         {
             get
             {
-                return Location.Name;
+                //return Location.Name;
+                return Location != null ? Location.Name : string.Empty;
             }
         }
     }

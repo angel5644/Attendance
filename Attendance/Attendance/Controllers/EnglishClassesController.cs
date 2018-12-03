@@ -13,21 +13,25 @@ using Attendance.Services;
 using Attendance.ViewModels;
 using Attendance.ViewModels.EnglisClass;
 using System.Collections;
+using Attendance.Enums;
 
 namespace Attendance.Controllers
 {
     public class EnglishClassesController : Controller
     {
         private AttendanceOracleDbContext db = new AttendanceOracleDbContext();
-        private EnglisClassService _englishclassService;
+        private EnglisClassService _englisClassService;
 
         private EmployeeService _employeeService;
-        private EnglisClassService _englisClassService;
+        private LocationService _locationService;
+        private GroupService _groupService;
 
         public EnglishClassesController()
         {
             this._employeeService = new EmployeeService();
             this._englisClassService = new EnglisClassService();
+            this._locationService = new LocationService();
+            this._groupService = new GroupService();
         }
 
         // GET: EnglishClasses
@@ -83,10 +87,38 @@ namespace Attendance.Controllers
 
         // GET: EnglishClasses/Create
         [HttpGet]
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
             CreateEnglishVM model = new CreateEnglishVM();
-                 return View(model);
+
+            EmployeeService employee = new EmployeeService();
+            
+            var location = await _locationService.GetAll();
+            var groups = await _groupService.GetAll();
+
+            var teacherList = (await _employeeService.GetAll()).Where(t => t.CompanyRole == CompanyRole.Teacher);
+            model.TName = teacherList.Select(rm => new SelectListItem()
+
+            {
+                Text = rm.FirstName + " " + rm.LastName,
+                Value = rm.Id.ToString()
+            });
+            model.LName = location.Select(l => new SelectListItem()
+            {
+                Text = l.Name,
+                Value = l.Id.ToString()
+
+            });
+
+            model.GName = groups.Select(l => new SelectListItem()
+            {
+                Text = l.Name,
+                Value = l.Id.ToString()
+
+            });
+
+
+            return View(model);
 
         }
 
@@ -104,6 +136,7 @@ namespace Attendance.Controllers
 
                     Name = model.Name,
                     Id = model.Id,
+                    TeacherId = model.EmployeeId,
                     LocationId = model.LocationId,
                     GroupId = model.GroupId,
                     IsMonday = model.IsMonday,
@@ -115,7 +148,19 @@ namespace Attendance.Controllers
                     HourEnd = model.HourEnd,
     
                 };
-                await _englishclassService.Create(newEnglishClass);
+               
+                try
+                {
+                    await _englisClassService.Create(newEnglishClass);
+                }
+                catch (Exception ex)
+                {
+                    // Add message to the user
+                    Console.WriteLine("An error has occurred. Message: " + ex.ToString());
+                    throw;
+                }
+
+
                 return RedirectToAction("Index");
             }
 
