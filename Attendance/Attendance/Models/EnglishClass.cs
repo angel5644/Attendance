@@ -24,17 +24,17 @@ namespace Attendance.Models
 
         public int TeacherId { get; set; }
         [ForeignKey("TeacherId")]
-        public Employee Teacher { get; set; }
+        public virtual Employee Teacher { get; set; }
 
         public int LocationId { get; set; }
 
         [ForeignKey("LocationId")]
-        public Location Location { get; set; }
+        public virtual Location Location { get; set; }
 
         public int GroupId { get; set; }
 
         [ForeignKey("GroupId")]
-        public Group Group { get; set; }
+        public virtual Group Group { get; set; }
 
         //public DateTimeOffset Date { get; set; }
 
