@@ -173,18 +173,47 @@ namespace Attendance.Controllers
         // GET: EnglishClasses/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
+            EditEnglishVM model = new EditEnglishVM();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            EnglishClass englishClass = await db.EnglishClasses.FindAsync(id);
+            EnglishClass englishClass = await _englisClassService.Get(id.Value);
             if (englishClass == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.GroupId = new SelectList(db.Groups, "Id", "Name", englishClass.GroupId);
-            ViewBag.LocationId = new SelectList(db.Locations, "Id", "Name", englishClass.LocationId);
-            return View(englishClass);
+            var location = await _locationService.GetAll();
+            var groups = await _groupService.GetAll();
+            var teacherList = (await _employeeService.GetAll()).Where(t => t.CompanyRole == CompanyRole.Teacher);
+            model.TName = teacherList.Select(rm => new SelectListItem()
+            {
+                Text = rm.FirstName + " " + rm.LastName,
+                Value = rm.Id.ToString()
+            });
+            model.EmployeeId = englishClass.TeacherId;
+            model.LName = location.Select(l => new SelectListItem()
+            {
+                Text = l.Name,
+                Value = l.Id.ToString()
+            });
+            model.LocationId = englishClass.LocationId;
+            model.GName = groups.Select(l => new SelectListItem()
+            {
+                Text = l.Name,
+                Value = l.Id.ToString()
+            });
+            model.GroupId = englishClass.GroupId;
+            model.IsMonday = englishClass.IsMonday;
+            model.IsTuesday = englishClass.IsTuesday;
+            model.IsWednesday = englishClass.IsWednesday;
+            model.IsThursday = englishClass.IsThursday;
+            model.IsFriday = englishClass.IsFriday;
+            model.HourStart = englishClass.HourStart;
+            model.HourEnd = englishClass.HourEnd;
+            model.Id = englishClass.Id;
+            model.Name = englishClass.Name;
+            return View(model);
         }
 
         // POST: EnglishClasses/Edit/5
@@ -192,32 +221,67 @@ namespace Attendance.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Name,LocationId,GroupId,IsMonday,IsTuesday,IsWednesday,IsThursday,IsFriday,HourStart,HourEnd,DateCreated,UserCreated,DateUpdated,UserUpdated")] EnglishClass englishClass)
+        public async Task<ActionResult> Edit(EditEnglishVM model, int? Id)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(englishClass).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                EnglishClass existingEClass = await _englisClassService.Get(Id.Value);
+                if(existingEClass != null)
+                {
+                    existingEClass.Name = model.Name;
+                    existingEClass.TeacherId = model.EmployeeId;
+                    existingEClass.LocationId = model.LocationId;
+                    existingEClass.IsMonday = model.IsMonday;
+                    existingEClass.IsTuesday = model.IsTuesday;
+                    existingEClass.IsWednesday = model.IsWednesday;
+                    existingEClass.IsThursday = model.IsThursday;
+                    existingEClass.IsFriday = model.IsFriday;
+                    existingEClass.HourStart = model.HourStart;
+                    existingEClass.HourEnd = model.HourEnd;
+                    existingEClass.DateUpdated = DateTimeOffset.Now;
+                    existingEClass.UserUpdated = " ";
+                }
+                else
+                {
+                    return HttpNotFound();
+                }
+                await _englisClassService.Update(existingEClass);
                 return RedirectToAction("Index");
             }
-            ViewBag.GroupId = new SelectList(db.Groups, "Id", "Name", englishClass.GroupId);
-            ViewBag.LocationId = new SelectList(db.Locations, "Id", "Name", englishClass.LocationId);
-            return View(englishClass);
+           
+            return View(model);
         }
 
         // GET: EnglishClasses/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
+            DeleteEnglishVM deleteVM = new DeleteEnglishVM();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            EnglishClass englishClass = await db.EnglishClasses.FindAsync(id);
+            EnglishClass englishClass = await _englisClassService.Get(id.Value);
             if (englishClass == null)
             {
                 return HttpNotFound();
             }
-            return View(englishClass);
+            deleteVM.Id = englishClass.Id;
+            deleteVM.Group = englishClass.GroupName;
+            deleteVM.Location = englishClass.LocationName;
+            deleteVM.Teacher = englishClass.TeacherName;
+            deleteVM.IsMonday = englishClass.IsMonday;
+            deleteVM.IsTuesday = englishClass.IsTuesday;
+            deleteVM.IsWednesday = englishClass.IsWednesday;
+            deleteVM.IsThursday = englishClass.IsThursday;
+            deleteVM.IsFriday = englishClass.IsFriday;
+            deleteVM.HourStart = englishClass.HourStart;
+            deleteVM.HourEnd = englishClass.HourEnd;
+            deleteVM.DateCreated = englishClass.DateCreated;
+            deleteVM.DateUpdated = englishClass.DateUpdated;
+            deleteVM.UserCreated = englishClass.UserCreated;
+            deleteVM.UserUpdated = englishClass.UserUpdated;
+
+            return View(deleteVM);
         }
 
         // POST: EnglishClasses/Delete/5
@@ -225,9 +289,7 @@ namespace Attendance.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            EnglishClass englishClass = await db.EnglishClasses.FindAsync(id);
-            db.EnglishClasses.Remove(englishClass);
-            await db.SaveChangesAsync();
+            await _englisClassService.Delete(id);
             return RedirectToAction("Index");
         }
 
@@ -235,7 +297,7 @@ namespace Attendance.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _englisClassService.Dispose();
             }
             base.Dispose(disposing);
         }
