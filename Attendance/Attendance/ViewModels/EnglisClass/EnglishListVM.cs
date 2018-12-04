@@ -10,6 +10,9 @@ namespace Attendance.ViewModels.EnglisClass
     {
         public int Id { get; set; }
 
+        [Display(Name = "Class Name")]
+        public string Name { get; set; }
+
         [Display(Name = "Group Name")]
         public string GroupName { get; set; }
 
