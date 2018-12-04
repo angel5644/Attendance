@@ -49,6 +49,7 @@ namespace Attendance.Controllers
                 {
 
                     Id = eng.Id,
+                    Name = eng.Name,
                     GroupName = eng.GroupName,
                     LocationName = eng.LocationName,
                     TeacherName = eng.TeacherName,
