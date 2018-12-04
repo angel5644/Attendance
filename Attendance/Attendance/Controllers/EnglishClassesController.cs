@@ -60,7 +60,7 @@ namespace Attendance.Controllers
                     IsFriday = eng.IsFriday,
                     HourStart = eng.HourStart,
                     HourEnd = eng.HourEnd,
-                
+
 
                 };
 
@@ -74,16 +74,37 @@ namespace Attendance.Controllers
         // GET: EnglishClasses/Details/5
         public async Task<ActionResult> Details(int? id)
         {
+            DetailsEnglishVM details = new DetailsEnglishVM();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            EnglishClass englishClass = await db.EnglishClasses.FindAsync(id);
+
+            EnglishClass englishClass = await _englisClassService.Get(id.Value);
+
             if (englishClass == null)
             {
                 return HttpNotFound();
             }
-            return View(englishClass);
+
+            details.Name = englishClass.Name;
+            details.GroupName = englishClass.GroupName;
+            details.LocationName = englishClass.LocationName;
+            details.TeacherName = englishClass.TeacherName;
+            details.IsMonday = englishClass.IsMonday;
+            details.IsTuesday = englishClass.IsTuesday;
+            details.IsWednesday = englishClass.IsWednesday;
+            details.IsThursday = englishClass.IsThursday;
+            details.IsFriday = englishClass.IsFriday;
+            details.HourStart = englishClass.HourStart;
+            details.HourEnd = englishClass.HourEnd;
+            details.UserCreated = englishClass.UserCreated;
+            details.DateUpdated = englishClass.DateCreated;
+            details.UserCreated = englishClass.UserCreated;
+            details.DateUpdated = englishClass.DateUpdated;
+            details.UserCreated = englishClass.UserCreated;
+  
+            return View(details);
         }
 
         // GET: EnglishClasses/Create

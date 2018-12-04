@@ -1,4 +1,4 @@
-﻿@model Attendance.Models.EnglishClass
+﻿@model Attendance.ViewModels.EnglisClass.DetailsEnglishVM
 
 @{
     ViewBag.Title = "Details";
@@ -11,22 +11,6 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Group.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Group.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Location.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Location.Name)
-        </dd>
-
-        <dt>
             @Html.DisplayNameFor(model => model.Name)
         </dt>
 
@@ -34,6 +18,29 @@
             @Html.DisplayFor(model => model.Name)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.LocationName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LocationName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GroupName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GroupName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TeacherName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TeacherName)
+        </dd>
         <dt>
             @Html.DisplayNameFor(model => model.IsMonday)
         </dt>
