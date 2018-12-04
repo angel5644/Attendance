@@ -58,8 +58,8 @@ namespace Attendance.Controllers
                     IsThursday = eng.IsThursday,
                     IsFriday = eng.IsFriday,
                     HourStart = eng.HourStart,
-                    HourEnd = eng.HourEnd
-
+                    HourEnd = eng.HourEnd,
+                
 
                 };
 
@@ -146,6 +146,7 @@ namespace Attendance.Controllers
                     IsFriday = model.IsFriday,
                     HourStart = model.HourStart,
                     HourEnd = model.HourEnd,
+                    DateCreated = DateTimeOffset.Now,
     
                 };
                

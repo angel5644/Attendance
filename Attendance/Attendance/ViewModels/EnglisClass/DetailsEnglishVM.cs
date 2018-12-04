@@ -6,9 +6,10 @@ using System.ComponentModel.DataAnnotations;
 using Attendance.Enums;
 using Attendance.Models;
 using System.Web.Mvc;
+
 namespace Attendance.ViewModels.EnglisClass
 {
-    public class CreateEnglishVM
+    public class DetailsEnglishVM
     {
         public int Id { get; set; }
 
@@ -16,21 +17,6 @@ namespace Attendance.ViewModels.EnglisClass
         [Required]
         [StringLength(500)]
         public string Name { get; set; }
-
-        [Display(Name = "Teacher's Name")]
-        [Required]
-        public int EmployeeId { get; set; }
-        public IEnumerable<SelectListItem> TName { get; set; }
-
-        [Display(Name = "Location's Name")]
-        [Required]
-        public int LocationId { get; set; }
-        public IEnumerable<SelectListItem> LName { get; set; }
-
-        [Display(Name = "Group's Name")]
-        [Required]
-        public int GroupId { get; set; }
-        public IEnumerable<SelectListItem> GName { get; set; }
 
         [Display(Name = "Monday")]
         public bool IsMonday { get; set; }
@@ -56,20 +42,19 @@ namespace Attendance.ViewModels.EnglisClass
         [Required]
         [Range(0, 23)]
         public int HourEnd { get; set; }
-        
-        public DateTimeOffset? DateCreated { get; set; }
 
-        //[Display(Name = "User Created")]
-        ////[Required]
+        [Display(Name = "User Created")]
         public string UserCreated { get; set; }
 
-        //[Display(Name = "Date Updated")]
-        //[Required]
+        [Display(Name = "Date Updated")]
         public DateTimeOffset? DateUpdated { get; set; }
 
-        //[Display(Name = "User Upddated")]
-        //
-
+        [Display(Name = "User Upddated")]
         public string UserUpdated { get; set; }
+
+
+
+
+
     }
 }
