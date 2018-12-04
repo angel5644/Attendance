@@ -19,7 +19,6 @@ namespace Attendance.Controllers
 {
     public class StudentsController : Controller
     {
-        //private AttendanceOracleDbContext db = new AttendanceOracleDbContext();
         private StudentService _studentService;
         private EmployeeService _employeeService;
 
@@ -52,8 +51,6 @@ namespace Attendance.Controllers
 
             return View(studentVMList);
         }
-        //var students = db.Students.Include(s => s.Employee);
-        //return View(await students.ToListAsync());
 
 
         // GET: Students/Details/5
@@ -85,8 +82,6 @@ namespace Attendance.Controllers
         // GET: Students/Create
         public async Task<ActionResult> Create()
         {
-            //ViewBag.EmployeeId = new SelectList(db.Employees, "Id", "FirstName");
-            //return View();
 
             CreateStudentVM model = new CreateStudentVM();
 

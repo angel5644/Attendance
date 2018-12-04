@@ -10,7 +10,7 @@ namespace Attendance.ViewModels.EnglisClass
 {
     public class DeleteEnglishVM
     {
-        public int id { get; set; }
+        public int Id { get; set; }
 
         [Display (Name = "Group")]
         public string Group { get; set; }
