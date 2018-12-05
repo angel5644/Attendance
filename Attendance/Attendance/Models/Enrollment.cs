@@ -26,5 +26,21 @@ namespace Attendance.Models
         public DateTimeOffset DateEnrollment { get; set; }
 
         public string Notes { get; set; }
+
+        public string StudentName
+        {
+            get
+            {
+                return Student != null ? Student.EmployeeName : string.Empty;
+            }
+        }
+
+        public string ClassName
+        {
+            get
+            {
+                return Class != null ? Class.Name : string.Empty;
+            }
+        }
     }
 }
