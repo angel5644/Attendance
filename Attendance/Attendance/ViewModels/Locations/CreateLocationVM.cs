@@ -11,6 +11,7 @@ namespace Attendance.ViewModels
         [Required]
         [StringLength(500)]
         public string Name { get; set; }
+        [DataType(DataType.MultilineText)]
         public string Description { get; set; }
     }
 }

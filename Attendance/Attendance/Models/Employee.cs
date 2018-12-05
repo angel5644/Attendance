@@ -60,7 +60,8 @@ namespace Attendance.Models
     public enum CompanyRole
     {
         Resource,
-        ResourceManager,
+        [Display (Name = "Resource Manager")]
+        Resource_Manager,
         Director,
         Teacher
     }
