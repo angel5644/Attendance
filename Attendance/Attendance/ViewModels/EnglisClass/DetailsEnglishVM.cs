@@ -13,12 +13,12 @@ namespace Attendance.ViewModels.EnglisClass
     public class DetailsEnglishVM
     {
         public int Id { get; set; }
-
-
+        
         [Display(Name = "Class Name")]
         public string Name { get; set; }
 
         [Display(Name = "Group Name")]
+
         public string GroupName { get; set; }
 
         [Display(Name = "Location ")]
@@ -65,9 +65,6 @@ namespace Attendance.ViewModels.EnglisClass
 
         [Display(Name = "User Upddated")]
         public string UserUpdated { get; set; }
-
-        
-
-
+   
     }
 }

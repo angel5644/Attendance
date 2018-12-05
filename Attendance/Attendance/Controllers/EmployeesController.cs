@@ -94,7 +94,7 @@ namespace Attendance.Controllers
             });
             model.LocationId = locations != null && locations.Any() ? locations.First().Id : 0;
 
-            var resourceManagers = (await _employeeService.GetAll()).Where(e => e.CompanyRole == CompanyRole.ResourceManager);
+            var resourceManagers = (await _employeeService.GetAll()).Where(e => e.CompanyRole == CompanyRole.Resource_Manager);
             model.ResourceManagers = resourceManagers.Select(rm => new SelectListItem()
             {
                 Text = rm.FirstName + " " + rm.LastName,
@@ -125,7 +125,6 @@ namespace Attendance.Controllers
                     DateCreated = DateTimeOffset.Now,
                     UserCreated = ""
                 };
-
                 try
                 {
                     await _employeeService.Create(newemployee);
@@ -173,7 +172,7 @@ namespace Attendance.Controllers
                 Value = l.Id.ToString()
             });
             model.LocationId = employee.LocationId;
-            var resourceManagers = (await _employeeService.GetAll()).Where(e => e.CompanyRole == CompanyRole.ResourceManager);
+            var resourceManagers = (await _employeeService.GetAll()).Where(e => e.CompanyRole == CompanyRole.Resource_Manager);
             model.ResourceManagers = resourceManagers.Select(rm => new SelectListItem()
             {
                 Text = rm.FirstName + " " + rm.LastName,

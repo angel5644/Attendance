@@ -20,18 +20,7 @@
         <th>
             @Html.DisplayNameFor(model => model.Level)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DateCreated)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.UserCreated)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DateUpdated)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.UserUpdated)
-        </th>
+       
         <th></th>
     </tr>
 
@@ -46,18 +35,7 @@
         <td>
             @Html.DisplayFor(modelItem => item.Level)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DateCreated)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UserCreated)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DateUpdated)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UserUpdated)
-        </td>
+       
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
             @Html.ActionLink("Details", "Details", new { id=item.Id }) |
