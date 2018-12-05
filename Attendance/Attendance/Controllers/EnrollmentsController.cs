@@ -7,16 +7,20 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using Attendance.Services;
 using Attendance.DBContext;
 using Attendance.Models;
+using Attendance.Services;
 using Attendance.ViewModels;
+using Attendance.ViewModels.Enrollment;
+using System.Collections;
+using Attendance.Enums;
 
 namespace Attendance.Controllers
 {
     public class EnrollmentsController : Controller
     {
         private AttendanceOracleDbContext db = new AttendanceOracleDbContext();
+       
 
         private StudentService _studentService;
         private EnglisClassService _englisClassService;
@@ -59,16 +63,30 @@ namespace Attendance.Controllers
         // GET: Enrollments/Details/5
         public async Task<ActionResult> Details(int? id)
         {
+            DetailsEnrollmentVM details = new DetailsEnrollmentVM();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Enrollment enrollment = await db.Enrollments.FindAsync(id);
+
+            Enrollment enrollment = await _enrollmentService.Get(id.Value);
+
             if (enrollment == null)
             {
                 return HttpNotFound();
             }
-            return View(enrollment);
+
+            details.StudentName = enrollment.StudentName;
+            details.ClassName = enrollment.ClassName;
+            details.DateEnrollment = enrollment.DateEnrollment;
+            details.Notes = enrollment.Notes;
+            details.DateCreated = enrollment.DateCreated;
+            details.UserCreated = enrollment.UserCreated;
+            details.DateUpdated = enrollment.DateUpdated;
+            details.UserUpdated = enrollment.UserUpdated;
+
+
+            return View(details);
         }
 
         // GET: Enrollments/Create
