@@ -17,9 +17,10 @@ namespace Attendance.ViewModels
         public string ClassName { get; set; }
 
         [Display(Name = "Enrollment Date")]
+        [DisplayFormat(DataFormatString = "{0:MMM dd, yyyy}")]
         public DateTimeOffset DateEnrollment { get; set; }
 
-        [Display(Name = "Note")]
+        [Display(Name = "Notes")]
         public string Notes { get; set; }
 
     }

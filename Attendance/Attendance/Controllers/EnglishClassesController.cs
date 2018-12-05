@@ -169,6 +169,7 @@ namespace Attendance.Controllers
                     HourStart = model.HourStart,
                     HourEnd = model.HourEnd,
                     DateCreated = DateTimeOffset.Now,
+                    UserCreated = ""
     
                 };
                
