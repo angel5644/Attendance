@@ -273,6 +273,7 @@
     <Compile Include="ViewModels\EnglisClass\EditEnglishVM.cs" />
     <Compile Include="ViewModels\EnglisClass\DetailsEnglishVM.cs" />
     <Compile Include="ViewModels\EnglisClass\EnglishListVM.cs" />
+    <Compile Include="ViewModels\Enrollment\EnrollmentListVM.cs" />
     <Compile Include="ViewModels\Students\CreateStudentVM.cs" />
     <Compile Include="ViewModels\Employee\DeleteEmployeeVM.cs" />
     <Compile Include="ViewModels\Groups\DeleteGroupVM.cs" />
@@ -371,9 +372,7 @@
     <Content Include="Views\Enrollments\Edit.cshtml" />
     <Content Include="Views\Enrollments\Index.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ViewModels\Enrollment\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />

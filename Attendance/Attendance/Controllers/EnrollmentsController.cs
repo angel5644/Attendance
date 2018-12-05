@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Attendance.Services;
 using Attendance.DBContext;
 using Attendance.Models;
+using Attendance.ViewModels;
 
 namespace Attendance.Controllers
 {
@@ -16,11 +18,42 @@ namespace Attendance.Controllers
     {
         private AttendanceOracleDbContext db = new AttendanceOracleDbContext();
 
+        private StudentService _studentService;
+        private EnglisClassService _englisClassService;
+        private EnrollmentService _enrollmentService;
+
+        public EnrollmentsController()
+        {
+            this._enrollmentService = new EnrollmentService();
+            this._englisClassService = new EnglisClassService();
+            this._studentService = new StudentService();
+        }
+
         // GET: Enrollments
         public async Task<ActionResult> Index()
         {
-            var enrollments = db.Enrollments.Include(e => e.Class).Include(e => e.Student);
-            return View(await enrollments.ToListAsync());
+            //var enrollments = db.Enrollments.Include(e => e.Class).Include(e => e.Student);
+
+            IEnumerable<Enrollment> enrollment = await _enrollmentService.GetAll();
+            List<EnrollmentListVM> EnrollVMList = new List<EnrollmentListVM>();
+
+            foreach (var enr in enrollment)
+            {
+                EnrollmentListVM EnVMList = new EnrollmentListVM()
+                {
+
+                    Id = enr.Id,
+                    StudentName = enr.StudentName,
+                    ClassName = enr.ClassName,
+                    DateEnrollment = enr.DateEnrollment,
+                    Notes = enr.Notes
+
+                };
+
+                EnrollVMList.Add(EnVMList);
+            }
+
+            return View(EnrollVMList);
         }
 
         // GET: Enrollments/Details/5
