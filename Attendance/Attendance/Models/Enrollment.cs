@@ -16,12 +16,12 @@ namespace Attendance.Models
         public int StudentId { get; set; }
 
         [ForeignKey("StudentId")]
-        public Student Student { get; set; }
+        public virtual Student Student { get; set; }
 
         public int ClassId { get; set; }
 
         [ForeignKey("ClassId")]
-        public EnglishClass Class { get; set; }
+        public virtual EnglishClass Class { get; set; }
 
         public DateTimeOffset DateEnrollment { get; set; }
 

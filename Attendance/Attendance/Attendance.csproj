@@ -273,6 +273,8 @@
     <Compile Include="ViewModels\EnglisClass\EditEnglishVM.cs" />
     <Compile Include="ViewModels\EnglisClass\DetailsEnglishVM.cs" />
     <Compile Include="ViewModels\EnglisClass\EnglishListVM.cs" />
+    <Compile Include="ViewModels\Enrollment\CreateEnrollmentVM.cs" />
+    <Compile Include="ViewModels\Enrollment\DeleteEnrollmentVM.cs" />
     <Compile Include="ViewModels\Enrollment\DetailsEnrollmentVM.cs" />
     <Compile Include="ViewModels\Enrollment\EnrollmentListVM.cs" />
     <Compile Include="ViewModels\Students\CreateStudentVM.cs" />

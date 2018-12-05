@@ -39,11 +39,11 @@ namespace Attendance.ViewModels
 
         //[Display(Name = "Date Updated")]
         //[Required]
-        public DateTimeOffset? DateUpdated { get; set; }
+        //public DateTimeOffset? DateUpdated { get; set; }
 
-        //[Display(Name = "User Upddated")]
-        //[Required]
-        public string UserUpdated { get; set; }
+        ////[Display(Name = "User Upddated")]
+        ////[Required]
+        //public string UserUpdated { get; set; }
 
     }
 }

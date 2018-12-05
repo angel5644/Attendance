@@ -1,4 +1,4 @@
-﻿@model Attendance.Models.Enrollment
+﻿@model Attendance.ViewModels.Enrollment.DeleteEnrollmentVM
 
 @{
     ViewBag.Title = "Delete";
@@ -12,19 +12,19 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Class.Name)
+            @Html.DisplayNameFor(model => model.CName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Class.Name)
+            @Html.DisplayFor(model => model.CName)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Student.UserCreated)
+            @Html.DisplayNameFor(model => model.SName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Student.UserCreated)
+            @Html.DisplayFor(model => model.SName)
         </dd>
 
         <dt>
@@ -42,6 +42,13 @@
         <dd>
             @Html.DisplayFor(model => model.Notes)
         </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.UserCreated)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserCreated)
+        </dd>
 
         <dt>
             @Html.DisplayNameFor(model => model.DateCreated)
@@ -52,11 +59,11 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.UserCreated)
+            @Html.DisplayNameFor(model => model.UserUpdated)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.UserCreated)
+            @Html.DisplayFor(model => model.UserUpdated)
         </dd>
 
         <dt>
@@ -65,14 +72,6 @@
 
         <dd>
             @Html.DisplayFor(model => model.DateUpdated)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.UserUpdated)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.UserUpdated)
         </dd>
 
     </dl>

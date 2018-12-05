@@ -90,11 +90,33 @@ namespace Attendance.Controllers
         }
 
         // GET: Enrollments/Create
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
-            ViewBag.ClassId = new SelectList(db.EnglishClasses, "Id", "Name");
-            ViewBag.StudentId = new SelectList(db.Students, "EmployeeId", "UserCreated");
-            return View();
+
+            CreateEnrollmentVM model = new CreateEnrollmentVM();
+
+            EnrollmentService enroll = new EnrollmentService();
+
+            var EngClass = await _englisClassService.GetAll();
+            var Stud = await _studentService.GetAll();
+
+            model.ClassName = EngClass.Select(l => new SelectListItem()
+            {
+                Text = l.Name,
+                Value = l.Id.ToString()
+
+            });
+
+            model.StudentName = Stud.Select(l => new SelectListItem()
+            {
+                Text = l.EmployeeName,
+                Value = l.EmployeeId.ToString()
+
+            });
+
+
+            return View(model);
+
         }
 
         // POST: Enrollments/Create
@@ -102,18 +124,39 @@ namespace Attendance.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,StudentId,ClassId,DateEnrollment,Notes,DateCreated,UserCreated,DateUpdated,UserUpdated")] Enrollment enrollment)
+        public async Task<ActionResult> Create(CreateEnrollmentVM model)
         {
             if (ModelState.IsValid)
             {
-                db.Enrollments.Add(enrollment);
-                await db.SaveChangesAsync();
+                Enrollment newEnrollment = new Enrollment()
+                {
+
+                    Id = model.Id,
+                    ClassId = model.ClId,
+                    StudentId = model.StId,
+                    DateEnrollment = model.DateEnrollment,
+                    Notes = model.Notes,
+                    DateCreated = DateTimeOffset.Now,
+                    UserCreated = ""
+
+                };
+
+                try
+                {
+                    await _enrollmentService.Create(newEnrollment);
+                }
+                catch (Exception ex)
+                {
+                    // Add message to the user
+                    Console.WriteLine("An error has occurred. Message: " + ex.ToString());
+                    throw;
+                }
+
+
                 return RedirectToAction("Index");
             }
 
-            ViewBag.ClassId = new SelectList(db.EnglishClasses, "Id", "Name", enrollment.ClassId);
-            ViewBag.StudentId = new SelectList(db.Students, "EmployeeId", "UserCreated", enrollment.StudentId);
-            return View(enrollment);
+            return View(model);
         }
 
         // GET: Enrollments/Edit/5
@@ -154,16 +197,28 @@ namespace Attendance.Controllers
         // GET: Enrollments/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
+
+            DeleteEnrollmentVM deleteVM = new DeleteEnrollmentVM();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Enrollment enrollment = await db.Enrollments.FindAsync(id);
+            Enrollment enrollment = await _enrollmentService.Get(id.Value);
             if (enrollment == null)
             {
                 return HttpNotFound();
             }
-            return View(enrollment);
+
+            deleteVM.Id = enrollment.Id;
+            deleteVM.CName = enrollment.ClassName;
+            deleteVM.SName = enrollment.StudentName;
+            deleteVM.Notes = enrollment.Notes;
+            deleteVM.DateCreated = enrollment.DateCreated;
+            deleteVM.UserCreated = enrollment.UserCreated;
+            deleteVM.DateUpdated = enrollment.DateUpdated;
+            deleteVM.UserUpdated = enrollment.UserCreated;
+
+            return View(deleteVM);
         }
 
         // POST: Enrollments/Delete/5
@@ -171,9 +226,7 @@ namespace Attendance.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Enrollment enrollment = await db.Enrollments.FindAsync(id);
-            db.Enrollments.Remove(enrollment);
-            await db.SaveChangesAsync();
+            await _enrollmentService.Delete(id);
             return RedirectToAction("Index");
         }
 
