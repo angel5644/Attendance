@@ -14,6 +14,9 @@ namespace Attendance.ViewModels.Students
         [Key]
         public int Id { get; set; }
 
+        [Display (Name = "Student Name")]
+        public string stname { get; set; }
+
         [Display (Name = "Name")]
         public int EmployeeId { get; set; }
         public IEnumerable<SelectListItem> Name { get; set; }
