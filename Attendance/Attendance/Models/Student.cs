@@ -21,7 +21,7 @@ namespace Attendance.Models
 
         public EnglishLevel Level { get; set; }
 
-        public virtual ICollection<Attendance> Attendances { get; set; }
+        public virtual ICollection<Attendances> Attendances { get; set; }
 
         public virtual ICollection<Enrollment> Enrollments { get; set; }
        

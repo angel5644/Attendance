@@ -204,6 +204,7 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Controllers\AttendancesController.cs" />
     <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\EnglishClassesController.cs" />
     <Compile Include="Controllers\EnrollmentsController.cs" />
@@ -252,13 +253,14 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BaseEntity.cs" />
     <Compile Include="Models\Location.cs" />
-    <Compile Include="Models\Attendance.cs" />
+    <Compile Include="Models\Attendances.cs" />
     <Compile Include="Models\Group.cs" />
     <Compile Include="Models\Enrollment.cs" />
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\EnglishClass.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\AttendancesService.cs" />
     <Compile Include="Services\EmployeeService.cs" />
     <Compile Include="Services\EnglisClassService.cs" />
     <Compile Include="Services\EnrollmentService.cs" />
@@ -268,6 +270,8 @@
     <Compile Include="Services\ServiceBase.cs" />
     <Compile Include="Services\StudentService.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\Attendances\AttendancesListVM.cs" />
+    <Compile Include="ViewModels\Attendances\CreateAttendancesVM.cs" />
     <Compile Include="ViewModels\EnglisClass\DeleteEnglishVM.cs" />
     <Compile Include="ViewModels\EnglisClass\CreateEnglishVM.cs" />
     <Compile Include="ViewModels\EnglisClass\EditEnglishVM.cs" />
@@ -374,6 +378,11 @@
     <Content Include="Views\Enrollments\Details.cshtml" />
     <Content Include="Views\Enrollments\Edit.cshtml" />
     <Content Include="Views\Enrollments\Index.cshtml" />
+    <Content Include="Views\Attendances\Create.cshtml" />
+    <Content Include="Views\Attendances\Delete.cshtml" />
+    <Content Include="Views\Attendances\Details.cshtml" />
+    <Content Include="Views\Attendances\Edit.cshtml" />
+    <Content Include="Views\Attendances\Index.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
