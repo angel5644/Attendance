@@ -55,7 +55,7 @@ namespace Attendance.Models
 
         public virtual ICollection<Enrollment> Enrollments { get; set; }
 
-        public virtual ICollection<Attendance> Attendances { get; set; }
+        public virtual ICollection<Attendances> Attendances { get; set; }
 
         [NotMapped]
         public string TeacherName

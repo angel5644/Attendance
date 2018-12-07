@@ -12,8 +12,8 @@ using Attendance.Models;
 using Attendance.ViewModels;
 using Attendance.Services;
 using Attendance.ViewModels.Students;
-
-
+using System.Windows.Input;
+using System.Windows.Forms;
 
 namespace Attendance.Controllers
 {
@@ -89,7 +89,7 @@ namespace Attendance.Controllers
 
             model.Name = employees.Select(l => new SelectListItem()
             {
-                Text = l.FirstName,
+                Text = l.EmployeeName,
                 Value = l.Id.ToString()
             });
 
@@ -123,9 +123,19 @@ namespace Attendance.Controllers
                 catch (Exception ex)
                 {
                     // Add message to the user
-                    Console.WriteLine("An error has occurred. Message: " + ex.ToString());
-                    throw;
+                    if (ex.InnerException.InnerException.Message.Contains("ORA-00001"))
+                    {
+                        //throw new Exception("Student already enrolled");
+                        MessageBox.Show("Student already enrollled");
+                    }
+                    else
+                    {
+                        Console.WriteLine("An error has occurred. Message: " + ex.ToString());
+                        throw;
+                    }
+                        
                 }
+                
                 return RedirectToAction("Index");
 
             }
@@ -153,6 +163,7 @@ namespace Attendance.Controllers
                 Text = l.FirstName,
                 Value = l.Id.ToString()
             });
+            model.stname = student.EmployeeName;
             model.Score = student.Score;
             model.Level = student.Level;
             model.EnrollmentStatus = student.EnrollmentStatus;

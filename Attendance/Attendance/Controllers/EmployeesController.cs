@@ -40,7 +40,7 @@ namespace Attendance.Controllers
                     Id = employee.Id,
                     FirstName = employee.FirstName,
                     LastName = employee.LastName,
-                    Email = employee.Email,
+                    Email = "(" + employee.Email + ")",
                     HireDate = DateTimeOffset.Now,
                     IsEnabled = employee.IsEnabled,
                     LocationName = employee.LocationName,

@@ -50,11 +50,20 @@ namespace Attendance.Models
                 return ResourceManager != null ? ResourceManager.FirstName + " " + ResourceManager.LastName : string.Empty;
             }
         }
-        public string LocationName { get
+        public string LocationName {
+            get
             {
                 return Location.Name;
             }
-                }
+        }
+
+        public string EmployeeName
+        {
+            get
+            {
+                return FirstName + " " + LastName;
+            }
+        }
     }
 
     public enum CompanyRole

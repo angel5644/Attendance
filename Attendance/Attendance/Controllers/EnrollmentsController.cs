@@ -114,7 +114,7 @@ namespace Attendance.Controllers
 
             });
 
-
+            model.DateEnrollment = DateTimeOffset.Now;
             return View(model);
 
         }
