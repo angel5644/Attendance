@@ -11,7 +11,7 @@ using Attendance.ViewModels;
 namespace Attendance.ViewModels.Enrollment
 {
     public class DetailsEnrollmentVM
-        // Ray//
+        
   
     {
         public int Id { get; set; }

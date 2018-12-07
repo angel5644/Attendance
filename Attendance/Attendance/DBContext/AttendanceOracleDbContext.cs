@@ -55,14 +55,14 @@ namespace Attendance.DBContext
 
             // Student 1:0..N Attendance
             modelBuilder.Entity<Student>()
-                .HasMany<Attendance.Models.Attendance>(s => s.Attendances)
+                .HasMany<Attendance.Models.Attendances>(s => s.Attendances)
                 .WithRequired(a => a.Student)
                 .HasForeignKey(a => a.StudentId)
                 .WillCascadeOnDelete();
 
             // EnglishClass 1:0..N Attendance
             modelBuilder.Entity<EnglishClass>()
-                .HasMany<Attendance.Models.Attendance>(ec => ec.Attendances)
+                .HasMany<Attendance.Models.Attendances>(ec => ec.Attendances)
                 .WithRequired(a => a.Class)
                 .HasForeignKey(a => a.ClassId)
                 .WillCascadeOnDelete();
@@ -111,7 +111,7 @@ namespace Attendance.DBContext
 
         //public System.Data.Entity.DbSet<Attendance.Models.Teacher> Teachers { get; set; }
 
-        public System.Data.Entity.DbSet<Attendance.Models.Attendance> Attendances { get; set; }
+        public System.Data.Entity.DbSet<Attendance.Models.Attendances> Attendances { get; set; }
 
         public System.Data.Entity.DbSet<Attendance.Models.EnglishClass> EnglishClasses { get; set; }
 
