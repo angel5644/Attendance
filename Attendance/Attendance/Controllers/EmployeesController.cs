@@ -129,6 +129,8 @@ namespace Attendance.Controllers
                 try
                 {
                     await _employeeService.Create(newemployee);
+
+                    TempData.Add("SuccessMsg", "Employee was created successfully");
                 }
                 catch (Exception ex)
                 {
