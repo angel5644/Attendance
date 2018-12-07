@@ -25,7 +25,7 @@ namespace Attendance.ViewModels
         [Display(Name = "Hire Date")]
         [DisplayFormat(DataFormatString = "{0:MMM dd, yyyy}")]
         public DateTimeOffset? HireDate { get; set; }
-        [Display(Name = "Locations Name")]
+        [Display(Name = "Location's Name")]
         public string LocationName { get; set; }
         [Display(Name = "Resource Manager")]
         public string ResourceManagerName { get; set; }

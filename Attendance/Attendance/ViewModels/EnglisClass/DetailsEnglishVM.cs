@@ -52,7 +52,7 @@ namespace Attendance.ViewModels.EnglisClass
         [Range(0, 23)]
         public int HourEnd { get; set; }
 
-        [Display(Name = "Date created")]
+        [Display(Name = "Date Created")]
         [DisplayFormat(DataFormatString = "{0:MMM dd, yyyy}")]
         public DateTimeOffset? DateCreated { get; set; }
 

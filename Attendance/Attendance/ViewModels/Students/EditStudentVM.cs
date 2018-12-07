@@ -14,7 +14,8 @@ namespace Attendance.ViewModels.Students
         [Key]
         public int Id { get; set; }
 
-        [Display (Name = "Student Name")]
+        [Display(Name = "Student´s Name")]
+        [UIHint ("stname")]
         public string stname { get; set; }
 
         [Display (Name = "Name")]

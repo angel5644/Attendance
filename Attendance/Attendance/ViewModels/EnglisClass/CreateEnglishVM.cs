@@ -63,13 +63,5 @@ namespace Attendance.ViewModels.EnglisClass
         ////[Required]
         public string UserCreated { get; set; }
 
-        //[Display(Name = "Date Updated")]
-        //[Required]
-        public DateTimeOffset? DateUpdated { get; set; }
-
-        //[Display(Name = "User Upddated")]
-        //
-
-        public string UserUpdated { get; set; }
     }
 }

@@ -98,11 +98,10 @@ namespace Attendance.Controllers
             details.IsFriday = englishClass.IsFriday;
             details.HourStart = englishClass.HourStart;
             details.HourEnd = englishClass.HourEnd;
-            details.UserCreated = englishClass.UserCreated;
-            details.DateUpdated = englishClass.DateCreated;
+            details.DateCreated = englishClass.DateCreated;
             details.UserCreated = englishClass.UserCreated;
             details.DateUpdated = englishClass.DateUpdated;
-            details.UserCreated = englishClass.UserCreated;
+            details.UserUpdated = englishClass.UserCreated;
   
             return View(details);
         }
