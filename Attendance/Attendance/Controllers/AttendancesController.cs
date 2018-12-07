@@ -9,8 +9,11 @@ using System.Web;
 using System.Web.Mvc;
 using Attendance.DBContext;
 using Attendance.Models;
-using Attendance.ViewModels.Attendances;
 using Attendance.Services;
+using Attendance.ViewModels;
+using Attendance.ViewModels.Attendances;
+using System.Collections;
+using Attendance.Enums;
 
 namespace Attendance.Controllers
 {
@@ -142,18 +145,44 @@ namespace Attendance.Controllers
         // GET: Attendances/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
+            EditAttendanceVM model = new EditAttendanceVM();
+
+            var stud = await _studentService.GetAll();
+            var classes = await _englisClassService.GetAll();
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Attendances attendances = await db.Attendances.FindAsync(id);
-            if (attendances == null)
+            Attendances attendance = await _attendancesService.Get(id.Value);
+            if (attendance == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.ClassId = new SelectList(db.EnglishClasses, "Id", "Name", attendances.ClassId);
-            ViewBag.StudentId = new SelectList(db.Students, "EmployeeId", "UserCreated", attendances.StudentId);
-            return View(attendances);
+            model.StudentNId = attendance.StudentId;
+            model.ClassNId = attendance.ClassId;
+            model.Date = attendance.Date;
+            model.Notes = attendance.Notes;
+            model.DateCreated = attendance.DateCreated;
+            model.UserCreated = attendance.UserCreated;
+            model.DateUpdated = attendance.DateUpdated;
+            model.UserUpdated = attendance.UserUpdated;
+
+            model.StudentName = stud.Select(l => new SelectListItem()
+            {
+                Text = l.EmployeeName,
+                Value = l.EmployeeId.ToString()
+            });
+
+            model.ClassName = classes.Select(l => new SelectListItem()
+            {
+                Text = l.Name,
+                Value = l.Id.ToString()
+            });
+
+
+
+            return View(model);
         }
 
         // POST: Attendances/Edit/5
@@ -161,17 +190,34 @@ namespace Attendance.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,StudentId,ClassId,Date,Notes,DateCreated,UserCreated,DateUpdated,UserUpdated")] Attendances attendances)
+        public async Task<ActionResult> Edit(EditAttendanceVM model, int? id)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(attendances).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                Attendances Exattendance = await _attendancesService.Get(id.Value);
+                if (Exattendance != null)
+                {
+
+                    Exattendance.StudentId = model.StudentNId;
+                    Exattendance.ClassId = model.ClassNId;
+                    Exattendance.Date = model.Date;
+                    Exattendance.Notes = model.Notes;
+                    Exattendance.DateCreated = model.DateCreated;
+                    Exattendance.UserCreated = model.UserCreated;
+                    Exattendance.DateUpdated = DateTimeOffset.Now;
+                    Exattendance.UserUpdated = model.UserUpdated;
+
+
+                }
+                else
+                {
+                    return HttpNotFound();
+                }
+                await _attendancesService.Update(Exattendance);
                 return RedirectToAction("Index");
             }
-            ViewBag.ClassId = new SelectList(db.EnglishClasses, "Id", "Name", attendances.ClassId);
-            ViewBag.StudentId = new SelectList(db.Students, "EmployeeId", "UserCreated", attendances.StudentId);
-            return View(attendances);
+
+            return View(model);
         }
 
         // GET: Attendances/Delete/5
