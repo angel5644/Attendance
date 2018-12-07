@@ -19,7 +19,7 @@ namespace Attendance.Controllers
 {
     public class EnrollmentsController : Controller
     {
-        private AttendanceOracleDbContext db = new AttendanceOracleDbContext();
+        //private AttendanceOracleDbContext db = new AttendanceOracleDbContext();
        
 
         private StudentService _studentService;
@@ -177,7 +177,7 @@ namespace Attendance.Controllers
             }
             model.StId = enrollment.StudentId;
             model.ClId = enrollment.ClassId;
-            model.DateEnrollment = enrollment.DateEnrollment;
+            model.DateEnrollment = DateTimeOffset.Now;
             model.Notes = enrollment.Notes;
             model.DateCreated = enrollment.DateCreated;
             model.UserCreated = enrollment.UserCreated;
@@ -256,6 +256,7 @@ namespace Attendance.Controllers
             deleteVM.CName = enrollment.ClassName;
             deleteVM.SName = enrollment.StudentName;
             deleteVM.Notes = enrollment.Notes;
+            deleteVM.DateEnrollment = enrollment.DateEnrollment;
             deleteVM.DateCreated = enrollment.DateCreated;
             deleteVM.UserCreated = enrollment.UserCreated;
             deleteVM.DateUpdated = enrollment.DateUpdated;
@@ -277,7 +278,7 @@ namespace Attendance.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _enrollmentService.Dispose();
             }
             base.Dispose(disposing);
         }

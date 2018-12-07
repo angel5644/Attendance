@@ -61,16 +61,30 @@ namespace Attendance.Controllers
         // GET: Attendances/Details/5
         public async Task<ActionResult> Details(int? id)
         {
+            DetailsAttendancesVM details = new DetailsAttendancesVM();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Attendances attendances = await db.Attendances.FindAsync(id);
+
+            Attendances attendances = await _attendancesService.Get(id.Value);
+
             if (attendances == null)
             {
                 return HttpNotFound();
             }
-            return View(attendances);
+
+            details.StudentName = attendances.StudentName;
+            details.ClassName = attendances.ClassName;
+            details.Date = attendances.Date;
+            details.Notes = attendances.Notes;
+            details.DateCreated = attendances.DateCreated;
+            details.UserCreated = attendances.UserCreated;
+            details.DateUpdated = attendances.DateUpdated;
+            details.UserUpdated = attendances.UserUpdated;
+
+
+            return View(details);
         }
 
         // GET: Attendances/Create
@@ -223,16 +237,28 @@ namespace Attendance.Controllers
         // GET: Attendances/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
+            DeleteAttendancesVM deleteVM = new DeleteAttendancesVM();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Attendances attendances = await db.Attendances.FindAsync(id);
-            if (attendances == null)
+            Attendances att = await _attendancesService.Get(id.Value);
+            if (att == null)
             {
                 return HttpNotFound();
             }
-            return View(attendances);
+
+            deleteVM.Id = att.Id;
+            deleteVM.CName = att.ClassName;
+            deleteVM.SName = att.StudentName;
+            deleteVM.Notes = att.Notes;
+            deleteVM.Date = att.Date;
+            deleteVM.DateCreated = att.DateCreated;
+            deleteVM.UserCreated = att.UserCreated;
+            deleteVM.DateUpdated = att.DateUpdated;
+            deleteVM.UserUpdated = att.UserCreated;
+
+            return View(deleteVM);
         }
 
         // POST: Attendances/Delete/5
@@ -240,9 +266,7 @@ namespace Attendance.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Attendances attendances = await db.Attendances.FindAsync(id);
-            db.Attendances.Remove(attendances);
-            await db.SaveChangesAsync();
+            await _attendancesService.Delete(id);
             return RedirectToAction("Index");
         }
 
@@ -250,7 +274,7 @@ namespace Attendance.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _attendancesService.Dispose();
             }
             base.Dispose(disposing);
         }
