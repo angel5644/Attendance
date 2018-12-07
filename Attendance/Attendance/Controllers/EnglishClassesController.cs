@@ -19,7 +19,7 @@ namespace Attendance.Controllers
 {
     public class EnglishClassesController : Controller
     {
-        private AttendanceOracleDbContext db = new AttendanceOracleDbContext();
+        //private AttendanceOracleDbContext db = new AttendanceOracleDbContext();
         private EnglisClassService _englisClassService;
 
         private EmployeeService _employeeService;
@@ -254,6 +254,7 @@ namespace Attendance.Controllers
                     existingEClass.Name = model.Name;
                     existingEClass.TeacherId = model.EmployeeId;
                     existingEClass.LocationId = model.LocationId;
+                    existingEClass.GroupId = model.GroupId;
                     existingEClass.IsMonday = model.IsMonday;
                     existingEClass.IsTuesday = model.IsTuesday;
                     existingEClass.IsWednesday = model.IsWednesday;

@@ -268,6 +268,8 @@
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\Attendances\AttendancesListVM.cs" />
     <Compile Include="ViewModels\Attendances\CreateAttendancesVM.cs" />
+    <Compile Include="ViewModels\Attendances\DeleteAttendancesVM.cs" />
+    <Compile Include="ViewModels\Attendances\DetailsAttendancesVM.cs" />
     <Compile Include="ViewModels\EnglisClass\DeleteEnglishVM.cs" />
     <Compile Include="ViewModels\EnglisClass\CreateEnglishVM.cs" />
     <Compile Include="ViewModels\EnglisClass\EditEnglishVM.cs" />
