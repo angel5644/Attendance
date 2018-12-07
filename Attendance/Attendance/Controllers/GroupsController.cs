@@ -110,6 +110,7 @@ namespace Attendance.Controllers
 
                 };
                 await _groupService.Create(newGroup);
+                TempData.Add("SuccessMsg", "Group created successfully");
                 return RedirectToAction("Index");
             }
 
