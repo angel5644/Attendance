@@ -6,27 +6,27 @@ using System.ComponentModel.DataAnnotations;
 using Attendance.Enums;
 using Attendance.Models;
 using System.Web.Mvc;
-using Attendance.ViewModels;
-
 namespace Attendance.ViewModels.Enrollment
 {
-    public class DetailsEnrollmentVM
-        
-  
+    public class EditEnrollmentVM
     {
         public int Id { get; set; }
 
         [Display(Name = "Student Name")]
-        public string StudentName { get; set; }
+        [Required]
+        public int StId { get; set; }
+        public IEnumerable<SelectListItem> StudentName { get; set; }
 
         [Display(Name = "Class Name")]
-        public string ClassName { get; set; }
+        [Required]
+        public int ClId { get; set; }
+        public IEnumerable<SelectListItem> ClassName { get; set; }
 
         [Display(Name = "Enrollment Date")]
         [DisplayFormat(DataFormatString = "{0:MMM dd, yyyy}")]
         public DateTimeOffset DateEnrollment { get; set; }
 
-        [Display(Name = "Note")]
+        [Display(Name = "Notes")]
         public string Notes { get; set; }
 
         [Display(Name = "Date created")]
@@ -42,8 +42,6 @@ namespace Attendance.ViewModels.Enrollment
 
         [Display(Name = "User Upddated")]
         public string UserUpdated { get; set; }
-
-
 
     }
 }

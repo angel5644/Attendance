@@ -276,6 +276,7 @@
     <Compile Include="ViewModels\Enrollment\CreateEnrollmentVM.cs" />
     <Compile Include="ViewModels\Enrollment\DeleteEnrollmentVM.cs" />
     <Compile Include="ViewModels\Enrollment\DetailsEnrollmentVM.cs" />
+    <Compile Include="ViewModels\Enrollment\EditEnrollmentVM.cs" />
     <Compile Include="ViewModels\Enrollment\EnrollmentListVM.cs" />
     <Compile Include="ViewModels\Students\CreateStudentVM.cs" />
     <Compile Include="ViewModels\Employee\DeleteEmployeeVM.cs" />

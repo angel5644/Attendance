@@ -162,18 +162,44 @@ namespace Attendance.Controllers
         // GET: Enrollments/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
+            EditEnrollmentVM model = new EditEnrollmentVM();
+            var stud = await _studentService.GetAll();
+            var classes = await _englisClassService.GetAll();
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Enrollment enrollment = await db.Enrollments.FindAsync(id);
+            Enrollment enrollment = await _enrollmentService.Get(id.Value);
             if (enrollment == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.ClassId = new SelectList(db.EnglishClasses, "Id", "Name", enrollment.ClassId);
-            ViewBag.StudentId = new SelectList(db.Students, "EmployeeId", "UserCreated", enrollment.StudentId);
-            return View(enrollment);
+            model.StId = enrollment.StudentId;
+            model.ClId = enrollment.ClassId;
+            model.DateEnrollment = enrollment.DateEnrollment;
+            model.Notes = enrollment.Notes;
+            model.DateCreated = enrollment.DateCreated;
+            model.UserCreated = enrollment.UserCreated;
+            model.DateUpdated = enrollment.DateUpdated;
+            model.UserUpdated = enrollment.UserUpdated;
+
+            model.StudentName = stud.Select(l => new SelectListItem()
+            {
+                Text = l.EmployeeName,
+                Value = l.EmployeeId.ToString()
+            });
+
+
+            model.ClassName = classes.Select(l => new SelectListItem()
+            {
+                Text = l.Name,
+                Value = l.Id.ToString()
+            });
+
+            //ViewBag.ClassId = new SelectList(db.EnglishClasses, "Id", "Name", enrollment.ClassId);
+            //ViewBag.StudentId = new SelectList(db.Students, "EmployeeId", "UserCreated", enrollment.StudentId);
+            return View(model);
         }
 
         // POST: Enrollments/Edit/5
@@ -181,17 +207,34 @@ namespace Attendance.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,StudentId,ClassId,DateEnrollment,Notes,DateCreated,UserCreated,DateUpdated,UserUpdated")] Enrollment enrollment)
+        public async Task<ActionResult> Edit(EditEnrollmentVM model, int? id)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(enrollment).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                Enrollment exenrollment = await _enrollmentService.Get(id.Value);
+                if (exenrollment != null)
+                {
+
+                    exenrollment.StudentId = model.StId;
+                    exenrollment.ClassId = model.ClId;
+                    exenrollment.DateEnrollment = model.DateEnrollment;
+                    exenrollment.Notes = model.Notes;
+                    exenrollment.DateCreated = model.DateCreated;
+                    exenrollment.UserCreated = model.UserCreated;
+                    exenrollment.DateUpdated = DateTimeOffset.Now;
+                    exenrollment.UserUpdated = model.UserUpdated;
+                   
+
+                }
+                else
+                {
+                    return HttpNotFound();
+                }
+                await _enrollmentService.Update(exenrollment);
                 return RedirectToAction("Index");
             }
-            ViewBag.ClassId = new SelectList(db.EnglishClasses, "Id", "Name", enrollment.ClassId);
-            ViewBag.StudentId = new SelectList(db.Students, "EmployeeId", "UserCreated", enrollment.StudentId);
-            return View(enrollment);
+
+            return View(model);
         }
 
         // GET: Enrollments/Delete/5
