@@ -255,6 +255,15 @@ namespace Attendance.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
+            var employees = await _employeeService.Get(id);
+            if (employees != null)
+            {
+                if (employees.Student != null)
+                {
+                    TempData.Add("SuccessMsg", "Couldn't delete element, it is used by another entity");
+                    return RedirectToAction("Index");
+                }
+            }
             await _employeeService.Delete(id);
             return RedirectToAction("Index");
         }

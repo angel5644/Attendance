@@ -24,6 +24,7 @@ namespace Attendance.Models
         public virtual ICollection<Attendances> Attendances { get; set; }
 
         public virtual ICollection<Enrollment> Enrollments { get; set; }
+
        
         [NotMapped]
         public string EmployeeName

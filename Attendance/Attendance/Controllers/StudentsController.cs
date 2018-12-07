@@ -119,6 +119,7 @@ namespace Attendance.Controllers
                 try
                 {
                     await _studentService.Create(newstudent);
+                    TempData.Add("SuccessMsg", "Student created successfully");
                 }
                 catch (Exception ex)
                 {
@@ -126,7 +127,7 @@ namespace Attendance.Controllers
                     if (ex.InnerException.InnerException.Message.Contains("ORA-00001"))
                     {
                         //throw new Exception("Student already enrolled");
-                        MessageBox.Show("Student already enrollled");
+                        TempData.Add("SuccessMsg", "Student already enrolled");
                     }
                     else
                     {
@@ -233,6 +234,15 @@ namespace Attendance.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
+            var students = await _studentService.Get(id);
+            if(students != null)
+            {
+                if(students.Enrollments != null)
+                {
+                    TempData.Add("SuccessMsg", "Couldn't delete element, it is used by another entity");
+                    return RedirectToAction("Index");
+                }
+            }
             await _studentService.Delete(id);
             return RedirectToAction("Index");
         }
