@@ -7,6 +7,9 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @RenderSection("styles", required: false)
+    @{ 
+        string successMsg = TempData.ContainsKey("SuccessMsg") ? (string)TempData["SuccessMsg"] : string.Empty;
+    }
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -34,6 +37,13 @@
         </div>
     </div>
     <div class="container body-content">
+        <br />
+        @if (!string.IsNullOrEmpty(successMsg))
+        {
+            <div class="alert-success">
+                <p class="alert">@successMsg</p>
+            </div>
+        }
         @RenderBody()
         <hr />
         <footer>
